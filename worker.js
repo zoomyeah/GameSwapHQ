@@ -5,7 +5,7 @@ export default {
         // Serve Gravi-Plat thumbnail
         if (url.pathname === "/game-thumbnail/Gravi-Plat") {
             const object = await env.GAMES.get(
-                "Website Games/Gravi-Plat.png"
+                "Website Games/Gravity Platformer TN"
             );
 
             if (!object) {
