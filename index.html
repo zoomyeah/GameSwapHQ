@@ -14,13 +14,13 @@
         body {
             margin: 0;
             font-family: Arial, sans-serif;
-            background: #f4f7fb;
-            color: #cce7c9;
+            background: #121212;
+            color: #f1f1f1;
         }
 
         header {
-            background: #cce7c9;
-            color: gray;
+            background: #276221;
+            color: white;
             padding: 20px 30px;
             text-align: center;
         }
@@ -36,14 +36,14 @@
         }
 
         nav {
-            background: black;
+            background: #1b1b1b;
             padding: 12px;
             text-align: center;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
         }
 
         nav a {
-            color: #cce7c9;
+            color: #6fcf68;
             text-decoration: none;
             margin: 0 15px;
             font-weight: bold;
@@ -74,6 +74,7 @@
             margin: auto;
             font-size: 1.1rem;
             line-height: 1.6;
+            color: #cfcfcf;
         }
 
         .section {
@@ -92,19 +93,24 @@
         }
 
         .game-card {
-            background: white;
+            background: #1e1e1e;
             border-radius: 12px;
             padding: 25px;
             text-align: center;
-            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.4);
+            border: 1px solid #2c2c2c;
         }
 
         .game-card h3 {
             margin-top: 0;
         }
 
+        .game-card p {
+            color: #cfcfcf;
+        }
+
         .game-card button {
-            background: #cce7c9;
+            background: #276221;
             color: white;
             border: none;
             border-radius: 8px;
@@ -114,23 +120,35 @@
         }
 
         .game-card button:hover {
-            background: #cce7c9;
+            background: #347c2e;
+        }
+
+        .game-card button:disabled {
+            background: #3a3a3a;
+            color: #999;
+            cursor: not-allowed;
         }
 
         .submit-box {
-            background: white;
+            background: #1e1e1e;
             border-radius: 12px;
             padding: 30px;
             text-align: center;
-            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.4);
+            border: 1px solid #2c2c2c;
+        }
+
+        .submit-box p {
+            color: #cfcfcf;
+            line-height: 1.6;
         }
 
         footer {
             margin-top: 60px;
             padding: 25px;
             text-align: center;
-            background: #cce7c9;
-            color: black;
+            background: #0d0d0d;
+            color: #aaa;
         }
     </style>
 </head>
@@ -138,7 +156,7 @@
 <body>
 
     <header>
-        <h1>GameSwapHQ</h1>
+        <h1>🎮 GameSwapHQ</h1>
         <p>Discover fun, creative games made by creators.</p>
     </header>
 
@@ -169,7 +187,8 @@
                     <h3>Coming Soon!</h3>
 
                     <p>
-                        Our first game is currently being prepared. Thanks for your patience!
+                        Our first game is currently being prepared.
+                        Thanks for your patience!
                     </p>
 
                     <button disabled>
@@ -181,7 +200,7 @@
         </section>
 
         <section class="section" id="submit">
-            <h2>Submit a Game</h2>
+            <h2>📨 Submit a Game</h2>
 
             <div class="submit-box">
                 <p>
@@ -205,4 +224,3 @@
 
 </body>
 </html>
-```
