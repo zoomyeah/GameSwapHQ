@@ -446,13 +446,24 @@
 
             <div class="play-area">
 
-                <button
-                    class="play-button"
-                    onclick="playGame()"
-                    id="play-button"
-                >
-                    Play Now
-                </button>
+        <div class="game-controls">
+            <button
+                class="play-button"
+                onclick="playGame()"
+                id="play-button"
+            >
+                Play Now
+            </button>
+
+            <button
+                class="fullscreen-button"
+                onclick="toggleFullscreen()"
+                id="fullscreen-button"
+                style="display: none;"
+            >
+                ⛶ Fullscreen
+            </button>
+        </div>
 
                 <div
                     class="game-frame-container"
