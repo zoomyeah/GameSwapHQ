@@ -22,10 +22,6 @@
             color: #f1f1f1;
         }
 
-        /* =========================
-           MAIN HEADER
-        ========================= */
-
         header {
             background: #276221;
             color: white;
@@ -45,10 +41,6 @@
             font-size: 1.05rem;
         }
 
-        /* =========================
-           NAVIGATION
-        ========================= */
-
         nav {
             background: #1b1b1b;
             padding: 12px;
@@ -67,35 +59,15 @@
             text-decoration: underline;
         }
 
-        /* =========================
-           MAIN
-        ========================= */
-
         main {
             max-width: 1100px;
             margin: auto;
             padding: 40px 20px;
         }
 
-        /* =========================
-           HOME PAGE
-        ========================= */
-
-        #homePage {
-            display: block;
-        }
-
         .hero {
             text-align: center;
             padding: 50px 20px;
-        }
-
-        .hero h2,
-        .section h2,
-        .game-page h2,
-        .game-card h3 {
-            font-family: "Nunito", sans-serif;
-            font-weight: 900;
         }
 
         .hero h2 {
@@ -149,7 +121,7 @@
             color: white;
             border: none;
             border-radius: 8px;
-            padding: 11px 20px;
+            padding: 10px 18px;
             cursor: pointer;
             font-size: 1rem;
             font-weight: bold;
@@ -160,132 +132,11 @@
             background: #347c2e;
         }
 
-        /* =========================
-           GAME PAGE
-        ========================= */
-
-        #gamePage {
-            display: none;
+        .game-card button:disabled {
+            background: #3a3a3a;
+            color: #999;
+            cursor: not-allowed;
         }
-
-        #gamePage.active {
-            display: block;
-        }
-
-        .game-page {
-            text-align: center;
-        }
-
-        /*
-         * On the game page:
-         * - Keep the green GameSwapHQ header
-         * - Hide the tagline
-         * - Hide the navigation
-         */
-
-        body.game-open header p {
-            display: none;
-        }
-
-        body.game-open nav {
-            display: none;
-        }
-
-        /* =========================
-           BACK BUTTON
-        ========================= */
-
-        .back-button {
-            display: block;
-
-            margin: 0 0 35px 0;
-
-            background: #1e1e1e;
-            color: #6fcf68;
-
-            border: 1px solid #2c2c2c;
-            border-radius: 8px;
-
-            padding: 10px 18px;
-
-            font-size: 1rem;
-            font-weight: bold;
-
-            cursor: pointer;
-            text-align: left;
-
-            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.35);
-        }
-
-        .back-button:hover {
-            background: #292929;
-        }
-
-        /* =========================
-           GAME TITLE
-        ========================= */
-
-        .game-page h2 {
-            font-size: 2.6rem;
-            margin: 0 0 25px;
-        }
-
-        /* =========================
-           PLAY BUTTON
-        ========================= */
-
-        .play-button {
-            font-size: 1.15rem;
-            padding: 13px 28px;
-            margin: 0 0 20px;
-        }
-
-        /* =========================
-           GAME PLAYER
-        ========================= */
-
-        .game-container {
-            margin: 30px auto;
-            width: 100%;
-            max-width: 900px;
-
-            background: #000;
-
-            border-radius: 12px;
-            overflow: hidden;
-
-            box-shadow:
-                0 0 10px #03045e,
-                0 0 25px #03045e,
-                0 0 45px rgba(3, 4, 94, 0.65);
-        }
-
-        .game-container iframe {
-            display: block;
-            width: 100%;
-            height: 600px;
-            border: none;
-        }
-
-        .game-container.hidden {
-            display: none;
-        }
-
-        /* =========================
-           SIMILAR GAMES
-        ========================= */
-
-        .similar-games {
-            margin-top: 60px;
-        }
-
-        .similar-games h2 {
-            margin-bottom: 25px;
-        }
-
-        /* =========================
-           SUBMIT BOX
-        ========================= */
 
         .submit-box {
             background: #1e1e1e;
@@ -301,10 +152,6 @@
             line-height: 1.6;
         }
 
-        /* =========================
-           FOOTER
-        ========================= */
-
         footer {
             margin-top: 60px;
             padding: 25px;
@@ -312,42 +159,108 @@
             background: #0d0d0d;
             color: #aaa;
         }
+
+        /* GAME PAGE */
+
+        .game-page {
+            display: none;
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #1e1e1e;
+            color: white;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 10px 16px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-bottom: 30px;
+        }
+
+        .back-button:hover {
+            background: #292929;
+        }
+
+        .game-title {
+            text-align: center;
+            font-family: "Nunito", sans-serif;
+            font-size: 3rem;
+            font-weight: 900;
+            margin: 10px 0 10px;
+        }
+
+        .game-info {
+            text-align: center;
+            color: #aaa;
+            margin-bottom: 25px;
+        }
+
+        .play-area {
+            text-align: center;
+        }
+
+        .play-button {
+            font-size: 1.15rem;
+            padding: 13px 28px;
+            margin-bottom: 25px;
+        }
+
+        .game-frame-container {
+            display: none;
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 8px;
+            border-radius: 16px;
+            background: #03045e;
+            box-shadow:
+                0 0 20px #03045e,
+                0 0 45px #03045e;
+        }
+
+        .game-frame {
+            display: block;
+            width: 100%;
+            height: 650px;
+            border: none;
+            border-radius: 10px;
+            background: #000;
+        }
+
+        .similar-games {
+            margin-top: 60px;
+        }
+
+        .similar-games h2 {
+            text-align: center;
+            font-family: "Nunito", sans-serif;
+        }
     </style>
 </head>
 
 <body>
 
-    <!-- =========================
-         HEADER
-    ========================= -->
+    <!-- NORMAL HOMEPAGE -->
 
-    <header>
-        <h1>GameSwapHQ</h1>
-        <p>Discover fun, creative games made by creators.</p>
-    </header>
+    <div id="home-page">
 
+        <header>
+            <h1>GameSwapHQ</h1>
+            <p>Discover fun, creative games made by creators.</p>
+        </header>
 
-    <!-- =========================
-         NAVIGATION
-    ========================= -->
+        <nav>
+            <a href="#home">Home</a>
+            <a href="#games">Games</a>
+            <a href="#submit">Submit a Game</a>
+        </nav>
 
-    <nav>
-        <a href="#" onclick="showHome()">Home</a>
-        <a href="#games" onclick="showHome()">Games</a>
-        <a href="#submit" onclick="showHome()">Submit a Game</a>
-    </nav>
-
-
-    <main>
-
-        <!-- =========================
-             HOME PAGE
-        ========================= -->
-
-        <div id="homePage">
+        <main>
 
             <section class="hero" id="home">
-
                 <h2>Welcome to GameSwapHQ!</h2>
 
                 <p>
@@ -355,41 +268,32 @@
                     discover fun games from talented creators.
                     Every game is reviewed before it is added.
                 </p>
-
             </section>
 
-
             <section class="section" id="games">
-
                 <h2>✨ Featured Games ✨</h2>
 
                 <div class="games">
 
                     <div class="game-card">
-
-                        <h3>GameSwapHQ Test Game</h3>
+                        <h3>Gravi-Plat</h3>
 
                         <p>
-                            This is a test game for the GameSwapHQ player.
+                            A fun game created by zoomyeah.
                         </p>
 
-                        <button onclick="openGame()">
+                        <button onclick="openGame('Gravi-Plat')">
                             View Game
                         </button>
-
                     </div>
 
                 </div>
-
             </section>
 
-
             <section class="section" id="submit">
-
                 <h2>Submit a Game</h2>
 
                 <div class="submit-box">
-
                     <p>
                         Made a game you'd like to share?
                         GameSwapHQ accepts submissions from creators
@@ -400,313 +304,178 @@
                         More information about submitting games
                         will be available soon.
                     </p>
-
                 </div>
-
             </section>
 
-        </div>
+        </main>
+
+        <footer>
+            <p>© 2026 GameSwapHQ</p>
+        </footer>
+
+    </div>
 
 
-        <!-- =========================
-             GAME PAGE
-        ========================= -->
+    <!-- GAME PAGE -->
 
-        <div id="gamePage">
+    <div id="game-page" class="game-page">
 
-            <section class="game-page">
+        <main>
 
-                <!-- Back button -->
+            <button class="back-button" onclick="goHome()">
+                ← Back to GameSwapHQ
+            </button>
 
-                <button
-                    class="back-button"
-                    onclick="showHome()">
+            <h1 class="game-title">
+                Gravi-Plat
+            </h1>
 
-                    ← Back to GameSwapHQ
+            <div class="game-info">
+                Created by zoomyeah · Released August 10, 2026
+            </div>
 
-                </button>
-
-
-                <!-- Game title -->
-
-                <h2>
-                    GameSwapHQ Test Game
-                </h2>
-
-
-                <!-- Play button -->
+            <div class="play-area">
 
                 <button
                     class="play-button"
-                    id="playButton"
-                    onclick="playGame()">
-
+                    onclick="playGame()"
+                    id="play-button"
+                >
                     Play Now
-
                 </button>
 
-
-                <!-- Game -->
-
                 <div
-                    class="game-container hidden"
-                    id="gameContainer">
-
+                    class="game-frame-container"
+                    id="game-frame-container"
+                >
                     <iframe
-                        id="gameFrame"
-                        title="GameSwapHQ Test Game"
-                        sandbox="allow-scripts allow-same-origin allow-popups">
+                        id="game-frame"
+                        class="game-frame"
+                        title="Gravi-Plat"
+                        sandbox="allow-scripts allow-same-origin allow-popups"
+                        loading="lazy">
                     </iframe>
-
                 </div>
 
+            </div>
 
-                <!-- Similar games -->
+            <section class="similar-games">
 
-                <div class="similar-games">
+                <h2>Similar Games</h2>
 
-                    <h2>
-                        Similar Games
-                    </h2>
+                <div class="games">
 
-                    <div class="games">
-
-                        <div class="game-card">
-                            <h3>Coming Soon!</h3>
-                            <p>More games will appear here.</p>
-                        </div>
-
-                        <div class="game-card">
-                            <h3>Coming Soon!</h3>
-                            <p>More games will appear here.</p>
-                        </div>
-
-                        <div class="game-card">
-                            <h3>Coming Soon!</h3>
-                            <p>More games will appear here.</p>
-                        </div>
-
+                    <div class="game-card">
+                        <h3>More Games Coming Soon</h3>
+                        <p>
+                            Check back soon for more games from GameSwapHQ creators.
+                        </p>
                     </div>
 
                 </div>
 
             </section>
 
-        </div>
+        </main>
 
-    </main>
-
-
-    <footer>
-        <p>© 2026 GameSwapHQ</p>
-    </footer>
+    </div>
 
 
     <script>
 
-        /*
-         * GAME INFORMATION
-         */
+        const GAME_URL =
+            "/game/Gravi-Plat";
 
-        const gameName = "GameSwapHQ-Test-Game";
-        const creator = "GameSwapHQ";
-        const releaseDate = "08.10.2026";
+        function openGame(game) {
 
-
-        /*
-         * OPEN GAME PAGE
-         */
-
-        function openGame() {
-
-            window.location.hash =
-                "game-" +
-                gameName +
-                "-" +
-                creator +
-                "-" +
-                releaseDate;
-
-            showGamePage();
-
-        }
-
-
-        /*
-         * SHOW GAME PAGE
-         */
-
-        function showGamePage() {
-
-            document.body.classList.add("game-open");
-
-            document.getElementById("homePage").style.display = "none";
-
-            document.getElementById("gamePage").classList.add("active");
-
-            window.scrollTo({
-                top: 0,
-                behavior: "smooth"
-            });
-
-        }
-
-
-        /*
-         * RETURN HOME
-         */
-
-        function showHome() {
-
-            document.body.classList.remove("game-open");
-
-            document.getElementById("gamePage").classList.remove("active");
-
-            document.getElementById("homePage").style.display = "block";
-
-            if (window.location.hash.startsWith("#game-")) {
-
-                history.pushState(
-                    "",
-                    document.title,
-                    window.location.pathname
-                );
-
+            if (game !== "Gravi-Plat") {
+                return;
             }
 
-            window.scrollTo({
-                top: 0,
-                behavior: "smooth"
-            });
+            document.getElementById("home-page").style.display = "none";
 
+            document.getElementById("game-page").style.display = "block";
+
+            window.scrollTo(0, 0);
+
+            history.pushState(
+                null,
+                "",
+                "#game-Gravi-Plat-zoomyeah-08-10-2026"
+            );
         }
 
 
-        /*
-         * PLAY TEST GAME
-         *
-         * TEMPORARY.
-         *
-         * Later this will load the vetted game
-         * directly from Cloudflare R2.
-         */
+        function goHome() {
+
+            document.getElementById("game-page").style.display = "none";
+
+            document.getElementById("home-page").style.display = "block";
+
+            document.getElementById("game-frame").src = "";
+
+            document.getElementById("game-frame-container").style.display = "none";
+
+            document.getElementById("play-button").style.display = "inline-block";
+
+            history.pushState(null, "", "#home");
+
+            window.scrollTo(0, 0);
+        }
+
 
         function playGame() {
 
-            const gameContainer =
-                document.getElementById("gameContainer");
+            const frame =
+                document.getElementById("game-frame");
 
-            const gameFrame =
-                document.getElementById("gameFrame");
+            const container =
+                document.getElementById("game-frame-container");
 
-            const playButton =
-                document.getElementById("playButton");
+            const button =
+                document.getElementById("play-button");
 
+            frame.src = GAME_URL;
 
-            const testGame = `
-                <!DOCTYPE html>
+            container.style.display = "block";
 
-                <html>
-
-                <head>
-
-                    <style>
-
-                        body {
-                            margin: 0;
-                            height: 100vh;
-
-                            display: flex;
-                            justify-content: center;
-                            align-items: center;
-
-                            flex-direction: column;
-
-                            background: #151515;
-                            color: white;
-
-                            font-family: Arial, sans-serif;
-                        }
-
-                        h1 {
-                            color: #6fcf68;
-                        }
-
-                        button {
-                            padding: 12px 25px;
-
-                            border: none;
-                            border-radius: 8px;
-
-                            background: #276221;
-                            color: white;
-
-                            font-size: 18px;
-                            cursor: pointer;
-                        }
-
-                        button:hover {
-                            background: #347c2e;
-                        }
-
-                    </style>
-
-                </head>
-
-                <body>
-
-                    <h1>Test Game!</h1>
-
-                    <p>
-                        The GameSwapHQ game player works!
-                    </p>
-
-                    <button onclick="alert('You clicked the game!')">
-                        Click Me!
-                    </button>
-
-                </body>
-
-                </html>
-            `;
-
-
-            gameFrame.srcdoc = testGame;
-
-            gameContainer.classList.remove("hidden");
-
-            playButton.style.display = "none";
-
-
-            gameContainer.scrollIntoView({
-                behavior: "smooth"
-            });
+            button.style.display = "none";
 
         }
 
 
-        /*
-         * CHECK URL
-         */
+        function checkHash() {
 
-        function checkURL() {
+            if (
+                window.location.hash ===
+                "#game-Gravi-Plat-zoomyeah-08-10-2026"
+            ) {
 
-            if (window.location.hash.startsWith("#game-")) {
+                document.getElementById("home-page").style.display = "none";
 
-                showGamePage();
+                document.getElementById("game-page").style.display = "block";
 
             } else {
 
-                showHome();
+                document.getElementById("home-page").style.display = "block";
+
+                document.getElementById("game-page").style.display = "none";
 
             }
-
         }
 
 
-        window.addEventListener("load", checkURL);
+        window.addEventListener(
+            "popstate",
+            checkHash
+        );
 
-        window.addEventListener("hashchange", checkURL);
+        window.addEventListener(
+            "hashchange",
+            checkHash
+        );
+
+        checkHash();
 
     </script>
 
