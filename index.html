@@ -22,6 +22,10 @@
             color: #f1f1f1;
         }
 
+        /* =========================
+           MAIN HEADER
+        ========================= */
+
         header {
             background: #276221;
             color: white;
@@ -41,6 +45,10 @@
             font-size: 1.05rem;
         }
 
+        /* =========================
+           NAVIGATION
+        ========================= */
+
         nav {
             background: #1b1b1b;
             padding: 12px;
@@ -59,10 +67,22 @@
             text-decoration: underline;
         }
 
+        /* =========================
+           MAIN
+        ========================= */
+
         main {
             max-width: 1100px;
             margin: auto;
             padding: 40px 20px;
+        }
+
+        /* =========================
+           HOME PAGE
+        ========================= */
+
+        #homePage {
+            display: block;
         }
 
         .hero {
@@ -140,13 +160,9 @@
             background: #347c2e;
         }
 
-        /* HOME PAGE */
-
-        #homePage {
-            display: block;
-        }
-
-        /* GAME PAGE */
+        /* =========================
+           GAME PAGE
+        ========================= */
 
         #gamePage {
             display: none;
@@ -158,21 +174,31 @@
 
         .game-page {
             text-align: center;
-            margin-top: 10px;
         }
 
-        /* HIDE SITE HEADER ON GAME PAGE */
+        /*
+         * On the game page:
+         * - Keep the green GameSwapHQ header
+         * - Hide the tagline
+         * - Hide the navigation
+         */
 
-        body.game-open header,
+        body.game-open header p {
+            display: none;
+        }
+
         body.game-open nav {
             display: none;
         }
 
-        /* BACK BUTTON */
+        /* =========================
+           BACK BUTTON
+        ========================= */
 
         .back-button {
             display: block;
-            margin-bottom: 35px;
+
+            margin: 0 0 35px 0;
 
             background: #1e1e1e;
             color: #6fcf68;
@@ -195,14 +221,18 @@
             background: #292929;
         }
 
-        /* GAME TITLE */
+        /* =========================
+           GAME TITLE
+        ========================= */
 
         .game-page h2 {
             font-size: 2.6rem;
             margin: 0 0 25px;
         }
 
-        /* PLAY BUTTON */
+        /* =========================
+           PLAY BUTTON
+        ========================= */
 
         .play-button {
             font-size: 1.15rem;
@@ -210,7 +240,9 @@
             margin: 0 0 20px;
         }
 
-        /* GAME PLAYER */
+        /* =========================
+           GAME PLAYER
+        ========================= */
 
         .game-container {
             margin: 30px auto;
@@ -239,7 +271,9 @@
             display: none;
         }
 
-        /* SIMILAR GAMES */
+        /* =========================
+           SIMILAR GAMES
+        ========================= */
 
         .similar-games {
             margin-top: 60px;
@@ -249,7 +283,9 @@
             margin-bottom: 25px;
         }
 
-        /* SUBMISSION */
+        /* =========================
+           SUBMIT BOX
+        ========================= */
 
         .submit-box {
             background: #1e1e1e;
@@ -265,6 +301,10 @@
             line-height: 1.6;
         }
 
+        /* =========================
+           FOOTER
+        ========================= */
+
         footer {
             margin-top: 60px;
             padding: 25px;
@@ -277,10 +317,19 @@
 
 <body>
 
+    <!-- =========================
+         HEADER
+    ========================= -->
+
     <header>
         <h1>GameSwapHQ</h1>
         <p>Discover fun, creative games made by creators.</p>
     </header>
+
+
+    <!-- =========================
+         NAVIGATION
+    ========================= -->
 
     <nav>
         <a href="#" onclick="showHome()">Home</a>
@@ -288,13 +337,17 @@
         <a href="#submit" onclick="showHome()">Submit a Game</a>
     </nav>
 
+
     <main>
 
-        <!-- HOME PAGE -->
+        <!-- =========================
+             HOME PAGE
+        ========================= -->
 
         <div id="homePage">
 
             <section class="hero" id="home">
+
                 <h2>Welcome to GameSwapHQ!</h2>
 
                 <p>
@@ -302,9 +355,12 @@
                     discover fun games from talented creators.
                     Every game is reviewed before it is added.
                 </p>
+
             </section>
 
+
             <section class="section" id="games">
+
                 <h2>✨ Featured Games ✨</h2>
 
                 <div class="games">
@@ -324,7 +380,9 @@
                     </div>
 
                 </div>
+
             </section>
+
 
             <section class="section" id="submit">
 
@@ -350,11 +408,15 @@
         </div>
 
 
-        <!-- GAME PAGE -->
+        <!-- =========================
+             GAME PAGE
+        ========================= -->
 
         <div id="gamePage">
 
             <section class="game-page">
+
+                <!-- Back button -->
 
                 <button
                     class="back-button"
@@ -365,8 +427,14 @@
                 </button>
 
 
-                <h2>GameSwapHQ Test Game</h2>
+                <!-- Game title -->
 
+                <h2>
+                    GameSwapHQ Test Game
+                </h2>
+
+
+                <!-- Play button -->
 
                 <button
                     class="play-button"
@@ -377,6 +445,8 @@
 
                 </button>
 
+
+                <!-- Game -->
 
                 <div
                     class="game-container hidden"
@@ -391,9 +461,13 @@
                 </div>
 
 
+                <!-- Similar games -->
+
                 <div class="similar-games">
 
-                    <h2>Similar Games</h2>
+                    <h2>
+                        Similar Games
+                    </h2>
 
                     <div class="games">
 
@@ -430,10 +504,18 @@
 
     <script>
 
+        /*
+         * GAME INFORMATION
+         */
+
         const gameName = "GameSwapHQ-Test-Game";
         const creator = "GameSwapHQ";
         const releaseDate = "08.10.2026";
 
+
+        /*
+         * OPEN GAME PAGE
+         */
 
         function openGame() {
 
@@ -446,8 +528,13 @@
                 releaseDate;
 
             showGamePage();
+
         }
 
+
+        /*
+         * SHOW GAME PAGE
+         */
 
         function showGamePage() {
 
@@ -461,8 +548,13 @@
                 top: 0,
                 behavior: "smooth"
             });
+
         }
 
+
+        /*
+         * RETURN HOME
+         */
 
         function showHome() {
 
@@ -486,8 +578,18 @@
                 top: 0,
                 behavior: "smooth"
             });
+
         }
 
+
+        /*
+         * PLAY TEST GAME
+         *
+         * TEMPORARY.
+         *
+         * Later this will load the vetted game
+         * directly from Cloudflare R2.
+         */
 
         function playGame() {
 
@@ -500,13 +602,6 @@
             const playButton =
                 document.getElementById("playButton");
 
-
-            /*
-             * TEMPORARY TEST GAME
-             *
-             * This will eventually be replaced with
-             * the URL of the vetted game stored in R2.
-             */
 
             const testGame = `
                 <!DOCTYPE html>
@@ -589,6 +684,10 @@
 
         }
 
+
+        /*
+         * CHECK URL
+         */
 
         function checkURL() {
 
