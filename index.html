@@ -94,29 +94,78 @@
 
         .games {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
             gap: 20px;
         }
 
+        /* GAME CARD */
+
         .game-card {
-            background: #1e1e1e;
-            border-radius: 12px;
-            padding: 25px;
-            text-align: center;
-            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.4);
+            position: relative;
+            min-height: 300px;
+            overflow: hidden;
+            border-radius: 14px;
             border: 1px solid #2c2c2c;
+            background: #1e1e1e;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.5);
+            cursor: pointer;
+        }
+
+        .game-thumbnail {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Makes the text easier to read */
+        .game-thumbnail-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                to bottom,
+                rgba(0, 0, 0, 0.15),
+                rgba(0, 0, 0, 0.75)
+            );
+        }
+
+        .game-card-content {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            text-align: center;
+            padding: 25px;
         }
 
         .game-card h3 {
-            margin-top: 0;
+            margin: 0 0 5px;
+            font-family: "Nunito", sans-serif;
+            font-size: 2rem;
+            font-weight: 900;
+
+            /* TEXT GLOW */
+            text-shadow:
+                0 0 5px #000,
+                0 0 10px #000,
+                0 0 20px #000,
+                0 2px 4px #000;
         }
 
         .game-card p {
-            color: #cfcfcf;
+            margin: 0 0 18px;
+            color: white;
+
+            text-shadow:
+                0 0 5px #000,
+                0 0 10px #000,
+                0 2px 4px #000;
         }
 
-        .game-card button,
-        .play-button {
+        .game-card button {
             background: #276221;
             color: white;
             border: none;
@@ -125,18 +174,15 @@
             cursor: pointer;
             font-size: 1rem;
             font-weight: bold;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
         }
 
-        .game-card button:hover,
-        .play-button:hover {
+        .game-card button:hover {
             background: #347c2e;
+            transform: translateY(-2px);
         }
 
-        .game-card button:disabled {
-            background: #3a3a3a;
-            color: #999;
-            cursor: not-allowed;
-        }
+        /* SUBMIT BOX */
 
         .submit-box {
             background: #1e1e1e;
@@ -150,14 +196,6 @@
         .submit-box p {
             color: #cfcfcf;
             line-height: 1.6;
-        }
-
-        footer {
-            margin-top: 60px;
-            padding: 25px;
-            text-align: center;
-            background: #0d0d0d;
-            color: #aaa;
         }
 
         /* GAME PAGE */
@@ -203,9 +241,19 @@
         }
 
         .play-button {
-            font-size: 1.15rem;
+            background: #276221;
+            color: white;
+            border: none;
+            border-radius: 8px;
             padding: 13px 28px;
+            cursor: pointer;
+            font-size: 1.15rem;
+            font-weight: bold;
             margin-bottom: 25px;
+        }
+
+        .play-button:hover {
+            background: #347c2e;
         }
 
         .game-frame-container {
@@ -216,6 +264,8 @@
             padding: 8px;
             border-radius: 16px;
             background: #03045e;
+
+            /* BLUE GLOW */
             box-shadow:
                 0 0 20px #03045e,
                 0 0 45px #03045e;
@@ -238,12 +288,20 @@
             text-align: center;
             font-family: "Nunito", sans-serif;
         }
+
+        footer {
+            margin-top: 60px;
+            padding: 25px;
+            text-align: center;
+            background: #0d0d0d;
+            color: #aaa;
+        }
     </style>
 </head>
 
 <body>
 
-    <!-- NORMAL HOMEPAGE -->
+    <!-- HOME PAGE -->
 
     <div id="home-page">
 
@@ -271,29 +329,48 @@
             </section>
 
             <section class="section" id="games">
+
                 <h2>✨ Featured Games ✨</h2>
 
                 <div class="games">
 
-                    <div class="game-card">
-                        <h3>Gravi-Plat</h3>
+                    <div class="game-card"
+                         onclick="openGame('Gravi-Plat')">
 
-                        <p>
-                            A fun game created by zoomyeah.
-                        </p>
+                        <img
+                            class="game-thumbnail"
+                            src="/game-thumbnail/Gravi-Plat"
+                            alt="Gravi-Plat thumbnail"
+                        >
 
-                        <button onclick="openGame('Gravi-Plat')">
-                            View Game
-                        </button>
+                        <div class="game-thumbnail-overlay"></div>
+
+                        <div class="game-card-content">
+
+                            <h3>Gravi-Plat</h3>
+
+                            <p>by zoomyeah</p>
+
+                            <button
+                                onclick="event.stopPropagation(); openGame('Gravi-Plat')"
+                            >
+                                View Game
+                            </button>
+
+                        </div>
+
                     </div>
 
                 </div>
+
             </section>
 
             <section class="section" id="submit">
+
                 <h2>Submit a Game</h2>
 
                 <div class="submit-box">
+
                     <p>
                         Made a game you'd like to share?
                         GameSwapHQ accepts submissions from creators
@@ -304,7 +381,9 @@
                         More information about submitting games
                         will be available soon.
                     </p>
+
                 </div>
+
             </section>
 
         </main>
@@ -322,7 +401,10 @@
 
         <main>
 
-            <button class="back-button" onclick="goHome()">
+            <button
+                class="back-button"
+                onclick="goHome()"
+            >
                 ← Back to GameSwapHQ
             </button>
 
@@ -348,6 +430,7 @@
                     class="game-frame-container"
                     id="game-frame-container"
                 >
+
                     <iframe
                         id="game-frame"
                         class="game-frame"
@@ -355,6 +438,7 @@
                         sandbox="allow-scripts allow-same-origin allow-popups"
                         loading="lazy">
                     </iframe>
+
                 </div>
 
             </div>
@@ -366,10 +450,18 @@
                 <div class="games">
 
                     <div class="game-card">
-                        <h3>More Games Coming Soon</h3>
-                        <p>
-                            Check back soon for more games from GameSwapHQ creators.
-                        </p>
+
+                        <div class="game-card-content">
+
+                            <h3>More Games Coming Soon</h3>
+
+                            <p>
+                                Check back soon for more games from
+                                GameSwapHQ creators.
+                            </p>
+
+                        </div>
+
                     </div>
 
                 </div>
@@ -383,8 +475,8 @@
 
     <script>
 
-        const GAME_URL =
-            "/game/Gravi-Plat";
+        const GAME_URL = "/game/Gravi-Plat";
+
 
         function openGame(game) {
 
@@ -462,6 +554,7 @@
                 document.getElementById("game-page").style.display = "none";
 
             }
+
         }
 
 
