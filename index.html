@@ -161,55 +161,68 @@
             margin-top: 10px;
         }
 
+        /* BACK BUTTON */
+
         .back-button {
             display: block;
             margin-bottom: 35px;
 
-            background: transparent;
+            background: #1e1e1e;
             color: #6fcf68;
 
-            border: none;
-            padding: 0;
+            border: 1px solid #2c2c2c;
+            border-radius: 8px;
+
+            padding: 10px 18px;
 
             font-size: 1rem;
             font-weight: bold;
 
             cursor: pointer;
             text-align: left;
+
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.35);
         }
 
         .back-button:hover {
-            text-decoration: underline;
+            background: #292929;
         }
+
+        /* GAME TITLE */
 
         .game-page h2 {
             font-size: 2.6rem;
-            margin: 0 0 8px;
-        }
-
-        .game-info {
-            color: #999;
             margin: 0 0 25px;
         }
 
-        .game-description {
-            color: #cfcfcf;
-            margin-bottom: 25px;
-        }
+        /* PLAY BUTTON */
 
         .play-button {
             font-size: 1.15rem;
             padding: 13px 28px;
-            margin: 10px 0;
+            margin: 0 0 20px;
         }
+
+        /* GAME PLAYER */
 
         .game-container {
             margin: 30px auto;
             width: 100%;
             max-width: 900px;
+
             background: #000;
+
             border-radius: 12px;
             overflow: hidden;
+
+            /*
+             * GameSwapHQ game glow
+             */
+
+            box-shadow:
+                0 0 10px #03045e,
+                0 0 25px #03045e,
+                0 0 45px rgba(3, 4, 94, 0.65);
         }
 
         .game-container iframe {
@@ -223,6 +236,8 @@
             display: none;
         }
 
+        /* SIMILAR GAMES */
+
         .similar-games {
             margin-top: 60px;
         }
@@ -230,6 +245,8 @@
         .similar-games h2 {
             margin-bottom: 25px;
         }
+
+        /* SUBMISSION */
 
         .submit-box {
             background: #1e1e1e;
@@ -290,6 +307,7 @@
                 <div class="games">
 
                     <div class="game-card">
+
                         <h3>GameSwapHQ Test Game</h3>
 
                         <p>
@@ -299,12 +317,14 @@
                         <button onclick="openGame()">
                             View Game
                         </button>
+
                     </div>
 
                 </div>
             </section>
 
             <section class="section" id="submit">
+
                 <h2>Submit a Game</h2>
 
                 <div class="submit-box">
@@ -321,6 +341,7 @@
                     </p>
 
                 </div>
+
             </section>
 
         </div>
@@ -332,28 +353,37 @@
 
             <section class="game-page">
 
-                <button class="back-button" onclick="showHome()">
+                <button
+                    class="back-button"
+                    onclick="showHome()">
+
                     ← Back to GameSwapHQ
+
                 </button>
+
+
+                <!-- ONLY THE GAME TITLE -->
 
                 <h2>GameSwapHQ Test Game</h2>
 
-                <p class="game-info">
-                    By GameSwapHQ • Released August 10, 2026
-                </p>
 
-                <p class="game-description">
-                    A test game demonstrating how GameSwapHQ games will load.
-                </p>
+                <!-- PLAY BUTTON -->
 
                 <button
                     class="play-button"
                     id="playButton"
                     onclick="playGame()">
+
                     Play Now
+
                 </button>
 
-                <div class="game-container hidden" id="gameContainer">
+
+                <!-- GAME -->
+
+                <div
+                    class="game-container hidden"
+                    id="gameContainer">
 
                     <iframe
                         id="gameFrame"
@@ -444,11 +474,13 @@
             document.getElementById("homePage").style.display = "block";
 
             if (window.location.hash.startsWith("#game-")) {
+
                 history.pushState(
                     "",
                     document.title,
                     window.location.pathname
                 );
+
             }
 
             window.scrollTo({
@@ -551,9 +583,11 @@
 
             playButton.style.display = "none";
 
+
             gameContainer.scrollIntoView({
                 behavior: "smooth"
             });
+
         }
 
 
@@ -568,6 +602,7 @@
                 showHome();
 
             }
+
         }
 
 
