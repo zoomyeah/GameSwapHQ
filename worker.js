@@ -42,7 +42,7 @@ export default {
             });
         }
 
-        // Everything else goes to the GameSwapHQ website
+        // Serve the main GameSwapHQ website
         return env.ASSETS.fetch(request);
     }
 };
