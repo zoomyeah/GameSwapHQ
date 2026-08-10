@@ -1,0 +1,24 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "gameswaphq",
+  "compatibility_date": "2026-08-10",
+
+  "observability": {
+    "enabled": true
+  },
+
+  "assets": {
+    "directory": "."
+  },
+
+  "r2_buckets": [
+    {
+      "binding": "GAMES",
+      "bucket_name": "gameswaphq-games"
+    }
+  ],
+
+  "compatibility_flags": [
+    "nodejs_compat"
+  ]
+}
