@@ -256,8 +256,18 @@
             display: block;
         }
 
+        /* GAME CONTROLS */
+
         .play-area {
             text-align: center;
+        }
+
+        .game-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 25px;
         }
 
         .play-button {
@@ -269,12 +279,31 @@
             cursor: pointer;
             font-size: 1.15rem;
             font-weight: bold;
-            margin-bottom: 25px;
         }
 
         .play-button:hover {
             background: #347c2e;
         }
+
+        .fullscreen-button {
+            background: #03045e;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 13px 20px;
+            cursor: pointer;
+            font-size: 1.05rem;
+            font-weight: bold;
+
+            box-shadow:
+                0 0 10px #03045e;
+        }
+
+        .fullscreen-button:hover {
+            background: #05078a;
+        }
+
+        /* GAME */
 
         .game-frame-container {
             display: none;
@@ -288,6 +317,21 @@
             box-shadow:
                 0 0 20px #03045e,
                 0 0 45px #03045e;
+        }
+
+        .game-frame-container:fullscreen {
+            max-width: none;
+            width: 100vw;
+            height: 100vh;
+            padding: 0;
+            border-radius: 0;
+            background: #000;
+        }
+
+        .game-frame-container:fullscreen .game-frame {
+            width: 100vw;
+            height: 100vh;
+            border-radius: 0;
         }
 
         .game-frame {
@@ -338,6 +382,7 @@
         <main>
 
             <section class="hero" id="home">
+
                 <h2>Welcome to GameSwapHQ!</h2>
 
                 <p>
@@ -345,6 +390,7 @@
                     discover fun games from talented creators.
                     Every game is reviewed before it is added.
                 </p>
+
             </section>
 
             <section class="section" id="games">
@@ -353,8 +399,10 @@
 
                 <div class="games">
 
-                    <div class="game-card"
-                         onclick="openGame('Gravi-Plat')">
+                    <div
+                        class="game-card"
+                        onclick="openGame('Gravi-Plat')"
+                    >
 
                         <img
                             class="game-thumbnail"
@@ -435,35 +483,37 @@
                 Created by zoomyeah · Released August 10, 2026
             </div>
 
-            <!-- GAME PAGE THUMBNAIL -->
-
             <div class="game-page-thumbnail">
+
                 <img
                     src="/game-thumbnail/Gravi-Plat"
                     alt="Gravi-Plat thumbnail"
                 >
+
             </div>
 
             <div class="play-area">
 
-        <div class="game-controls">
-            <button
-                class="play-button"
-                onclick="playGame()"
-                id="play-button"
-            >
-                Play Now
-            </button>
+                <div class="game-controls">
 
-            <button
-                class="fullscreen-button"
-                onclick="toggleFullscreen()"
-                id="fullscreen-button"
-                style="display: none;"
-            >
-                ⛶ Fullscreen
-            </button>
-        </div>
+                    <button
+                        class="play-button"
+                        onclick="playGame()"
+                        id="play-button"
+                    >
+                        Play Now
+                    </button>
+
+                    <button
+                        class="fullscreen-button"
+                        onclick="toggleFullscreen()"
+                        id="fullscreen-button"
+                        style="display: none;"
+                    >
+                        ⛶ Fullscreen
+                    </button>
+
+                </div>
 
                 <div
                     class="game-frame-container"
@@ -475,6 +525,7 @@
                         class="game-frame"
                         title="Gravi-Plat"
                         sandbox="allow-scripts allow-same-origin allow-popups"
+                        allowfullscreen
                         loading="lazy">
                     </iframe>
 
@@ -549,6 +600,8 @@
 
             document.getElementById("play-button").style.display = "inline-block";
 
+            document.getElementById("fullscreen-button").style.display = "none";
+
             history.pushState(null, "", "#home");
 
             window.scrollTo(0, 0);
@@ -563,15 +616,36 @@
             const container =
                 document.getElementById("game-frame-container");
 
-            const button =
+            const playButton =
                 document.getElementById("play-button");
+
+            const fullscreenButton =
+                document.getElementById("fullscreen-button");
 
             frame.src = GAME_URL;
 
             container.style.display = "block";
 
-            button.style.display = "none";
+            playButton.style.display = "none";
 
+            fullscreenButton.style.display = "inline-block";
+        }
+
+
+        function toggleFullscreen() {
+
+            const container =
+                document.getElementById("game-frame-container");
+
+            if (!document.fullscreenElement) {
+
+                container.requestFullscreen();
+
+            } else {
+
+                document.exitFullscreen();
+
+            }
         }
 
 
