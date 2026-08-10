@@ -161,6 +161,13 @@
             margin-top: 10px;
         }
 
+        /* HIDE SITE HEADER ON GAME PAGE */
+
+        body.game-open header,
+        body.game-open nav {
+            display: none;
+        }
+
         /* BACK BUTTON */
 
         .back-button {
@@ -214,10 +221,6 @@
 
             border-radius: 12px;
             overflow: hidden;
-
-            /*
-             * GameSwapHQ game glow
-             */
 
             box-shadow:
                 0 0 10px #03045e,
@@ -362,12 +365,8 @@
                 </button>
 
 
-                <!-- ONLY THE GAME TITLE -->
-
                 <h2>GameSwapHQ Test Game</h2>
 
-
-                <!-- PLAY BUTTON -->
 
                 <button
                     class="play-button"
@@ -378,8 +377,6 @@
 
                 </button>
 
-
-                <!-- GAME -->
 
                 <div
                     class="game-container hidden"
@@ -393,8 +390,6 @@
 
                 </div>
 
-
-                <!-- SIMILAR GAMES -->
 
                 <div class="similar-games">
 
@@ -456,6 +451,8 @@
 
         function showGamePage() {
 
+            document.body.classList.add("game-open");
+
             document.getElementById("homePage").style.display = "none";
 
             document.getElementById("gamePage").classList.add("active");
@@ -468,6 +465,8 @@
 
 
         function showHome() {
+
+            document.body.classList.remove("game-open");
 
             document.getElementById("gamePage").classList.remove("active");
 
