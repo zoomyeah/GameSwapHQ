@@ -140,32 +140,46 @@
             background: #347c2e;
         }
 
-        .game-card button:disabled {
-            background: #3a3a3a;
-            color: #999;
-            cursor: not-allowed;
+        /* HOME PAGE */
+
+        #homePage {
+            display: block;
         }
 
         /* GAME PAGE */
 
-        .game-page {
+        #gamePage {
             display: none;
-            text-align: center;
-            margin-top: 50px;
         }
 
-        .game-page.active {
+        #gamePage.active {
             display: block;
         }
 
+        .game-page {
+            text-align: center;
+            margin-top: 30px;
+        }
+
         .game-page h2 {
-            font-size: 2.2rem;
+            font-size: 2.4rem;
             margin-bottom: 8px;
+        }
+
+        .game-info {
+            color: #aaa;
+            margin-bottom: 10px;
         }
 
         .game-description {
             color: #cfcfcf;
             margin-bottom: 25px;
+        }
+
+        .play-button {
+            font-size: 1.15rem;
+            padding: 13px 28px;
+            margin: 15px 0;
         }
 
         .game-container {
@@ -187,6 +201,20 @@
 
         .game-container.hidden {
             display: none;
+        }
+
+        .back-button {
+            background: #292929;
+            color: #ddd;
+            border: 1px solid #444;
+            border-radius: 8px;
+            padding: 10px 18px;
+            cursor: pointer;
+            margin-bottom: 25px;
+        }
+
+        .back-button:hover {
+            background: #333;
         }
 
         .similar-games {
@@ -229,124 +257,137 @@
     </header>
 
     <nav>
-        <a href="#home">Home</a>
-        <a href="#games">Games</a>
-        <a href="#submit">Submit a Game</a>
+        <a href="#" onclick="showHome()">Home</a>
+        <a href="#games" onclick="showHome()">Games</a>
+        <a href="#submit" onclick="showHome()">Submit a Game</a>
     </nav>
 
     <main>
 
-        <!-- HOME -->
+        <!-- ================= HOME PAGE ================= -->
 
-        <section class="hero" id="home">
-            <h2>Welcome to GameSwapHQ!</h2>
+        <div id="homePage">
 
-            <p>
-                GameSwapHQ is a curated gaming portal where you can
-                discover fun games from talented creators.
-                Every game is reviewed before it is added.
-            </p>
-        </section>
+            <section class="hero" id="home">
+                <h2>Welcome to GameSwapHQ!</h2>
 
+                <p>
+                    GameSwapHQ is a curated gaming portal where you can
+                    discover fun games from talented creators.
+                    Every game is reviewed before it is added.
+                </p>
+            </section>
 
-        <!-- GAMES -->
-
-        <section class="section" id="games">
-            <h2>✨ Featured Games ✨</h2>
-
-            <div class="games">
-
-                <div class="game-card">
-                    <h3>GameSwapHQ Test Game</h3>
-
-                    <p>
-                        This is a test game for the GameSwapHQ player.
-                    </p>
-
-                    <button onclick="openGame()">
-                        View Game
-                    </button>
-                </div>
-
-            </div>
-        </section>
-
-
-        <!-- GAME PAGE -->
-
-        <section class="game-page" id="gamePage">
-
-            <h2>🎮 GameSwapHQ Test Game</h2>
-
-            <p class="game-description">
-                A test game demonstrating how GameSwapHQ games will load.
-            </p>
-
-            <button class="play-button" id="playButton" onclick="playGame()">
-                ▶ Play Now
-            </button>
-
-            <div class="game-container hidden" id="gameContainer">
-
-                <iframe
-                    id="gameFrame"
-                    title="GameSwapHQ Test Game"
-                    sandbox="allow-scripts allow-same-origin allow-popups">
-                </iframe>
-
-            </div>
-
-
-            <!-- SIMILAR GAMES -->
-
-            <div class="similar-games">
-
-                <h2>🎮 Similar Games</h2>
+            <section class="section" id="games">
+                <h2>✨ Featured Games ✨</h2>
 
                 <div class="games">
 
                     <div class="game-card">
-                        <h3>Coming Soon!</h3>
-                        <p>More games will appear here.</p>
+                        <h3>GameSwapHQ Test Game</h3>
+
+                        <p>
+                            This is a test game for the GameSwapHQ player.
+                        </p>
+
+                        <button onclick="openGame()">
+                            View Game
+                        </button>
                     </div>
 
-                    <div class="game-card">
-                        <h3>Coming Soon!</h3>
-                        <p>More games will appear here.</p>
-                    </div>
+                </div>
+            </section>
 
-                    <div class="game-card">
-                        <h3>Coming Soon!</h3>
-                        <p>More games will appear here.</p>
+            <section class="section" id="submit">
+                <h2>Submit a Game</h2>
+
+                <div class="submit-box">
+
+                    <p>
+                        Made a game you'd like to share?
+                        GameSwapHQ accepts submissions from creators
+                        for review.
+                    </p>
+
+                    <p>
+                        More information about submitting games
+                        will be available soon.
+                    </p>
+
+                </div>
+            </section>
+
+        </div>
+
+
+        <!-- ================= GAME PAGE ================= -->
+
+        <div id="gamePage">
+
+            <section class="game-page">
+
+                <button class="back-button" onclick="showHome()">
+                    ← Back to GameSwapHQ
+                </button>
+
+                <h2>🎮 GameSwapHQ Test Game</h2>
+
+                <p class="game-info">
+                    By GameSwapHQ • D.O.R. 08.10.2026
+                </p>
+
+                <p class="game-description">
+                    A test game demonstrating how GameSwapHQ games will load.
+                </p>
+
+                <button
+                    class="play-button"
+                    id="playButton"
+                    onclick="playGame()">
+                    ▶ Play Now
+                </button>
+
+                <div class="game-container hidden" id="gameContainer">
+
+                    <iframe
+                        id="gameFrame"
+                        title="GameSwapHQ Test Game"
+                        sandbox="allow-scripts allow-same-origin allow-popups">
+                    </iframe>
+
+                </div>
+
+
+                <!-- SIMILAR GAMES -->
+
+                <div class="similar-games">
+
+                    <h2>🎮 Similar Games</h2>
+
+                    <div class="games">
+
+                        <div class="game-card">
+                            <h3>Coming Soon!</h3>
+                            <p>More games will appear here.</p>
+                        </div>
+
+                        <div class="game-card">
+                            <h3>Coming Soon!</h3>
+                            <p>More games will appear here.</p>
+                        </div>
+
+                        <div class="game-card">
+                            <h3>Coming Soon!</h3>
+                            <p>More games will appear here.</p>
+                        </div>
+
                     </div>
 
                 </div>
 
-            </div>
+            </section>
 
-        </section>
-
-
-        <!-- SUBMIT -->
-
-        <section class="section" id="submit">
-            <h2>Submit a Game</h2>
-
-            <div class="submit-box">
-
-                <p>
-                    Made a game you'd like to share?
-                    GameSwapHQ accepts submissions from creators
-                    for review.
-                </p>
-
-                <p>
-                    More information about submitting games
-                    will be available soon.
-                </p>
-
-            </div>
-        </section>
+        </div>
 
     </main>
 
@@ -358,16 +399,85 @@
 
     <script>
 
+        /*
+         * GAME INFORMATION
+         *
+         * Eventually these values will come from our
+         * GameSwapHQ game database/configuration.
+         */
+
+        const gameName = "GameSwapHQ-Test-Game";
+        const creator = "GameSwapHQ";
+        const releaseDate = "08.10.2026";
+
+
+        /*
+         * OPEN GAME PAGE
+         */
+
         function openGame() {
-            const gamePage = document.getElementById("gamePage");
 
-            gamePage.classList.add("active");
+            window.location.hash =
+                "game-" +
+                gameName +
+                "-" +
+                creator +
+                "-" +
+                releaseDate;
 
-            gamePage.scrollIntoView({
+            showGamePage();
+        }
+
+
+        /*
+         * SHOW GAME PAGE
+         */
+
+        function showGamePage() {
+
+            document.getElementById("homePage").style.display = "none";
+
+            document.getElementById("gamePage").classList.add("active");
+
+            window.scrollTo({
+                top: 0,
                 behavior: "smooth"
             });
         }
 
+
+        /*
+         * SHOW HOME PAGE
+         */
+
+        function showHome() {
+
+            document.getElementById("gamePage").classList.remove("active");
+
+            document.getElementById("homePage").style.display = "block";
+
+            /*
+             * Remove the game hash from the URL.
+             */
+
+            if (window.location.hash.startsWith("#game-")) {
+                history.pushState(
+                    "",
+                    document.title,
+                    window.location.pathname
+                );
+            }
+
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        }
+
+
+        /*
+         * PLAY GAME
+         */
 
         function playGame() {
 
@@ -377,27 +487,39 @@
             const gameFrame =
                 document.getElementById("gameFrame");
 
-            /*
-                TEST GAME
+            const playButton =
+                document.getElementById("playButton");
 
-                This will eventually be replaced with
-                the URL of the vetted game stored in R2.
-            */
+
+            /*
+             * TEMPORARY TEST GAME
+             *
+             * This will eventually be replaced with
+             * the URL of the vetted game stored in R2.
+             */
 
             const testGame = `
                 <!DOCTYPE html>
+
                 <html>
+
                 <head>
+
                     <style>
+
                         body {
                             margin: 0;
                             height: 100vh;
+
                             display: flex;
                             justify-content: center;
                             align-items: center;
+
                             flex-direction: column;
+
                             background: #151515;
                             color: white;
+
                             font-family: Arial, sans-serif;
                         }
 
@@ -407,10 +529,13 @@
 
                         button {
                             padding: 12px 25px;
+
                             border: none;
                             border-radius: 8px;
+
                             background: #276221;
                             color: white;
+
                             font-size: 18px;
                             cursor: pointer;
                         }
@@ -418,7 +543,9 @@
                         button:hover {
                             background: #347c2e;
                         }
+
                     </style>
+
                 </head>
 
                 <body>
@@ -434,19 +561,60 @@
                     </button>
 
                 </body>
+
                 </html>
             `;
+
 
             gameFrame.srcdoc = testGame;
 
             gameContainer.classList.remove("hidden");
 
+            playButton.style.display = "none";
+
+
             gameContainer.scrollIntoView({
                 behavior: "smooth"
             });
-
-            document.getElementById("playButton").style.display = "none";
         }
+
+
+        /*
+         * HANDLE DIRECT GAME URLS
+         *
+         * This means someone can directly visit:
+         *
+         * #game-GameSwapHQ-Test-Game-GameSwapHQ-08.10.2026
+         *
+         * and still get the game page.
+         */
+
+        function checkURL() {
+
+            if (window.location.hash.startsWith("#game-")) {
+
+                showGamePage();
+
+            } else {
+
+                showHome();
+
+            }
+        }
+
+
+        /*
+         * RUN WHEN PAGE LOADS
+         */
+
+        window.addEventListener("load", checkURL);
+
+
+        /*
+         * RUN WHEN THE URL HASH CHANGES
+         */
+
+        window.addEventListener("hashchange", checkURL);
 
     </script>
 
