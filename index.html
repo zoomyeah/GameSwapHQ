@@ -8,7 +8,11 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&display=swap"
+        rel="stylesheet"
+    >
 
     <style>
 
@@ -123,15 +127,19 @@
         }
 
         @media (max-width: 800px) {
+
             .games-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
+
         }
 
         @media (max-width: 550px) {
+
             .games-grid {
                 grid-template-columns: 1fr;
             }
+
         }
 
         /* GAME CARD */
@@ -149,6 +157,7 @@
 
         .game-card:hover {
             transform: translateY(-4px);
+
             box-shadow:
                 0 6px 20px rgba(0,0,0,0.6),
                 0 0 15px rgba(111,207,104,0.15);
@@ -171,7 +180,7 @@
             display: block;
         }
 
-        /* DARK GRADIENT */
+        /* THUMBNAIL OVERLAY */
 
         .game-thumbnail-overlay {
             position: absolute;
@@ -218,7 +227,6 @@
             margin: 0;
 
             color: white;
-
             font-size: 0.9rem;
 
             text-shadow:
@@ -246,10 +254,10 @@
             color: white;
 
             font-size: 1.05rem;
-
             outline: none;
 
-            box-shadow: 0 3px 12px rgba(0,0,0,0.4);
+            box-shadow:
+                0 3px 12px rgba(0,0,0,0.4);
         }
 
         .game-search:focus {
@@ -266,51 +274,106 @@
             display: none;
         }
 
-        /* BOXES */
+        /* SUBMIT BOX */
 
-        .info-box {
+        .submit-box {
             background: #1e1e1e;
             border-radius: 12px;
+
             padding: 30px;
+
+            text-align: center;
 
             box-shadow:
                 0 3px 12px rgba(0,0,0,0.4);
 
             border: 1px solid #2c2c2c;
-
-            margin-bottom: 25px;
         }
 
-        .info-box h3 {
-            font-family: "Nunito", sans-serif;
-            font-size: 1.5rem;
-            margin-top: 0;
-        }
-
-        .info-box p {
+        .submit-box p {
             color: #cfcfcf;
             line-height: 1.6;
         }
 
-        .info-box ul {
-            color: #cfcfcf;
-            line-height: 1.8;
-            padding-left: 25px;
+        /* START BUTTON */
+
+        .start-button {
+            background: #276221;
+            color: white;
+
+            border: none;
+            border-radius: 8px;
+
+            padding: 13px 30px;
+
+            cursor: pointer;
+
+            font-size: 1.15rem;
+            font-weight: bold;
+
+            margin-top: 10px;
         }
 
-        .developer-welcome {
-            text-align: center;
+        .start-button:hover {
+            background: #347c2e;
+            transform: translateY(-2px);
         }
 
-        .developer-welcome h2 {
-            font-family: "Nunito", sans-serif;
-            font-size: 2.3rem;
+        /* SUBMIT GAME PAGE */
+
+        .submit-game-box {
+            max-width: 700px;
+            margin: 0 auto;
+
+            background: #1e1e1e;
+
+            border: 1px solid #2c2c2c;
+            border-radius: 14px;
+
+            padding: 30px;
+
+            box-shadow:
+                0 3px 12px rgba(0,0,0,0.4);
         }
 
-        /* SUBMIT BUTTON */
+        .submit-game-box label {
+            display: block;
 
-        .developer-button {
-            display: inline-block;
+            margin-top: 18px;
+            margin-bottom: 7px;
+
+            font-weight: bold;
+        }
+
+        .submit-game-box input {
+            width: 100%;
+
+            padding: 13px 15px;
+
+            border-radius: 8px;
+            border: 1px solid #333;
+
+            background: #121212;
+            color: white;
+
+            font-size: 1rem;
+        }
+
+        .submit-game-box input:focus {
+            outline: none;
+
+            border-color: #6fcf68;
+
+            box-shadow:
+                0 0 8px rgba(111,207,104,0.2);
+        }
+
+        .submit-game-button {
+            width: 100%;
+
+            margin-top: 25px;
+
+            padding: 14px;
 
             background: #276221;
             color: white;
@@ -318,19 +381,13 @@
             border: none;
             border-radius: 8px;
 
-            padding: 13px 24px;
-
-            cursor: pointer;
-
-            font-size: 1.05rem;
+            font-size: 1.1rem;
             font-weight: bold;
 
-            text-decoration: none;
-
-            margin-top: 10px;
+            cursor: pointer;
         }
 
-        .developer-button:hover {
+        .submit-game-button:hover {
             background: #347c2e;
         }
 
@@ -598,10 +655,6 @@
             Games
         </a>
 
-        <a onclick="showPage('submit-page')">
-            Submit a Game
-        </a>
-
     </nav>
 
 
@@ -622,6 +675,34 @@
                     discover fun games from talented creators.
                     Every game is reviewed before it is added.
                 </p>
+
+            </section>
+
+
+            <!-- SUBMIT A GAME -->
+
+            <section class="section">
+
+                <h2>
+                    Submit a Game
+                </h2>
+
+                <div class="submit-box">
+
+                    <p>
+                        Made a game you'd like to share?
+                        GameSwapHQ accepts submissions from creators
+                        for review.
+                    </p>
+
+                    <button
+                        class="start-button"
+                        onclick="showPage('submit-game-page')"
+                    >
+                        Start!
+                    </button>
+
+                </div>
 
             </section>
 
@@ -668,191 +749,120 @@
     </div>
 
 
-    <!-- SUBMIT PAGE -->
+    <!-- SUBMIT GAME PAGE -->
 
-    <div id="submit-page" class="page">
+    <div id="submit-game-page" class="page">
 
         <main>
+
+            <button
+                class="back-button"
+                onclick="showPage('home-page')"
+            >
+                ← Back
+            </button>
+
 
             <section class="section">
 
                 <h2>
-                    Submit a Game
+                    Submit Your Game
                 </h2>
 
-                <div class="info-box">
 
-                    <p>
-                        Made a game you'd like to share?
-                        GameSwapHQ accepts submissions from creators
-                        for review.
-                    </p>
+                <div class="submit-game-box">
 
-                    <p>
-                        More information about submitting games
-                        will be available soon.
-                    </p>
+                    <form
+                        id="submit-game-form"
+                        enctype="multipart/form-data"
+                    >
 
-                </div>
+                        <label for="username">
+                            Username
+                        </label>
 
-            </section>
-
-        </main>
-
-    </div>
-
-
-    <!-- DEVELOPERS PAGE -->
-
-    <div id="developers-page" class="page">
-
-        <main>
-
-            <section class="section">
-
-                <div class="developer-welcome">
-
-                    <h2>
-                        For Developers
-                    </h2>
-
-                    <p>
-                        Welcome to the GameSwapHQ developer hub!
-                        This is where creators can learn how to
-                        share their games and prepare them for review.
-                    </p>
-
-                </div>
+                        <input
+                            type="text"
+                            id="username"
+                            name="username"
+                            placeholder="Your username"
+                            required
+                        >
 
 
-                <!-- DEVELOPER DASHBOARD -->
+                        <label for="business-name">
+                            Business Name
+                        </label>
 
-                <div class="info-box">
-
-                    <h3>
-                        🛠️ Developer Dashboard
-                    </h3>
-
-                    <p>
-                        Your developer dashboard will eventually
-                        let you manage your GameSwapHQ profile,
-                        view your submitted games, and keep track
-                        of your projects.
-                    </p>
-
-                    <p>
-                        Developer accounts and profiles are
-                        coming in a future update.
-                    </p>
-
-                </div>
+                        <input
+                            type="text"
+                            id="business-name"
+                            name="businessName"
+                            placeholder="Your business or creator name"
+                            required
+                        >
 
 
-                <!-- SUBMIT A GAME -->
+                        <label for="game-name">
+                            Game Name
+                        </label>
 
-                <div class="info-box">
-
-                    <h3>
-                        🎮 Submit a Game
-                    </h3>
-
-                    <p>
-                        Want your game featured on GameSwapHQ?
-                        Submit your project for review.
-                    </p>
-
-                    <p>
-                        For now, game submissions are handled
-                        manually. Contact GameSwapHQ with your
-                        game information and the project will be
-                        reviewed before being added.
-                    </p>
-
-                </div>
+                        <input
+                            type="text"
+                            id="game-name"
+                            name="gameName"
+                            placeholder="Your game's name"
+                            required
+                        >
 
 
-                <!-- GAME REQUIREMENTS -->
+                        <label for="project-link">
+                            Project Link
+                            <span style="color:#aaa;font-weight:normal;">
+                                (Scratch)
+                            </span>
+                        </label>
 
-                <div class="info-box">
-
-                    <h3>
-                        📋 Game Requirements
-                    </h3>
-
-                    <p>
-                        Before submitting a game, make sure your
-                        project meets these requirements:
-                    </p>
-
-                    <ul>
-
-                        <li>
-                            The game must be playable in a web browser.
-                        </li>
-
-                        <li>
-                            The game should be appropriate for a
-                            general audience.
-                        </li>
-
-                        <li>
-                            The game should have a working game file.
-                        </li>
-
-                        <li>
-                            Provide a clear thumbnail for the game.
-                        </li>
-
-                        <li>
-                            Your game should be your own work or use
-                            assets you have permission to use.
-                        </li>
-
-                        <li>
-                            The game should work properly before
-                            being submitted.
-                        </li>
-
-                    </ul>
-
-                </div>
+                        <input
+                            type="url"
+                            id="project-link"
+                            name="projectLink"
+                            placeholder="https://scratch.mit.edu/..."
+                        >
 
 
-                <!-- REVIEW PROCESS -->
+                        <label for="project-file">
+                            Project File
+                        </label>
 
-                <div class="info-box">
+                        <input
+                            type="file"
+                            id="project-file"
+                            name="projectFile"
+                        >
 
-                    <h3>
-                        🔎 How Review Works
-                    </h3>
 
-                    <p>
-                        Every game is reviewed before it is added
-                        to GameSwapHQ.
-                    </p>
+                        <label for="thumbnail">
+                            Thumbnail
+                        </label>
 
-                    <ul>
+                        <input
+                            type="file"
+                            id="thumbnail"
+                            name="thumbnail"
+                            accept="image/png,image/jpeg,image/webp"
+                            required
+                        >
 
-                        <li>
-                            The game is checked for functionality.
-                        </li>
 
-                        <li>
-                            The thumbnail and game information are
-                            checked.
-                        </li>
+                        <button
+                            type="submit"
+                            class="submit-game-button"
+                        >
+                            Submit Game
+                        </button>
 
-                        <li>
-                            The project is checked to make sure it
-                            follows GameSwapHQ requirements.
-                        </li>
-
-                        <li>
-                            Approved games can then be added to the
-                            Games page.
-                        </li>
-
-                    </ul>
+                    </form>
 
                 </div>
 
@@ -1016,7 +1026,9 @@
 
 
             if (page) {
+
                 page.classList.add("active");
+
             }
 
 
@@ -1025,25 +1037,12 @@
 
             if (pageID !== "game-page") {
 
-                let hash = "home";
-
-                if (pageID === "games-page") {
-                    hash = "games";
-                }
-
-                if (pageID === "submit-page") {
-                    hash = "submit";
-                }
-
-                if (pageID === "developers-page") {
-                    hash = "developers";
-                }
-
-
                 history.pushState(
                     null,
                     "",
-                    "#" + hash
+                    pageID === "home-page"
+                        ? "#home"
+                        : "#" + pageID.replace("-page", "")
                 );
 
             }
@@ -1087,18 +1086,22 @@
                 const card =
                     document.createElement("div");
 
+
                 card.className =
                     "game-card";
 
 
                 card.onclick =
                     function() {
+
                         openGame(game.id);
+
                     };
 
 
                 const thumbnailContainer =
                     document.createElement("div");
+
 
                 thumbnailContainer.className =
                     "game-thumbnail-container";
@@ -1107,18 +1110,24 @@
                 const thumbnail =
                     document.createElement("img");
 
+
                 thumbnail.className =
                     "game-thumbnail";
 
+
                 thumbnail.src =
-                    "/game-thumbnail/" + game.id;
+                    "/game-thumbnail/" +
+                    game.id;
+
 
                 thumbnail.alt =
-                    game.name + " thumbnail";
+                    game.name +
+                    " thumbnail";
 
 
                 const overlay =
                     document.createElement("div");
+
 
                 overlay.className =
                     "game-thumbnail-overlay";
@@ -1127,6 +1136,7 @@
                 const content =
                     document.createElement("div");
 
+
                 content.className =
                     "game-card-content";
 
@@ -1134,12 +1144,14 @@
                 const title =
                     document.createElement("h3");
 
+
                 title.textContent =
                     game.name;
 
 
                 const creator =
                     document.createElement("p");
+
 
                 creator.textContent =
                     "by " +
@@ -1466,18 +1478,7 @@
             if (hash === "#submit") {
 
                 showPageWithoutHistory(
-                    "submit-page"
-                );
-
-                return;
-
-            }
-
-
-            if (hash === "#developers") {
-
-                showPageWithoutHistory(
-                    "developers-page"
+                    "home-page"
                 );
 
                 return;
@@ -1507,9 +1508,15 @@
                 });
 
 
-            document
-                .getElementById(pageID)
-                .classList.add("active");
+            const page =
+                document.getElementById(pageID);
+
+
+            if (page) {
+
+                page.classList.add("active");
+
+            }
 
 
             window.scrollTo(0, 0);
