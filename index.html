@@ -23,38 +23,6 @@
             color: #f1f1f1;
         }
 
-        /* FOOTER */
-
-        footer {
-            margin-top: 60px;
-            padding: 25px 30px;
-            text-align: center;
-            background: #0d0d0d;
-            color: #aaa;
-        }
-
-        footer p {
-            margin: 0 0 12px;
-        }
-
-        .footer-links {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 1100px;
-            margin: 0 auto;
-        }
-
-        .footer-links a {
-            color: #6fcf68;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .footer-links a:hover {
-            text-decoration: underline;
-        }
-
         /* HEADER */
 
         header {
@@ -328,26 +296,23 @@
 
             text-decoration: none;
 
-            border: none;
             border-radius: 8px;
 
-            padding: 13px 32px;
+            padding: 13px 30px;
 
             font-size: 1.15rem;
+
             font-weight: bold;
 
-            cursor: pointer;
+            margin-top: 10px;
 
             box-shadow:
-                0 3px 10px rgba(0,0,0,0.4);
-
-            transition:
-                background 0.2s,
-                transform 0.2s;
+                0 2px 8px rgba(0,0,0,0.4);
         }
 
         .start-button:hover {
             background: #347c2e;
+
             transform: translateY(-2px);
         }
 
@@ -542,6 +507,76 @@
             background: #000;
         }
 
+        /* DEVELOPERS PAGE */
+
+        .developers-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .developers-content h2 {
+            text-align: center;
+            font-family: "Nunito", sans-serif;
+            font-size: 2.4rem;
+            margin-bottom: 20px;
+        }
+
+        .developers-content p {
+            color: #cfcfcf;
+            line-height: 1.7;
+            text-align: center;
+        }
+
+        /* FOOTER */
+
+        footer {
+            margin-top: 60px;
+
+            padding: 25px 30px;
+
+            text-align: center;
+
+            background: #0d0d0d;
+
+            color: #aaa;
+        }
+
+        footer p {
+            margin: 0 0 12px;
+        }
+
+        .footer-links {
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            max-width: 1100px;
+
+            margin: 0 auto;
+        }
+
+        .footer-links a {
+            color: #6fcf68;
+
+            text-decoration: none;
+
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+
+        /* DEVELOPERS PAGE HIDES TOP NAV */
+
+        body.developers-page nav {
+            display: none;
+        }
+
     </style>
 </head>
 
@@ -560,9 +595,9 @@
     </header>
 
 
-    <!-- NAVIGATION -->
+    <!-- TOP NAVIGATION -->
 
-    <nav>
+    <nav id="top-nav">
 
         <a onclick="showPage('home-page')">
             Home
@@ -570,10 +605,6 @@
 
         <a onclick="showPage('games-page')">
             Games
-        </a>
-
-        <a onclick="showPage('submit-page')">
-            Submit a Game
         </a>
 
     </nav>
@@ -633,81 +664,6 @@
                     id="no-games"
                     class="no-games">
                     No games found.
-                </div>
-
-            </section>
-
-        </main>
-
-    </div>
-
-
-    <!-- SUBMIT PAGE -->
-
-    <div id="submit-page" class="page">
-
-        <main>
-
-            <section class="section">
-
-                <h2>
-                    Submit a Game
-                </h2>
-
-                <div class="submit-box">
-
-                    <p>
-                        Made a game you'd like to share?
-                        GameSwapHQ accepts submissions from creators
-                        for review.
-                    </p>
-
-                    <p>
-                        More information about submitting games
-                        will be available soon.
-                    </p>
-
-                </div>
-
-            </section>
-
-        </main>
-
-    </div>
-
-
-    <!-- DEVELOPERS PAGE -->
-
-    <div id="developers-page" class="page">
-
-        <main>
-
-            <section class="section">
-
-                <h2>
-                    For Developers
-                </h2>
-
-                <div class="submit-box">
-
-                    <h3>
-                        Want to share your game?
-                    </h3>
-
-                    <p>
-                        Submit your game to GameSwapHQ for review. This will open up a Google Forms.
-                        If your game is approved, it will be added to the GameSwapHQ games library for playing.
-                    </p>
-
-                    <a
-                        href="https://forms.gle/ox8YWam8bA1q7pHS9"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="start-button"
-                    >
-                        Start!
-                    </a>
-
                 </div>
 
             </section>
@@ -796,6 +752,53 @@
     </div>
 
 
+    <!-- DEVELOPERS PAGE -->
+
+    <div id="developers-page" class="page">
+
+        <main>
+
+            <section class="section developers-content">
+
+                <h2>
+                    For Developers
+                </h2>
+
+                <p>
+                    Want to share your game with GameSwapHQ?
+                </p>
+
+                <div class="submit-box">
+
+                    <h3>
+                        Submit Your Game
+                    </h3>
+
+                    <p>
+                        Submit your game to GameSwapHQ for review.
+                        This will open up a Google Form.
+                        If your game is approved, it will be added
+                        to the GameSwapHQ games library for playing.
+                    </p>
+
+                    <a
+                        href="https://forms.gle/ox8YWam8bA1q7pHS9"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="start-button"
+                    >
+                        Start!
+                    </a>
+
+                </div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+
     <!-- FOOTER -->
 
     <footer>
@@ -860,15 +863,39 @@
                 page.classList.add("active");
             }
 
+            /*
+             * Hide the top navigation on the
+             * Developers page only.
+             */
+
+            if (pageID === "developers-page") {
+
+                document.body.classList.add(
+                    "developers-page"
+                );
+
+            } else {
+
+                document.body.classList.remove(
+                    "developers-page"
+                );
+
+            }
+
             window.scrollTo(0, 0);
 
-            history.pushState(
-                null,
-                "",
-                pageID === "home-page"
-                    ? "#home"
-                    : "#" + pageID.replace("-page", "")
-            );
+            if (pageID !== "game-page") {
+
+                history.pushState(
+                    null,
+                    "",
+                    pageID === "home-page"
+                        ? "#home"
+                        : "#" + pageID.replace("-page", "")
+                );
+
+            }
+
         }
 
 
@@ -893,6 +920,7 @@
                 noGames.style.display = "block";
 
                 return;
+
             }
 
             noGames.style.display = "none";
@@ -910,11 +938,13 @@
                         openGame(game.id);
                     };
 
+
                 const thumbnailContainer =
                     document.createElement("div");
 
                 thumbnailContainer.className =
                     "game-thumbnail-container";
+
 
                 const thumbnail =
                     document.createElement("img");
@@ -928,11 +958,13 @@
                 thumbnail.alt =
                     game.name + " thumbnail";
 
+
                 const overlay =
                     document.createElement("div");
 
                 overlay.className =
                     "game-thumbnail-overlay";
+
 
                 const content =
                     document.createElement("div");
@@ -940,11 +972,13 @@
                 content.className =
                     "game-card-content";
 
+
                 const title =
                     document.createElement("h3");
 
                 title.textContent =
                     game.name;
+
 
                 const creator =
                     document.createElement("p");
@@ -955,18 +989,30 @@
                     " · " +
                     game.date;
 
+
                 content.appendChild(title);
                 content.appendChild(creator);
 
-                thumbnailContainer.appendChild(thumbnail);
-                thumbnailContainer.appendChild(overlay);
-                thumbnailContainer.appendChild(content);
+                thumbnailContainer.appendChild(
+                    thumbnail
+                );
 
-                card.appendChild(thumbnailContainer);
+                thumbnailContainer.appendChild(
+                    overlay
+                );
+
+                thumbnailContainer.appendChild(
+                    content
+                );
+
+                card.appendChild(
+                    thumbnailContainer
+                );
 
                 gamesList.appendChild(card);
 
             });
+
         }
 
 
@@ -1001,6 +1047,7 @@
                 );
 
             createGameCards(filtered);
+
         }
 
 
@@ -1043,10 +1090,12 @@
                 .getElementById("game-page")
                 .classList.add("active");
 
+
             document
                 .getElementById("game-title")
                 .textContent =
                     game.name;
+
 
             document
                 .getElementById("game-info")
@@ -1056,36 +1105,49 @@
                     " · Released " +
                     game.date;
 
+
             const thumbnail =
                 document
                     .getElementById("game-thumbnail");
+
 
             thumbnail.src =
                 "/game-thumbnail/" +
                 game.id;
 
+
             thumbnail.alt =
                 game.name +
                 " thumbnail";
 
+
             document
                 .getElementById("game-frame")
                 .src = "";
+
 
             document
                 .getElementById("game-frame-container")
                 .style.display =
                     "none";
 
+
             document
                 .getElementById("play-button")
                 .style.display =
                     "inline-block";
 
+
             document
                 .getElementById("fullscreen-button")
                 .style.display =
                     "none";
+
+
+            document.body.classList.remove(
+                "developers-page"
+            );
+
 
             history.pushState(
                 null,
@@ -1094,7 +1156,9 @@
                 game.id
             );
 
+
             window.scrollTo(0, 0);
+
         }
 
 
@@ -1132,21 +1196,27 @@
                         "fullscreen-button"
                     );
 
+
             frame.src =
                 "/game/" +
                 currentGame.id;
 
+
             frame.title =
                 currentGame.name;
+
 
             container.style.display =
                 "block";
 
+
             playButton.style.display =
                 "none";
 
+
             fullscreenButton.style.display =
                 "inline-block";
+
         }
 
 
@@ -1164,6 +1234,7 @@
                         "game-frame-container"
                     );
 
+
             if (!document.fullscreenElement) {
 
                 container.requestFullscreen();
@@ -1173,6 +1244,7 @@
                 document.exitFullscreen();
 
             }
+
         }
 
 
@@ -1187,15 +1259,18 @@
             const hash =
                 window.location.hash;
 
+
             if (hash.startsWith("#game-")) {
 
                 const gameID =
                     hash.substring(6);
 
+
                 const game =
                     games.find(
                         game => game.id === gameID
                     );
+
 
                 if (game) {
 
@@ -1204,8 +1279,11 @@
                     );
 
                     return;
+
                 }
+
             }
+
 
             if (hash === "#games") {
 
@@ -1214,16 +1292,9 @@
                 );
 
                 return;
+
             }
 
-            if (hash === "#submit") {
-
-                showPageWithoutHistory(
-                    "submit-page"
-                );
-
-                return;
-            }
 
             if (hash === "#developers") {
 
@@ -1232,11 +1303,14 @@
                 );
 
                 return;
+
             }
+
 
             showPageWithoutHistory(
                 "home-page"
             );
+
         }
 
 
@@ -1254,11 +1328,29 @@
                     page.classList.remove("active");
                 });
 
+
             document
                 .getElementById(pageID)
                 .classList.add("active");
 
+
+            if (pageID === "developers-page") {
+
+                document.body.classList.add(
+                    "developers-page"
+                );
+
+            } else {
+
+                document.body.classList.remove(
+                    "developers-page"
+                );
+
+            }
+
+
             window.scrollTo(0, 0);
+
         }
 
 
@@ -1273,14 +1365,17 @@
             currentGame =
                 game;
 
+
             showPageWithoutHistory(
                 "game-page"
             );
+
 
             document
                 .getElementById("game-title")
                 .textContent =
                     game.name;
+
 
             document
                 .getElementById("game-info")
@@ -1290,23 +1385,28 @@
                     " · Released " +
                     game.date;
 
+
             const thumbnail =
                 document
                     .getElementById(
                         "game-thumbnail"
                     );
 
+
             thumbnail.src =
                 "/game-thumbnail/" +
                 game.id;
+
 
             thumbnail.alt =
                 game.name +
                 " thumbnail";
 
+
             document
                 .getElementById("game-frame")
                 .src = "";
+
 
             document
                 .getElementById(
@@ -1315,6 +1415,7 @@
                 .style.display =
                     "none";
 
+
             document
                 .getElementById(
                     "play-button"
@@ -1322,12 +1423,14 @@
                 .style.display =
                     "inline-block";
 
+
             document
                 .getElementById(
                     "fullscreen-button"
                 )
                 .style.display =
                     "none";
+
         }
 
 
@@ -1339,15 +1442,18 @@
 
         createGameCards();
 
+
         window.addEventListener(
             "popstate",
             checkHash
         );
 
+
         window.addEventListener(
             "hashchange",
             checkHash
         );
+
 
         checkHash();
 
