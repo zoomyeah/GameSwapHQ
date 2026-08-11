@@ -425,9 +425,21 @@
 
             <section class="section" id="games">
 
-                <h2>✨ Featured Games ✨</h2>
+            <h2>✨ Featured Games ✨</h2>
 
-                <div class="games" id="games-list"></div>
+            <input
+                type="search"
+                id="game-search"
+                class="game-search"
+                placeholder="🔎 Search games or creators..."
+                autocomplete="off"
+            >
+
+            <div class="games" id="games-list"></div>
+
+            <div id="no-games" class="no-games">
+                No games found. 😢
+            </div>
 
             </section>
 
@@ -600,97 +612,117 @@
          * ============================================================
          */
 
-        function createGameCards() {
+function createGameCards(searchText = "") {
 
-            const gamesList =
-                document.getElementById("games-list");
+    const gamesList =
+        document.getElementById("games-list");
 
-            gamesList.innerHTML = "";
+    const noGames =
+        document.getElementById("no-games");
 
-            games.forEach(game => {
+    gamesList.innerHTML = "";
 
-                const card =
-                    document.createElement("div");
+    const search =
+        searchText.trim().toLowerCase();
 
-                card.className = "game-card";
+    const filteredGames =
+        games.filter(game => {
 
-                card.onclick = function() {
-                    openGame(game.id);
-                };
+            return (
+                game.name.toLowerCase().includes(search) ||
+                game.creator.toLowerCase().includes(search)
+            );
 
-
-                const thumbnail =
-                    document.createElement("img");
-
-                thumbnail.className = "game-thumbnail";
-
-                thumbnail.src =
-                    "/game-thumbnail/" + game.id;
-
-                thumbnail.alt =
-                    game.name + " thumbnail";
+        });
 
 
-                const overlay =
-                    document.createElement("div");
+    filteredGames.forEach(game => {
 
-                overlay.className =
-                    "game-thumbnail-overlay";
+        const card =
+            document.createElement("div");
 
+        card.className = "game-card";
 
-                const content =
-                    document.createElement("div");
-
-                content.className =
-                    "game-card-content";
+        card.onclick = function() {
+            openGame(game.id);
+        };
 
 
-                const title =
-                    document.createElement("h3");
+        const thumbnail =
+            document.createElement("img");
 
-                title.textContent =
-                    game.name;
+        thumbnail.className =
+            "game-thumbnail";
 
+        thumbnail.src =
+            "/game-thumbnail/" + game.id;
 
-                const creator =
-                    document.createElement("p");
-
-                creator.textContent =
-                    "by " + game.creator;
-
-
-                const button =
-                    document.createElement("button");
-
-                button.textContent =
-                    "View Game";
-
-                button.onclick = function(event) {
-
-                    event.stopPropagation();
-
-                    openGame(game.id);
-
-                };
+        thumbnail.alt =
+            game.name + " thumbnail";
 
 
-                content.appendChild(title);
+        const overlay =
+            document.createElement("div");
 
-                content.appendChild(creator);
+        overlay.className =
+            "game-thumbnail-overlay";
 
-                content.appendChild(button);
 
-                card.appendChild(thumbnail);
+        const content =
+            document.createElement("div");
 
-                card.appendChild(overlay);
+        content.className =
+            "game-card-content";
 
-                card.appendChild(content);
 
-                gamesList.appendChild(card);
+        const title =
+            document.createElement("h3");
 
-            });
+        title.textContent =
+            game.name;
 
-        }
+
+        const creator =
+            document.createElement("p");
+
+        creator.textContent =
+            "by " + game.creator;
+
+
+        const button =
+            document.createElement("button");
+
+        button.textContent =
+            "View Game";
+
+
+        button.onclick = function(event) {
+
+            event.stopPropagation();
+
+            openGame(game.id);
+
+        };
+
+
+        content.appendChild(title);
+        content.appendChild(creator);
+        content.appendChild(button);
+
+        card.appendChild(thumbnail);
+        card.appendChild(overlay);
+        card.appendChild(content);
+
+        gamesList.appendChild(card);
+
+    });
+
+
+    noGames.style.display =
+        filteredGames.length === 0
+            ? "block"
+            : "none";
+}
 
 
         /*
