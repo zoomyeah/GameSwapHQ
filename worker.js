@@ -2,30 +2,27 @@ export default {
     async fetch(request, env) {
         const url = new URL(request.url);
 
-        // Gravi-Plat thumbnail
-        if (url.pathname === "/game-thumbnail/Gravi-Plat") {
-            const object = await env.GAMES.get(
-                "Website Games/Gravi-Plat.png"
-            );
+        /*
+         * GAME
+         * /game/Gravi-Plat
+         * /game/Cool-Game
+         * etc.
+         */
+        if (url.pathname.startsWith("/game/")) {
 
-            if (!object) {
-                return new Response("Thumbnail not found.", {
-                    status: 404
+            const gameID =
+                decodeURIComponent(
+                    url.pathname.substring("/game/".length)
+                );
+
+            if (!gameID) {
+                return new Response("Game not specified.", {
+                    status: 400
                 });
             }
 
-            return new Response(object.body, {
-                headers: {
-                    "Content-Type": "image/png",
-                    "Cache-Control": "public, max-age=604800"
-                }
-            });
-        }
-
-        // Gravi-Plat game
-        if (url.pathname === "/game/Gravi-Plat") {
             const object = await env.GAMES.get(
-                "Website Games/Gravi-Plat index.html"
+                `Website Games/${gameID} index.html`
             );
 
             if (!object) {
@@ -42,7 +39,49 @@ export default {
             });
         }
 
-        // Everything else → GameSwapHQ website
+
+        /*
+         * THUMBNAIL
+         * /game-thumbnail/Gravi-Plat
+         * /game-thumbnail/Cool-Game
+         * etc.
+         */
+        if (url.pathname.startsWith("/game-thumbnail/")) {
+
+            const gameID =
+                decodeURIComponent(
+                    url.pathname.substring("/game-thumbnail/".length)
+                );
+
+            if (!gameID) {
+                return new Response("Game not specified.", {
+                    status: 400
+                });
+            }
+
+            const object = await env.GAMES.get(
+                `Website Games/${gameID}.png`
+            );
+
+            if (!object) {
+                return new Response("Thumbnail not found.", {
+                    status: 404
+                });
+            }
+
+            return new Response(object.body, {
+                headers: {
+                    "Content-Type": "image/png",
+                    "Cache-Control": "public, max-age=604800"
+                }
+            });
+        }
+
+
+        /*
+         * EVERYTHING ELSE
+         * → GameSwapHQ website
+         */
         return env.ASSETS.fetch(request);
     }
 };
