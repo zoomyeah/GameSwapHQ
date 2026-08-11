@@ -1,13 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>GameSwapHQ</title>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
 
     <link
         href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&display=swap"
@@ -27,7 +41,10 @@
             color: #f1f1f1;
         }
 
-        /* HEADER */
+
+        /* =========================================================
+           HEADER
+           ========================================================= */
 
         header {
             background: #276221;
@@ -48,7 +65,10 @@
             font-size: 1.05rem;
         }
 
-        /* NAVIGATION */
+
+        /* =========================================================
+           NAVIGATION
+           ========================================================= */
 
         nav {
             background: #1b1b1b;
@@ -69,7 +89,10 @@
             text-decoration: underline;
         }
 
-        /* MAIN */
+
+        /* =========================================================
+           MAIN
+           ========================================================= */
 
         main {
             max-width: 1100px;
@@ -77,7 +100,10 @@
             padding: 40px 20px;
         }
 
-        /* PAGES */
+
+        /* =========================================================
+           PAGES
+           ========================================================= */
 
         .page {
             display: none;
@@ -87,7 +113,10 @@
             display: block;
         }
 
-        /* HOME */
+
+        /* =========================================================
+           HOME
+           ========================================================= */
 
         .hero {
             text-align: center;
@@ -107,7 +136,10 @@
             color: #cfcfcf;
         }
 
-        /* SECTIONS */
+
+        /* =========================================================
+           SECTIONS
+           ========================================================= */
 
         .section {
             margin-top: 50px;
@@ -118,7 +150,47 @@
             margin-bottom: 25px;
         }
 
-        /* GAMES GRID */
+
+        /* =========================================================
+           SUBMIT SECTION ON HOME PAGE
+           ========================================================= */
+
+        .submit-box {
+            background: #1e1e1e;
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.4);
+            border: 1px solid #2c2c2c;
+        }
+
+        .submit-box p {
+            color: #cfcfcf;
+            line-height: 1.6;
+        }
+
+        .start-button {
+            background: #276221;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 13px 30px;
+            cursor: pointer;
+            font-size: 1.15rem;
+            font-weight: bold;
+            margin-top: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.4);
+        }
+
+        .start-button:hover {
+            background: #347c2e;
+            transform: translateY(-2px);
+        }
+
+
+        /* =========================================================
+           GAMES GRID
+           ========================================================= */
 
         .games-grid {
             display: grid;
@@ -142,7 +214,10 @@
 
         }
 
-        /* GAME CARD */
+
+        /* =========================================================
+           GAME CARD
+           ========================================================= */
 
         .game-card {
             position: relative;
@@ -152,7 +227,9 @@
             background: #1e1e1e;
             box-shadow: 0 3px 12px rgba(0,0,0,0.5);
             cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition:
+                transform 0.2s,
+                box-shadow 0.2s;
         }
 
         .game-card:hover {
@@ -163,7 +240,10 @@
                 0 0 15px rgba(111,207,104,0.15);
         }
 
-        /* FULL THUMBNAIL */
+
+        /* =========================================================
+           FULL THUMBNAIL
+           ========================================================= */
 
         .game-thumbnail-container {
             width: 100%;
@@ -180,7 +260,10 @@
             display: block;
         }
 
-        /* THUMBNAIL OVERLAY */
+
+        /* =========================================================
+           THUMBNAIL OVERLAY
+           ========================================================= */
 
         .game-thumbnail-overlay {
             position: absolute;
@@ -194,7 +277,10 @@
             );
         }
 
-        /* TEXT ON THUMBNAIL */
+
+        /* =========================================================
+           TEXT ON THUMBNAIL
+           ========================================================= */
 
         .game-card-content {
             position: absolute;
@@ -227,6 +313,7 @@
             margin: 0;
 
             color: white;
+
             font-size: 0.9rem;
 
             text-shadow:
@@ -235,7 +322,10 @@
                 0 2px 4px #000;
         }
 
-        /* SEARCH */
+
+        /* =========================================================
+           SEARCH
+           ========================================================= */
 
         .game-search {
             width: 100%;
@@ -254,6 +344,7 @@
             color: white;
 
             font-size: 1.05rem;
+
             outline: none;
 
             box-shadow:
@@ -274,124 +365,127 @@
             display: none;
         }
 
-        /* SUBMIT BOX */
 
-        .submit-box {
-            background: #1e1e1e;
-            border-radius: 12px;
+        /* =========================================================
+           SUBMIT GAME PAGE
+           ========================================================= */
 
-            padding: 30px;
-
-            text-align: center;
-
-            box-shadow:
-                0 3px 12px rgba(0,0,0,0.4);
-
-            border: 1px solid #2c2c2c;
-        }
-
-        .submit-box p {
-            color: #cfcfcf;
-            line-height: 1.6;
-        }
-
-        /* START BUTTON */
-
-        .start-button {
-            background: #276221;
-            color: white;
-
-            border: none;
-            border-radius: 8px;
-
-            padding: 13px 30px;
-
-            cursor: pointer;
-
-            font-size: 1.15rem;
-            font-weight: bold;
-
-            margin-top: 10px;
-        }
-
-        .start-button:hover {
-            background: #347c2e;
-            transform: translateY(-2px);
-        }
-
-        /* SUBMIT GAME PAGE */
-
-        .submit-game-box {
+        .submit-page-box {
             max-width: 700px;
             margin: 0 auto;
 
             background: #1e1e1e;
 
-            border: 1px solid #2c2c2c;
             border-radius: 14px;
 
-            padding: 30px;
+            padding: 35px;
+
+            border: 1px solid #2c2c2c;
 
             box-shadow:
-                0 3px 12px rgba(0,0,0,0.4);
+                0 3px 15px rgba(0,0,0,0.5);
         }
 
-        .submit-game-box label {
+        .submit-page-box h2 {
+            text-align: center;
+
+            font-family: "Nunito", sans-serif;
+
+            font-size: 2.2rem;
+
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        .submit-page-description {
+            text-align: center;
+
+            color: #aaa;
+
+            line-height: 1.6;
+
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 22px;
+        }
+
+        .form-group label {
             display: block;
 
-            margin-top: 18px;
-            margin-bottom: 7px;
+            margin-bottom: 8px;
 
             font-weight: bold;
+
+            color: white;
         }
 
-        .submit-game-box input {
+        .form-group input {
             width: 100%;
 
             padding: 13px 15px;
 
             border-radius: 8px;
+
             border: 1px solid #333;
 
             background: #121212;
+
             color: white;
 
             font-size: 1rem;
+
+            outline: none;
         }
 
-        .submit-game-box input:focus {
-            outline: none;
-
+        .form-group input:focus {
             border-color: #6fcf68;
 
             box-shadow:
                 0 0 8px rgba(111,207,104,0.2);
         }
 
+        .form-help {
+            display: block;
+
+            margin-top: 6px;
+
+            color: #888;
+
+            font-size: 0.85rem;
+        }
+
         .submit-game-button {
             width: 100%;
 
-            margin-top: 25px;
-
-            padding: 14px;
-
             background: #276221;
+
             color: white;
 
             border: none;
+
             border-radius: 8px;
 
-            font-size: 1.1rem;
-            font-weight: bold;
+            padding: 14px;
 
             cursor: pointer;
+
+            font-size: 1.1rem;
+
+            font-weight: bold;
+
+            margin-top: 5px;
         }
 
         .submit-game-button:hover {
             background: #347c2e;
         }
 
-        /* GAME PAGE */
+
+        /* =========================================================
+           GAME PAGE
+           ========================================================= */
 
         .back-button {
             display: inline-flex;
@@ -437,7 +531,10 @@
             margin-bottom: 25px;
         }
 
-        /* GAME PAGE THUMBNAIL */
+
+        /* =========================================================
+           GAME PAGE THUMBNAIL
+           ========================================================= */
 
         .game-page-thumbnail {
             width: 100%;
@@ -463,7 +560,10 @@
             display: block;
         }
 
-        /* PLAY AREA */
+
+        /* =========================================================
+           PLAY AREA
+           ========================================================= */
 
         .play-area {
             text-align: center;
@@ -527,7 +627,10 @@
             background: #05078a;
         }
 
-        /* GAME FRAME */
+
+        /* =========================================================
+           GAME FRAME
+           ========================================================= */
 
         .game-frame-container {
             display: none;
@@ -582,7 +685,10 @@
             background: #000;
         }
 
-        /* FOOTER */
+
+        /* =========================================================
+           FOOTER
+           ========================================================= */
 
         footer {
             margin-top: 60px;
@@ -604,6 +710,7 @@
             display: flex;
 
             justify-content: space-between;
+
             align-items: center;
 
             max-width: 1100px;
@@ -617,8 +724,6 @@
             text-decoration: none;
 
             font-weight: bold;
-
-            cursor: pointer;
         }
 
         .footer-links a:hover {
@@ -626,15 +731,22 @@
         }
 
     </style>
+
 </head>
+
 
 <body>
 
-    <!-- HEADER -->
+
+    <!-- =========================================================
+         HEADER
+         ========================================================= -->
 
     <header>
 
-        <h1>GameSwapHQ</h1>
+        <h1>
+            GameSwapHQ
+        </h1>
 
         <p>
             Discover fun, clean, creative games.
@@ -643,7 +755,9 @@
     </header>
 
 
-    <!-- NAVIGATION -->
+    <!-- =========================================================
+         NAVIGATION
+         ========================================================= -->
 
     <nav>
 
@@ -658,9 +772,14 @@
     </nav>
 
 
-    <!-- HOME PAGE -->
+    <!-- =========================================================
+         HOME PAGE
+         ========================================================= -->
 
-    <div id="home-page" class="page active">
+    <div
+        id="home-page"
+        class="page active"
+    >
 
         <main>
 
@@ -679,7 +798,7 @@
             </section>
 
 
-            <!-- SUBMIT A GAME -->
+            <!-- SUBMIT SECTION -->
 
             <section class="section">
 
@@ -695,9 +814,13 @@
                         for review.
                     </p>
 
+                    <p>
+                        Ready to submit your game?
+                    </p>
+
                     <button
                         class="start-button"
-                        onclick="showPage('submit-game-page')"
+                        onclick="showPage('submit-page')"
                     >
                         Start!
                     </button>
@@ -711,9 +834,14 @@
     </div>
 
 
-    <!-- GAMES PAGE -->
+    <!-- =========================================================
+         GAMES PAGE
+         ========================================================= -->
 
-    <div id="games-page" class="page">
+    <div
+        id="games-page"
+        class="page"
+    >
 
         <main>
 
@@ -723,6 +851,9 @@
                     Games
                 </h2>
 
+
+                <!-- SEARCH ONLY ON GAMES PAGE -->
+
                 <input
                     type="text"
                     id="game-search"
@@ -731,14 +862,17 @@
                     oninput="searchGames()"
                 >
 
+
                 <div
                     id="games-list"
                     class="games-grid">
                 </div>
 
+
                 <div
                     id="no-games"
-                    class="no-games">
+                    class="no-games"
+                >
                     No games found.
                 </div>
 
@@ -749,9 +883,14 @@
     </div>
 
 
-    <!-- SUBMIT GAME PAGE -->
+    <!-- =========================================================
+         SUBMIT GAME PAGE
+         ========================================================= -->
 
-    <div id="submit-game-page" class="page">
+    <div
+        id="submit-page"
+        class="page"
+    >
 
         <main>
 
@@ -763,19 +902,34 @@
             </button>
 
 
-            <section class="section">
+            <div class="submit-page-box">
 
                 <h2>
                     Submit Your Game
                 </h2>
 
+                <p class="submit-page-description">
+                    Fill out the information below and submit your
+                    game to GameSwapHQ for review.
+                </p>
 
-                <div class="submit-game-box">
 
-                    <form
-                        id="submit-game-form"
-                        enctype="multipart/form-data"
-                    >
+                <!--
+                    This form will be connected to the
+                    Cloudflare Worker submission system next.
+                -->
+
+                <form
+                    id="submit-game-form"
+                    action="/submit-game"
+                    method="POST"
+                    enctype="multipart/form-data"
+                >
+
+
+                    <!-- USERNAME -->
+
+                    <div class="form-group">
 
                         <label for="username">
                             Username
@@ -789,6 +943,12 @@
                             required
                         >
 
+                    </div>
+
+
+                    <!-- BUSINESS NAME -->
+
+                    <div class="form-group">
 
                         <label for="business-name">
                             Business Name
@@ -797,11 +957,22 @@
                         <input
                             type="text"
                             id="business-name"
-                            name="businessName"
-                            placeholder="Your business or creator name"
+                            name="business_name"
+                            placeholder="Your business name"
                             required
                         >
 
+                        <span class="form-help">
+                            If you don't have a business, you can
+                            enter your creator name instead.
+                        </span>
+
+                    </div>
+
+
+                    <!-- GAME NAME -->
+
+                    <div class="form-group">
 
                         <label for="game-name">
                             Game Name
@@ -810,26 +981,39 @@
                         <input
                             type="text"
                             id="game-name"
-                            name="gameName"
+                            name="game_name"
                             placeholder="Your game's name"
                             required
                         >
 
+                    </div>
+
+
+                    <!-- PROJECT LINK -->
+
+                    <div class="form-group">
 
                         <label for="project-link">
                             Project Link
-                            <span style="color:#aaa;font-weight:normal;">
-                                (Scratch)
-                            </span>
                         </label>
 
                         <input
                             type="url"
                             id="project-link"
-                            name="projectLink"
-                            placeholder="https://scratch.mit.edu/..."
+                            name="project_link"
+                            placeholder="https://..."
                         >
 
+                        <span class="form-help">
+                            For Scratch or another online project.
+                        </span>
+
+                    </div>
+
+
+                    <!-- PROJECT FILE -->
+
+                    <div class="form-group">
 
                         <label for="project-file">
                             Project File
@@ -838,12 +1022,23 @@
                         <input
                             type="file"
                             id="project-file"
-                            name="projectFile"
+                            name="project_file"
                         >
 
+                        <span class="form-help">
+                            Use this if your game is being submitted
+                            as a project file instead of a link.
+                        </span>
+
+                    </div>
+
+
+                    <!-- THUMBNAIL -->
+
+                    <div class="form-group">
 
                         <label for="thumbnail">
-                            Thumbnail
+                            Game Thumbnail
                         </label>
 
                         <input
@@ -854,30 +1049,43 @@
                             required
                         >
 
+                        <span class="form-help">
+                            PNG, JPG, or WebP recommended.
+                        </span>
 
-                        <button
-                            type="submit"
-                            class="submit-game-button"
-                        >
-                            Submit Game
-                        </button>
+                    </div>
 
-                    </form>
 
-                </div>
+                    <!-- SUBMIT -->
 
-            </section>
+                    <button
+                        type="submit"
+                        class="submit-game-button"
+                    >
+                        Submit Game
+                    </button>
+
+
+                </form>
+
+            </div>
 
         </main>
 
     </div>
 
 
-    <!-- GAME PAGE -->
+    <!-- =========================================================
+         GAME PAGE
+         ========================================================= -->
 
-    <div id="game-page" class="page">
+    <div
+        id="game-page"
+        class="page"
+    >
 
         <main>
+
 
             <button
                 class="back-button"
@@ -899,6 +1107,8 @@
             </div>
 
 
+            <!-- FULL GAME THUMBNAIL -->
+
             <div class="game-page-thumbnail">
 
                 <img
@@ -910,9 +1120,12 @@
             </div>
 
 
+            <!-- GAME CONTROLS -->
+
             <div class="play-area">
 
                 <div class="game-controls">
+
 
                     <button
                         class="play-button"
@@ -932,8 +1145,11 @@
                         ⛶ Fullscreen
                     </button>
 
+
                 </div>
 
+
+                <!-- GAME -->
 
                 <div
                     class="game-frame-container"
@@ -958,7 +1174,9 @@
     </div>
 
 
-    <!-- FOOTER -->
+    <!-- =========================================================
+         FOOTER
+         ========================================================= -->
 
     <footer>
 
@@ -972,7 +1190,7 @@
                 Home
             </a>
 
-            <a onclick="showPage('developers-page')">
+            <a href="#developers">
                 For Developers
             </a>
 
@@ -983,10 +1201,11 @@
 
     <script>
 
+
         /*
-         * ============================================================
+         * =========================================================
          * GAME LIST
-         * ============================================================
+         * =========================================================
          *
          * ADD NEW GAMES HERE.
          *
@@ -1007,9 +1226,9 @@
 
 
         /*
-         * ============================================================
+         * =========================================================
          * PAGE NAVIGATION
-         * ============================================================
+         * =========================================================
          */
 
         function showPage(pageID) {
@@ -1017,7 +1236,9 @@
             document
                 .querySelectorAll(".page")
                 .forEach(page => {
+
                     page.classList.remove("active");
+
                 });
 
 
@@ -1051,9 +1272,9 @@
 
 
         /*
-         * ============================================================
+         * =========================================================
          * CREATE GAME CARDS
-         * ============================================================
+         * =========================================================
          */
 
         function createGameCards(gameList = games) {
@@ -1083,6 +1304,7 @@
 
             gameList.forEach(game => {
 
+
                 const card =
                     document.createElement("div");
 
@@ -1099,6 +1321,10 @@
                     };
 
 
+                /*
+                 * THUMBNAIL CONTAINER
+                 */
+
                 const thumbnailContainer =
                     document.createElement("div");
 
@@ -1106,6 +1332,10 @@
                 thumbnailContainer.className =
                     "game-thumbnail-container";
 
+
+                /*
+                 * THUMBNAIL
+                 */
 
                 const thumbnail =
                     document.createElement("img");
@@ -1125,6 +1355,10 @@
                     " thumbnail";
 
 
+                /*
+                 * OVERLAY
+                 */
+
                 const overlay =
                     document.createElement("div");
 
@@ -1132,6 +1366,10 @@
                 overlay.className =
                     "game-thumbnail-overlay";
 
+
+                /*
+                 * TEXT
+                 */
 
                 const content =
                     document.createElement("div");
@@ -1169,9 +1407,11 @@
                     thumbnail
                 );
 
+
                 thumbnailContainer.appendChild(
                     overlay
                 );
+
 
                 thumbnailContainer.appendChild(
                     content
@@ -1183,7 +1423,9 @@
                 );
 
 
-                gamesList.appendChild(card);
+                gamesList.appendChild(
+                    card
+                );
 
             });
 
@@ -1191,9 +1433,9 @@
 
 
         /*
-         * ============================================================
+         * =========================================================
          * SEARCH
-         * ============================================================
+         * =========================================================
          */
 
         function searchGames() {
@@ -1228,18 +1470,18 @@
 
 
         /*
-         * ============================================================
+         * =========================================================
          * CURRENT GAME
-         * ============================================================
+         * =========================================================
          */
 
         let currentGame = null;
 
 
         /*
-         * ============================================================
+         * =========================================================
          * OPEN GAME
-         * ============================================================
+         * =========================================================
          */
 
         function openGame(gameID) {
@@ -1251,7 +1493,9 @@
 
 
             if (!game) {
+
                 return;
+
             }
 
 
@@ -1262,283 +1506,15 @@
             document
                 .querySelectorAll(".page")
                 .forEach(page => {
+
                     page.classList.remove("active");
+
                 });
 
 
             document
                 .getElementById("game-page")
                 .classList.add("active");
-
-
-            document
-                .getElementById("game-title")
-                .textContent =
-                    game.name;
-
-
-            document
-                .getElementById("game-info")
-                .textContent =
-                    "Created by " +
-                    game.creator +
-                    " · Released " +
-                    game.date;
-
-
-            const thumbnail =
-                document
-                    .getElementById("game-thumbnail");
-
-
-            thumbnail.src =
-                "/game-thumbnail/" +
-                game.id;
-
-
-            thumbnail.alt =
-                game.name +
-                " thumbnail";
-
-
-            document
-                .getElementById("game-frame")
-                .src = "";
-
-
-            document
-                .getElementById("game-frame-container")
-                .style.display =
-                    "none";
-
-
-            document
-                .getElementById("play-button")
-                .style.display =
-                    "inline-block";
-
-
-            document
-                .getElementById("fullscreen-button")
-                .style.display =
-                    "none";
-
-
-            history.pushState(
-                null,
-                "",
-                "#game-" +
-                game.id
-            );
-
-
-            window.scrollTo(0, 0);
-
-        }
-
-
-        /*
-         * ============================================================
-         * PLAY GAME
-         * ============================================================
-         */
-
-        function playGame() {
-
-            if (!currentGame) {
-                return;
-            }
-
-
-            const frame =
-                document
-                    .getElementById("game-frame");
-
-
-            const container =
-                document
-                    .getElementById(
-                        "game-frame-container"
-                    );
-
-
-            const playButton =
-                document
-                    .getElementById(
-                        "play-button"
-                    );
-
-
-            const fullscreenButton =
-                document
-                    .getElementById(
-                        "fullscreen-button"
-                    );
-
-
-            frame.src =
-                "/game/" +
-                currentGame.id;
-
-
-            frame.title =
-                currentGame.name;
-
-
-            container.style.display =
-                "block";
-
-
-            playButton.style.display =
-                "none";
-
-
-            fullscreenButton.style.display =
-                "inline-block";
-
-        }
-
-
-        /*
-         * ============================================================
-         * FULLSCREEN
-         * ============================================================
-         */
-
-        function toggleFullscreen() {
-
-            const container =
-                document
-                    .getElementById(
-                        "game-frame-container"
-                    );
-
-
-            if (!document.fullscreenElement) {
-
-                container.requestFullscreen();
-
-            } else {
-
-                document.exitFullscreen();
-
-            }
-
-        }
-
-
-        /*
-         * ============================================================
-         * HASH NAVIGATION
-         * ============================================================
-         */
-
-        function checkHash() {
-
-            const hash =
-                window.location.hash;
-
-
-            if (hash.startsWith("#game-")) {
-
-                const gameID =
-                    hash.substring(6);
-
-
-                const game =
-                    games.find(
-                        game => game.id === gameID
-                    );
-
-
-                if (game) {
-
-                    openGameWithoutHistory(
-                        game
-                    );
-
-                    return;
-
-                }
-
-            }
-
-
-            if (hash === "#games") {
-
-                showPageWithoutHistory(
-                    "games-page"
-                );
-
-                return;
-
-            }
-
-
-            if (hash === "#submit") {
-
-                showPageWithoutHistory(
-                    "home-page"
-                );
-
-                return;
-
-            }
-
-
-            showPageWithoutHistory(
-                "home-page"
-            );
-
-        }
-
-
-        /*
-         * ============================================================
-         * SHOW PAGE WITHOUT CHANGING HASH
-         * ============================================================
-         */
-
-        function showPageWithoutHistory(pageID) {
-
-            document
-                .querySelectorAll(".page")
-                .forEach(page => {
-                    page.classList.remove("active");
-                });
-
-
-            const page =
-                document.getElementById(pageID);
-
-
-            if (page) {
-
-                page.classList.add("active");
-
-            }
-
-
-            window.scrollTo(0, 0);
-
-        }
-
-
-        /*
-         * ============================================================
-         * OPEN GAME WITHOUT CHANGING HISTORY
-         * ============================================================
-         */
-
-        function openGameWithoutHistory(game) {
-
-            currentGame =
-                game;
-
-
-            showPageWithoutHistory(
-                "game-page"
-            );
 
 
             document
@@ -1601,13 +1577,293 @@
                 .style.display =
                     "none";
 
+
+            history.pushState(
+                null,
+                "",
+                "#game-" +
+                game.id
+            );
+
+
+            window.scrollTo(0, 0);
+
         }
 
 
         /*
-         * ============================================================
-         * START
-         * ============================================================
+         * =========================================================
+         * PLAY GAME
+         * =========================================================
+         */
+
+        function playGame() {
+
+            if (!currentGame) {
+
+                return;
+
+            }
+
+
+            const frame =
+                document
+                    .getElementById(
+                        "game-frame"
+                    );
+
+
+            const container =
+                document
+                    .getElementById(
+                        "game-frame-container"
+                    );
+
+
+            const playButton =
+                document
+                    .getElementById(
+                        "play-button"
+                    );
+
+
+            const fullscreenButton =
+                document
+                    .getElementById(
+                        "fullscreen-button"
+                    );
+
+
+            frame.src =
+                "/game/" +
+                currentGame.id;
+
+
+            frame.title =
+                currentGame.name;
+
+
+            container.style.display =
+                "block";
+
+
+            playButton.style.display =
+                "none";
+
+
+            fullscreenButton.style.display =
+                "inline-block";
+
+        }
+
+
+        /*
+         * =========================================================
+         * FULLSCREEN
+         * =========================================================
+         */
+
+        function toggleFullscreen() {
+
+            const container =
+                document
+                    .getElementById(
+                        "game-frame-container"
+                    );
+
+
+            if (!document.fullscreenElement) {
+
+                container.requestFullscreen();
+
+            } else {
+
+                document.exitFullscreen();
+
+            }
+
+        }
+
+
+        /*
+         * =========================================================
+         * HASH NAVIGATION
+         * =========================================================
+         */
+
+        function checkHash() {
+
+            const hash =
+                window.location.hash;
+
+
+            if (hash.startsWith("#game-")) {
+
+                const gameID =
+                    hash.substring(6);
+
+
+                const game =
+                    games.find(
+                        game => game.id === gameID
+                    );
+
+
+                if (game) {
+
+                    openGameWithoutHistory(
+                        game
+                    );
+
+                    return;
+
+                }
+
+            }
+
+
+            if (hash === "#games") {
+
+                showPageWithoutHistory(
+                    "games-page"
+                );
+
+                return;
+
+            }
+
+
+            if (hash === "#submit") {
+
+                showPageWithoutHistory(
+                    "submit-page"
+                );
+
+                return;
+
+            }
+
+
+            showPageWithoutHistory(
+                "home-page"
+            );
+
+        }
+
+
+        /*
+         * =========================================================
+         * SHOW PAGE WITHOUT CHANGING HASH
+         * =========================================================
+         */
+
+        function showPageWithoutHistory(pageID) {
+
+            document
+                .querySelectorAll(".page")
+                .forEach(page => {
+
+                    page.classList.remove("active");
+
+                });
+
+
+            document
+                .getElementById(pageID)
+                .classList.add("active");
+
+
+            window.scrollTo(0, 0);
+
+        }
+
+
+        /*
+         * =========================================================
+         * OPEN GAME WITHOUT CHANGING HISTORY
+         * =========================================================
+         */
+
+        function openGameWithoutHistory(game) {
+
+            currentGame =
+                game;
+
+
+            showPageWithoutHistory(
+                "game-page"
+            );
+
+
+            document
+                .getElementById("game-title")
+                .textContent =
+                    game.name;
+
+
+            document
+                .getElementById("game-info")
+                .textContent =
+                    "Created by " +
+                    game.creator +
+                    " · Released " +
+                    game.date;
+
+
+            const thumbnail =
+                document
+                    .getElementById(
+                        "game-thumbnail"
+                    );
+
+
+            thumbnail.src =
+                "/game-thumbnail/" +
+                game.id;
+
+
+            thumbnail.alt =
+                game.name +
+                " thumbnail";
+
+
+            document
+                .getElementById(
+                    "game-frame"
+                )
+                .src = "";
+
+
+            document
+                .getElementById(
+                    "game-frame-container"
+                )
+                .style.display =
+                    "none";
+
+
+            document
+                .getElementById(
+                    "play-button"
+                )
+                .style.display =
+                    "inline-block";
+
+
+            document
+                .getElementById(
+                    "fullscreen-button"
+                )
+                .style.display =
+                    "none";
+
+        }
+
+
+        /*
+         * =========================================================
+         * START WEBSITE
+         * =========================================================
          */
 
         createGameCards();
@@ -1627,7 +1883,9 @@
 
         checkHash();
 
+
     </script>
 
 </body>
+
 </html>
