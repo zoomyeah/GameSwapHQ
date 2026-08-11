@@ -729,39 +729,33 @@
     /* ============================================================
        HIDE BAR BUTTON
        ============================================================ */
+.hide-bar-button {
+    position: absolute;
 
-    .hide-bar-button {
-        position: absolute;
+    left: 50%;
+    bottom: 7px;
 
-        left: 50%;
-        top: 50%;
+    transform: translateX(-50%);
 
-        transform: translate(-50%, -50%);
+    background: transparent;
 
-        background: rgba(20,20,20,0.85);
+    color: #6fcf68;
 
-        color: #ddd;
+    border: none;
 
-        border: 1px solid #444;
+    padding: 4px 8px;
 
-        border-radius: 6px;
+    font-size: 0.78rem;
 
-        padding: 7px 13px;
+    cursor: pointer;
 
-        font-size: 0.8rem;
+    z-index: 20;
+}
 
-        cursor: pointer;
-
-        display: none;
-
-        z-index: 20;
-    }
-
-    .hide-bar-button:hover {
-        background: rgba(45,45,45,0.95);
-        color: white;
-    }
-
+.hide-bar-button:hover {
+    color: white;
+    text-decoration: underline;
+}
     /* ============================================================
        HIDDEN GAMEPLAY BAR
        ============================================================ */
