@@ -44,13 +44,13 @@
             font-size: 1.05rem;
         }
 
-        /* NAV */
+        /* NAVIGATION */
 
         nav {
             background: #1b1b1b;
             padding: 12px;
             text-align: center;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.4);
         }
 
         nav a {
@@ -58,6 +58,7 @@
             text-decoration: none;
             margin: 0 15px;
             font-weight: bold;
+            cursor: pointer;
         }
 
         nav a:hover {
@@ -70,6 +71,16 @@
             max-width: 1100px;
             margin: auto;
             padding: 40px 20px;
+        }
+
+        /* PAGES */
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
         }
 
         /* HOME */
@@ -92,6 +103,8 @@
             color: #cfcfcf;
         }
 
+        /* SECTIONS */
+
         .section {
             margin-top: 50px;
         }
@@ -101,60 +114,97 @@
             margin-bottom: 25px;
         }
 
-        /* GAME GRID */
+        /* GAMES GRID */
 
-        .games {
+        .games-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        @media (max-width: 800px) {
+            .games-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 550px) {
+            .games-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
         /* GAME CARD */
 
         .game-card {
             position: relative;
-            min-height: 300px;
             overflow: hidden;
             border-radius: 14px;
             border: 1px solid #2c2c2c;
             background: #1e1e1e;
-            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 3px 12px rgba(0,0,0,0.5);
             cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .game-card:hover {
+            transform: translateY(-4px);
+            box-shadow:
+                0 6px 20px rgba(0,0,0,0.6),
+                0 0 15px rgba(111,207,104,0.15);
+        }
+
+        /* FULL THUMBNAIL */
+
+        .game-thumbnail-container {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            background: #080808;
+            position: relative;
+            overflow: hidden;
         }
 
         .game-thumbnail {
-            position: absolute;
-            inset: 0;
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: contain;
+            display: block;
         }
+
+        /* DARK GRADIENT OVER THUMBNAIL */
 
         .game-thumbnail-overlay {
             position: absolute;
             inset: 0;
+
             background: linear-gradient(
                 to bottom,
-                rgba(0, 0, 0, 0.10),
-                rgba(0, 0, 0, 0.80)
+                rgba(0,0,0,0),
+                rgba(0,0,0,0.15) 40%,
+                rgba(0,0,0,0.9) 100%
             );
         }
 
+        /* TEXT ON THUMBNAIL */
+
         .game-card-content {
             position: absolute;
-            inset: 0;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            align-items: center;
+            left: 0;
+            right: 0;
+            bottom: 0;
+
+            padding: 20px;
+
             text-align: center;
-            padding: 25px;
+
+            z-index: 2;
         }
 
         .game-card h3 {
-            margin: 0 0 5px;
+            margin: 0 0 3px;
+
             font-family: "Nunito", sans-serif;
-            font-size: 2rem;
+            font-size: 1.6rem;
             font-weight: 900;
 
             text-shadow:
@@ -165,8 +215,11 @@
         }
 
         .game-card p {
-            margin: 0 0 18px;
+            margin: 0;
+
             color: white;
+
+            font-size: 0.9rem;
 
             text-shadow:
                 0 0 5px #000,
@@ -174,51 +227,14 @@
                 0 2px 4px #000;
         }
 
-        .game-card button {
-            background: #276221;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            padding: 10px 18px;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: bold;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
-        }
-
-        .game-card button:hover {
-            background: #347c2e;
-            transform: translateY(-2px);
-        }
-
-        /* SUBMIT */
-
-        .submit-box {
-            background: #1e1e1e;
-            border-radius: 12px;
-            padding: 30px;
-            text-align: center;
-            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.4);
-            border: 1px solid #2c2c2c;
-        }
-
-        .submit-box p {
-            color: #cfcfcf;
-            line-height: 1.6;
-        }
-
-        /* GAME PAGE */
-
-        .game-page {
-            display: none;
-        }
-
         /* SEARCH */
 
         .game-search {
             width: 100%;
-            max-width: 650px;
+            max-width: 600px;
+
             display: block;
+
             margin: 0 auto 35px;
 
             padding: 14px 18px;
@@ -230,35 +246,51 @@
             color: white;
 
             font-size: 1.05rem;
+
             outline: none;
 
-            box-shadow:
-                0 3px 12px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 3px 12px rgba(0,0,0,0.4);
         }
 
         .game-search:focus {
             border-color: #6fcf68;
 
             box-shadow:
-                0 0 10px rgba(111, 207, 104, 0.25);
-        }
-
-        .search-results {
-            display: none;
-            margin-top: 15px;
+                0 0 10px rgba(111,207,104,0.25);
         }
 
         .no-games {
             text-align: center;
             color: #aaa;
-            padding: 25px;
+            padding: 30px;
             display: none;
         }
 
-        /* BACK BUTTON */
+        /* SUBMIT BOX */
+
+        .submit-box {
+            background: #1e1e1e;
+            border-radius: 12px;
+
+            padding: 30px;
+
+            text-align: center;
+
+            box-shadow: 0 3px 12px rgba(0,0,0,0.4);
+
+            border: 1px solid #2c2c2c;
+        }
+
+        .submit-box p {
+            color: #cfcfcf;
+            line-height: 1.6;
+        }
+
+        /* GAME PAGE */
 
         .back-button {
             display: inline-flex;
+
             align-items: center;
             gap: 8px;
 
@@ -271,98 +303,59 @@
             padding: 10px 16px;
 
             cursor: pointer;
+
             font-size: 1rem;
 
-            margin-bottom: 25px;
+            margin-bottom: 30px;
         }
 
         .back-button:hover {
             background: #292929;
         }
 
-        /* GAME HERO / THUMBNAIL */
-
-        .game-hero {
-            position: relative;
-
-            width: 100%;
-            max-width: 1000px;
-
-            height: 450px;
-
-            margin: 0 auto 30px;
-
-            overflow: hidden;
-
-            border-radius: 18px;
-
-            box-shadow:
-                0 0 20px #03045e,
-                0 0 45px #03045e;
-        }
-
-        .game-hero img {
-            width: 100%;
-            height: 100%;
-
-            object-fit: cover;
-
-            display: block;
-        }
-
-        .game-hero-overlay {
-            position: absolute;
-            inset: 0;
-
-            background: linear-gradient(
-                to bottom,
-                rgba(0, 0, 0, 0.05) 20%,
-                rgba(0, 0, 0, 0.15) 40%,
-                rgba(0, 0, 0, 0.90) 100%
-            );
-        }
-
-        /* TEXT ON THUMBNAIL */
-
-        .game-hero-content {
-            position: absolute;
-
-            left: 0;
-            right: 0;
-            bottom: 0;
-
-            padding: 35px;
-
-            text-align: center;
-        }
-
         .game-title {
-            margin: 0 0 8px;
+            text-align: center;
 
             font-family: "Nunito", sans-serif;
 
-            font-size: 3.5rem;
+            font-size: 3rem;
             font-weight: 900;
 
-            color: white;
-
-            text-shadow:
-                0 0 5px #000,
-                0 0 10px #000,
-                0 0 20px #000,
-                0 0 35px #000,
-                0 3px 6px #000;
+            margin: 10px 0;
         }
 
         .game-info {
-            color: white;
+            text-align: center;
 
-            font-size: 1.1rem;
+            color: #aaa;
 
-            text-shadow:
-                0 0 5px #000,
-                0 0 10px #000,
-                0 2px 5px #000;
+            margin-bottom: 25px;
+        }
+
+        /* GAME PAGE THUMBNAIL */
+
+        .game-page-thumbnail {
+            width: 100%;
+            max-width: 900px;
+
+            margin: 25px auto 30px;
+
+            border-radius: 16px;
+
+            overflow: hidden;
+
+            background: #080808;
+
+            box-shadow:
+                0 0 20px #03045e,
+                0 0 40px #03045e;
+        }
+
+        .game-page-thumbnail img {
+            width: 100%;
+            height: auto;
+
+            display: block;
         }
 
         /* PLAY AREA */
@@ -373,6 +366,7 @@
 
         .game-controls {
             display: flex;
+
             justify-content: center;
             align-items: center;
 
@@ -383,9 +377,11 @@
 
         .play-button {
             background: #276221;
+
             color: white;
 
             border: none;
+
             border-radius: 8px;
 
             padding: 13px 28px;
@@ -393,6 +389,7 @@
             cursor: pointer;
 
             font-size: 1.15rem;
+
             font-weight: bold;
         }
 
@@ -402,9 +399,11 @@
 
         .fullscreen-button {
             background: #03045e;
+
             color: white;
 
             border: none;
+
             border-radius: 8px;
 
             padding: 13px 20px;
@@ -412,6 +411,7 @@
             cursor: pointer;
 
             font-size: 1.05rem;
+
             font-weight: bold;
 
             box-shadow:
@@ -428,6 +428,7 @@
             display: none;
 
             width: 100%;
+
             max-width: 1000px;
 
             margin: 0 auto;
@@ -476,18 +477,6 @@
             background: #000;
         }
 
-        /* SIMILAR GAMES */
-
-        .similar-games {
-            margin-top: 60px;
-        }
-
-        .similar-games h2 {
-            text-align: center;
-
-            font-family: "Nunito", sans-serif;
-        }
-
         /* FOOTER */
 
         footer {
@@ -507,43 +496,45 @@
 
 <body>
 
-    <!-- ========================================================= -->
+    <!-- HEADER -->
+
+    <header>
+
+        <h1>GameSwapHQ</h1>
+
+        <p>
+            Discover fun, creative games made by creators.
+        </p>
+
+    </header>
+
+
+    <!-- NAVIGATION -->
+
+    <nav>
+
+        <a onclick="showPage('home-page')">
+            Home
+        </a>
+
+        <a onclick="showPage('games-page')">
+            Games
+        </a>
+
+        <a onclick="showPage('submit-page')">
+            Submit a Game
+        </a>
+
+    </nav>
+
+
     <!-- HOME PAGE -->
-    <!-- ========================================================= -->
 
-    <div id="home-page">
-
-        <header>
-
-            <h1>GameSwapHQ</h1>
-
-            <p>
-                Discover fun, creative games made by creators.
-            </p>
-
-        </header>
-
-
-        <nav>
-
-            <a href="#home">
-                Home
-            </a>
-
-            <a href="#games">
-                Games
-            </a>
-
-            <a href="#submit">
-                Submit a Game
-            </a>
-
-        </nav>
-
+    <div id="home-page" class="page active">
 
         <main>
 
-            <section class="hero" id="home">
+            <section class="hero">
 
                 <h2>
                     Welcome to GameSwapHQ!
@@ -557,22 +548,58 @@
 
             </section>
 
+        </main>
 
-            <section class="section" id="games">
+    </div>
+
+
+    <!-- GAMES PAGE -->
+
+    <div id="games-page" class="page">
+
+        <main>
+
+            <section class="section">
 
                 <h2>
-                    ✨ Featured Games ✨
+                    🎮 Games
                 </h2>
 
+                <!-- SEARCH ONLY ON GAMES PAGE -->
+
+                <input
+                    type="text"
+                    id="game-search"
+                    class="game-search"
+                    placeholder="Search games..."
+                    oninput="searchGames()"
+                >
+
                 <div
-                    class="games"
                     id="games-list"
-                ></div>
+                    class="games-grid">
+                </div>
+
+                <div
+                    id="no-games"
+                    class="no-games">
+                    No games found.
+                </div>
 
             </section>
 
+        </main>
 
-            <section class="section" id="submit">
+    </div>
+
+
+    <!-- SUBMIT PAGE -->
+
+    <div id="submit-page" class="page">
+
+        <main>
+
+            <section class="section">
 
                 <h2>
                     Submit a Game
@@ -597,65 +624,38 @@
 
         </main>
 
-
-        <footer>
-
-            <p>
-                © 2026 GameSwapHQ
-            </p>
-
-        </footer>
-
     </div>
 
 
-    <!-- ========================================================= -->
     <!-- GAME PAGE -->
-    <!-- ========================================================= -->
 
-    <div
-        id="game-page"
-        class="game-page"
-    >
+    <div id="game-page" class="page">
 
         <main>
 
-            <!-- SEARCH -->
-
-            <input
-                type="search"
-                id="game-search"
-                class="game-search"
-                placeholder="🔎 Search games or creators..."
-                autocomplete="off"
-            >
-
-            <div
-                id="search-results"
-                class="search-results"
-            ></div>
-
-            <div
-                id="no-games"
-                class="no-games"
-            >
-                No games found. 😢
-            </div>
-
-
-            <!-- BACK -->
-
             <button
                 class="back-button"
-                onclick="goHome()"
+                onclick="showPage('games-page')"
             >
-                ← Back to GameSwapHQ
+                ← Back to Games
             </button>
 
 
-            <!-- GAME THUMBNAIL -->
+            <h1
+                class="game-title"
+                id="game-title">
+            </h1>
 
-            <div class="game-hero">
+
+            <div
+                class="game-info"
+                id="game-info">
+            </div>
+
+
+            <!-- FULL GAME THUMBNAIL -->
+
+            <div class="game-page-thumbnail">
 
                 <img
                     id="game-thumbnail"
@@ -663,26 +663,10 @@
                     alt="Game thumbnail"
                 >
 
-                <div class="game-hero-overlay"></div>
-
-                <div class="game-hero-content">
-
-                    <h1
-                        class="game-title"
-                        id="game-title"
-                    ></h1>
-
-                    <div
-                        class="game-info"
-                        id="game-info"
-                    ></div>
-
-                </div>
-
             </div>
 
 
-            <!-- PLAY -->
+            <!-- GAME CONTROLS -->
 
             <div class="play-area">
 
@@ -693,7 +677,7 @@
                         onclick="playGame()"
                         id="play-button"
                     >
-                        ▶ Play Now
+                        Play Now
                     </button>
 
 
@@ -701,7 +685,7 @@
                         class="fullscreen-button"
                         onclick="toggleFullscreen()"
                         id="fullscreen-button"
-                        style="display: none;"
+                        style="display:none;"
                     >
                         ⛶ Fullscreen
                     </button>
@@ -729,25 +713,20 @@
 
             </div>
 
-
-            <!-- SIMILAR GAMES -->
-
-            <section class="similar-games">
-
-                <h2>
-                    Similar Games
-                </h2>
-
-                <div
-                    class="games"
-                    id="similar-games-list"
-                ></div>
-
-            </section>
-
         </main>
 
     </div>
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        <p>
+            © 2026 GameSwapHQ
+        </p>
+
+    </footer>
 
 
     <script>
@@ -759,12 +738,8 @@
          *
          * ADD NEW GAMES HERE.
          *
-         * R2 files should use the same ID:
+         * The ID must match the game and thumbnail names in R2.
          *
-         * Website Games/GameName index.html
-         * Website Games/GameName.png
-         *
-         * ============================================================
          */
 
         const games = [
@@ -781,28 +756,78 @@
 
         /*
          * ============================================================
-         * CURRENT GAME
+         * PAGE NAVIGATION
          * ============================================================
          */
 
-        let currentGame = null;
+        function showPage(pageID) {
+
+            document
+                .querySelectorAll(".page")
+                .forEach(page => {
+                    page.classList.remove("active");
+                });
+
+
+            const page =
+                document.getElementById(pageID);
+
+
+            if (page) {
+                page.classList.add("active");
+            }
+
+
+            window.scrollTo(0, 0);
+
+
+            if (pageID !== "game-page") {
+
+                history.pushState(
+                    null,
+                    "",
+                    pageID === "home-page"
+                        ? "#home"
+                        : "#" + pageID.replace("-page", "")
+                );
+
+            }
+
+        }
 
 
         /*
          * ============================================================
-         * CREATE HOME GAME CARDS
+         * CREATE GAME CARDS
          * ============================================================
          */
 
-        function createGameCards() {
+        function createGameCards(gameList = games) {
 
             const gamesList =
                 document.getElementById("games-list");
 
+
             gamesList.innerHTML = "";
 
 
-            games.forEach(game => {
+            const noGames =
+                document.getElementById("no-games");
+
+
+            if (gameList.length === 0) {
+
+                noGames.style.display = "block";
+
+                return;
+
+            }
+
+
+            noGames.style.display = "none";
+
+
+            gameList.forEach(game => {
 
                 const card =
                     document.createElement("div");
@@ -811,12 +836,26 @@
                     "game-card";
 
 
-                card.onclick = function() {
+                card.onclick =
+                    function() {
+                        openGame(game.id);
+                    };
 
-                    openGame(game.id);
 
-                };
+                /*
+                 * THUMBNAIL CONTAINER
+                 */
 
+                const thumbnailContainer =
+                    document.createElement("div");
+
+                thumbnailContainer.className =
+                    "game-thumbnail-container";
+
+
+                /*
+                 * THUMBNAIL
+                 */
 
                 const thumbnail =
                     document.createElement("img");
@@ -831,12 +870,20 @@
                     game.name + " thumbnail";
 
 
+                /*
+                 * OVERLAY
+                 */
+
                 const overlay =
                     document.createElement("div");
 
                 overlay.className =
                     "game-thumbnail-overlay";
 
+
+                /*
+                 * TEXT
+                 */
 
                 const content =
                     document.createElement("div");
@@ -856,38 +903,33 @@
                     document.createElement("p");
 
                 creator.textContent =
-                    "by " + game.creator;
-
-
-                const button =
-                    document.createElement("button");
-
-                button.textContent =
-                    "View Game";
-
-
-                button.onclick =
-                    function(event) {
-
-                        event.stopPropagation();
-
-                        openGame(game.id);
-
-                    };
+                    "by " +
+                    game.creator +
+                    " · " +
+                    game.date;
 
 
                 content.appendChild(title);
 
                 content.appendChild(creator);
 
-                content.appendChild(button);
+
+                thumbnailContainer.appendChild(
+                    thumbnail
+                );
+
+                thumbnailContainer.appendChild(
+                    overlay
+                );
+
+                thumbnailContainer.appendChild(
+                    content
+                );
 
 
-                card.appendChild(thumbnail);
-
-                card.appendChild(overlay);
-
-                card.appendChild(content);
+                card.appendChild(
+                    thumbnailContainer
+                );
 
 
                 gamesList.appendChild(card);
@@ -895,6 +937,52 @@
             });
 
         }
+
+
+        /*
+         * ============================================================
+         * SEARCH
+         * ============================================================
+         */
+
+        function searchGames() {
+
+            const search =
+                document
+                    .getElementById("game-search")
+                    .value
+                    .toLowerCase()
+                    .trim();
+
+
+            const filtered =
+                games.filter(game =>
+
+                    game.name
+                        .toLowerCase()
+                        .includes(search)
+
+                    ||
+
+                    game.creator
+                        .toLowerCase()
+                        .includes(search)
+
+                );
+
+
+            createGameCards(filtered);
+
+        }
+
+
+        /*
+         * ============================================================
+         * CURRENT GAME
+         * ============================================================
+         */
+
+        let currentGame = null;
 
 
         /*
@@ -916,459 +1004,80 @@
             }
 
 
-            currentGame = game;
+            currentGame =
+                game;
 
 
-            document.getElementById("home-page")
-                .style.display = "none";
+            document
+                .querySelectorAll(".page")
+                .forEach(page => {
+                    page.classList.remove("active");
+                });
 
 
-            document.getElementById("game-page")
-                .style.display = "block";
+            document
+                .getElementById("game-page")
+                .classList.add("active");
 
 
-            updateGamePage(game);
+            document
+                .getElementById("game-title")
+                .textContent =
+                    game.name;
 
 
-            window.scrollTo(0, 0);
+            document
+                .getElementById("game-info")
+                .textContent =
+                    "Created by " +
+                    game.creator +
+                    " · Released " +
+                    game.date;
 
-
-            history.pushState(
-                null,
-                "",
-                "#game-" + game.id
-            );
-
-        }
-
-
-        /*
-         * ============================================================
-         * UPDATE GAME PAGE
-         * ============================================================
-         */
-
-        function updateGamePage(game) {
-
-            const title =
-                document.getElementById("game-title");
-
-            const info =
-                document.getElementById("game-info");
 
             const thumbnail =
-                document.getElementById("game-thumbnail");
-
-
-            title.textContent =
-                game.name;
-
-
-            info.textContent =
-                "Created by " +
-                game.creator +
-                " · Released " +
-                game.date;
+                document
+                    .getElementById("game-thumbnail");
 
 
             thumbnail.src =
-                "/game-thumbnail/" + game.id;
+                "/game-thumbnail/" +
+                game.id;
 
 
             thumbnail.alt =
-                game.name + " thumbnail";
+                game.name +
+                " thumbnail";
 
 
-            document.getElementById("game-frame")
+            document
+                .getElementById("game-frame")
                 .src = "";
 
 
-            document.getElementById("game-frame-container")
-                .style.display = "none";
-
-
-            document.getElementById("play-button")
-                .style.display = "inline-block";
-
-
-            document.getElementById("fullscreen-button")
-                .style.display = "none";
-
-
-            createSimilarGames();
-
-        }
-
-
-        /*
-         * ============================================================
-         * SEARCH ON GAME PAGE
-         * ============================================================
-         */
-
-        function searchGames(searchText) {
-
-            const results =
-                document.getElementById("search-results");
-
-            const noGames =
-                document.getElementById("no-games");
-
-
-            const search =
-                searchText
-                    .trim()
-                    .toLowerCase();
-
-
-            results.innerHTML = "";
-
-
-            if (!search) {
-
-                results.style.display =
+            document
+                .getElementById("game-frame-container")
+                .style.display =
                     "none";
 
-                noGames.style.display =
+
+            document
+                .getElementById("play-button")
+                .style.display =
+                    "inline-block";
+
+
+            document
+                .getElementById("fullscreen-button")
+                .style.display =
                     "none";
-
-                return;
-
-            }
-
-
-            const filteredGames =
-                games.filter(game =>
-
-                    game.name
-                        .toLowerCase()
-                        .includes(search)
-
-                    ||
-
-                    game.creator
-                        .toLowerCase()
-                        .includes(search)
-
-                );
-
-
-            if (filteredGames.length === 0) {
-
-                results.style.display =
-                    "none";
-
-                noGames.style.display =
-                    "block";
-
-                return;
-
-            }
-
-
-            noGames.style.display =
-                "none";
-
-
-            results.style.display =
-                "grid";
-
-
-            filteredGames.forEach(game => {
-
-                const card =
-                    document.createElement("div");
-
-                card.className =
-                    "game-card";
-
-
-                card.onclick =
-                    function() {
-
-                        openGame(game.id);
-
-                    };
-
-
-                const thumbnail =
-                    document.createElement("img");
-
-                thumbnail.className =
-                    "game-thumbnail";
-
-                thumbnail.src =
-                    "/game-thumbnail/" + game.id;
-
-                thumbnail.alt =
-                    game.name + " thumbnail";
-
-
-                const overlay =
-                    document.createElement("div");
-
-                overlay.className =
-                    "game-thumbnail-overlay";
-
-
-                const content =
-                    document.createElement("div");
-
-                content.className =
-                    "game-card-content";
-
-
-                const title =
-                    document.createElement("h3");
-
-                title.textContent =
-                    game.name;
-
-
-                const creator =
-                    document.createElement("p");
-
-                creator.textContent =
-                    "by " + game.creator;
-
-
-                const button =
-                    document.createElement("button");
-
-                button.textContent =
-                    "View Game";
-
-
-                button.onclick =
-                    function(event) {
-
-                        event.stopPropagation();
-
-                        openGame(game.id);
-
-                    };
-
-
-                content.appendChild(title);
-
-                content.appendChild(creator);
-
-                content.appendChild(button);
-
-
-                card.appendChild(thumbnail);
-
-                card.appendChild(overlay);
-
-                card.appendChild(content);
-
-
-                results.appendChild(card);
-
-            });
-
-        }
-
-
-        document
-            .getElementById("game-search")
-            .addEventListener(
-                "input",
-                function() {
-
-                    searchGames(this.value);
-
-                }
-            );
-
-
-        /*
-         * ============================================================
-         * SIMILAR GAMES
-         * ============================================================
-         */
-
-        function createSimilarGames() {
-
-            const list =
-                document.getElementById("similar-games-list");
-
-            list.innerHTML = "";
-
-
-            const similar =
-                games.filter(
-                    game => game.id !== currentGame.id
-                );
-
-
-            if (similar.length === 0) {
-
-                const card =
-                    document.createElement("div");
-
-                card.className =
-                    "game-card";
-
-
-                const content =
-                    document.createElement("div");
-
-                content.className =
-                    "game-card-content";
-
-
-                const title =
-                    document.createElement("h3");
-
-                title.textContent =
-                    "More Games Coming Soon";
-
-
-                const creator =
-                    document.createElement("p");
-
-                creator.textContent =
-                    "Check back soon for more games from GameSwapHQ creators.";
-
-
-                content.appendChild(title);
-
-                content.appendChild(creator);
-
-                card.appendChild(content);
-
-                list.appendChild(card);
-
-                return;
-
-            }
-
-
-            similar.forEach(game => {
-
-                const card =
-                    document.createElement("div");
-
-                card.className =
-                    "game-card";
-
-
-                card.onclick =
-                    function() {
-
-                        openGame(game.id);
-
-                    };
-
-
-                const thumbnail =
-                    document.createElement("img");
-
-                thumbnail.className =
-                    "game-thumbnail";
-
-                thumbnail.src =
-                    "/game-thumbnail/" + game.id;
-
-                thumbnail.alt =
-                    game.name + " thumbnail";
-
-
-                const overlay =
-                    document.createElement("div");
-
-                overlay.className =
-                    "game-thumbnail-overlay";
-
-
-                const content =
-                    document.createElement("div");
-
-                content.className =
-                    "game-card-content";
-
-
-                const title =
-                    document.createElement("h3");
-
-                title.textContent =
-                    game.name;
-
-
-                const creator =
-                    document.createElement("p");
-
-                creator.textContent =
-                    "by " + game.creator;
-
-
-                content.appendChild(title);
-
-                content.appendChild(creator);
-
-
-                card.appendChild(thumbnail);
-
-                card.appendChild(overlay);
-
-                card.appendChild(content);
-
-
-                list.appendChild(card);
-
-            });
-
-        }
-
-
-        /*
-         * ============================================================
-         * GO HOME
-         * ============================================================
-         */
-
-        function goHome() {
-
-            document.getElementById("game-page")
-                .style.display = "none";
-
-
-            document.getElementById("home-page")
-                .style.display = "block";
-
-
-            document.getElementById("game-frame")
-                .src = "";
-
-
-            document.getElementById("game-frame-container")
-                .style.display = "none";
-
-
-            currentGame = null;
-
-
-            document.getElementById("game-search")
-                .value = "";
-
-
-            document.getElementById("search-results")
-                .innerHTML = "";
-
-
-            document.getElementById("search-results")
-                .style.display = "none";
-
-
-            document.getElementById("no-games")
-                .style.display = "none";
 
 
             history.pushState(
                 null,
                 "",
-                "#home"
+                "#game-" +
+                game.id
             );
 
 
@@ -1391,23 +1100,34 @@
 
 
             const frame =
-                document.getElementById("game-frame");
+                document
+                    .getElementById("game-frame");
 
 
             const container =
-                document.getElementById("game-frame-container");
+                document
+                    .getElementById(
+                        "game-frame-container"
+                    );
 
 
             const playButton =
-                document.getElementById("play-button");
+                document
+                    .getElementById(
+                        "play-button"
+                    );
 
 
             const fullscreenButton =
-                document.getElementById("fullscreen-button");
+                document
+                    .getElementById(
+                        "fullscreen-button"
+                    );
 
 
             frame.src =
-                "/game/" + currentGame.id;
+                "/game/" +
+                currentGame.id;
 
 
             frame.title =
@@ -1437,7 +1157,10 @@
         function toggleFullscreen() {
 
             const container =
-                document.getElementById("game-frame-container");
+                document
+                    .getElementById(
+                        "game-frame-container"
+                    );
 
 
             if (!document.fullscreenElement) {
@@ -1479,18 +1202,9 @@
 
                 if (game) {
 
-                    currentGame = game;
-
-
-                    document.getElementById("home-page")
-                        .style.display = "none";
-
-
-                    document.getElementById("game-page")
-                        .style.display = "block";
-
-
-                    updateGamePage(game);
+                    openGameWithoutHistory(
+                        game
+                    );
 
                     return;
 
@@ -1499,12 +1213,136 @@
             }
 
 
-            document.getElementById("home-page")
-                .style.display = "block";
+            if (hash === "#games") {
+
+                showPageWithoutHistory(
+                    "games-page"
+                );
+
+                return;
+
+            }
 
 
-            document.getElementById("game-page")
-                .style.display = "none";
+            if (hash === "#submit") {
+
+                showPageWithoutHistory(
+                    "submit-page"
+                );
+
+                return;
+
+            }
+
+
+            showPageWithoutHistory(
+                "home-page"
+            );
+
+        }
+
+
+        /*
+         * ============================================================
+         * SHOW PAGE WITHOUT CHANGING HASH
+         * ============================================================
+         */
+
+        function showPageWithoutHistory(pageID) {
+
+            document
+                .querySelectorAll(".page")
+                .forEach(page => {
+                    page.classList.remove("active");
+                });
+
+
+            document
+                .getElementById(pageID)
+                .classList.add("active");
+
+
+            window.scrollTo(0, 0);
+
+        }
+
+
+        /*
+         * ============================================================
+         * OPEN GAME WITHOUT CHANGING HISTORY
+         * ============================================================
+         */
+
+        function openGameWithoutHistory(game) {
+
+            currentGame =
+                game;
+
+
+            showPageWithoutHistory(
+                "game-page"
+            );
+
+
+            document
+                .getElementById("game-title")
+                .textContent =
+                    game.name;
+
+
+            document
+                .getElementById("game-info")
+                .textContent =
+                    "Created by " +
+                    game.creator +
+                    " · Released " +
+                    game.date;
+
+
+            const thumbnail =
+                document
+                    .getElementById(
+                        "game-thumbnail"
+                    );
+
+
+            thumbnail.src =
+                "/game-thumbnail/" +
+                game.id;
+
+
+            thumbnail.alt =
+                game.name +
+                " thumbnail";
+
+
+            document
+                .getElementById("game-frame")
+                .src = "";
+
+
+            document
+                .getElementById(
+                    "game-frame-container"
+                )
+                .style.display =
+                    "none";
+
+
+            document
+                .getElementById(
+                    "play-button"
+                )
+                .style.display =
+                    "inline-block";
+
+
+            document
+                .getElementById(
+                    "fullscreen-button"
+                )
+                .style.display =
+                    "none";
 
         }
 
