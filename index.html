@@ -739,7 +739,7 @@
 
     background: transparent;
 
-    color: #6fcf68;
+    color: #03045e;
 
     border: none;
 
@@ -753,19 +753,26 @@
 }
 
 .hide-bar-button:hover {
-    color: white;
+    color: #0507a8;
     text-decoration: underline;
 }
     /* ============================================================
        HIDDEN GAMEPLAY BAR
        ============================================================ */
 
-    .gameplay-bar.hidden {
-        opacity: 0;
-        pointer-events: none;
+.gameplay-bar.hidden {
+    opacity: 0;
 
-        transform: translateY(10px);
-    }
+    transform: translateY(10px);
+}
+
+.gameplay-bar.hidden .hide-bar-button {
+    opacity: 1;
+
+    pointer-events: auto;
+
+    transform: translate(-50%, 10px);
+}
 
     /* ============================================================
        FULLSCREEN GAMEPLAY BAR
@@ -783,10 +790,6 @@
 
     .game-frame-container:fullscreen .hide-bar-button {
         display: block;
-    }
-
-    .game-frame-container:fullscreen .gameplay-bar.hidden {
-        opacity: 0;
     }
 
     /* ============================================================
@@ -1799,20 +1802,39 @@
        HIDE / SHOW GAMEPLAY BAR
        ============================================================ */
 
-    function toggleGameBar() {
+function toggleGameBar() {
 
-        const bar =
-            document.getElementById(
-                "gameplay-bar"
-            );
-
-
-        bar.classList.toggle(
-            "hidden"
+    const bar =
+        document.getElementById(
+            "gameplay-bar"
         );
+
+    const button =
+        document.getElementById(
+            "hide-bar-button"
+        );
+
+
+    bar.classList.toggle(
+        "hidden"
+    );
+
+
+    if (bar.classList.contains("hidden")) {
+
+        button.textContent =
+            "Show bar";
 
     }
 
+    else {
+
+        button.textContent =
+            "Hide bar";
+
+    }
+
+}
 
     /* ============================================================
        HASH NAVIGATION
