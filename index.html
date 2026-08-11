@@ -11,36 +11,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
 
     <style>
-            .game-search {
-            width: 100%;
-            max-width: 600px;
-            display: block;
-            margin: 0 auto 30px;
-
-            padding: 14px 18px;
-            border-radius: 10px;
-            border: 1px solid #333;
-
-            background: #1e1e1e;
-            color: white;
-
-            font-size: 1.05rem;
-            outline: none;
-
-            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.4);
-        }
-
-        .game-search:focus {
-            border-color: #6fcf68;
-            box-shadow: 0 0 10px rgba(111, 207, 104, 0.25);
-        }
-
-        .no-games {
-            text-align: center;
-            color: #aaa;
-            padding: 30px;
-            display: none;
-        }
         * {
             box-sizing: border-box;
         }
@@ -122,13 +92,42 @@
             margin-bottom: 25px;
         }
 
+        /* SEARCH */
+
+        .game-search {
+            width: 100%;
+            max-width: 600px;
+            display: block;
+            margin: 0 auto 30px;
+            padding: 14px 18px;
+            border-radius: 10px;
+            border: 1px solid #333;
+            background: #1e1e1e;
+            color: white;
+            font-size: 1.05rem;
+            outline: none;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.4);
+        }
+
+        .game-search:focus {
+            border-color: #6fcf68;
+            box-shadow: 0 0 10px rgba(111, 207, 104, 0.25);
+        }
+
+        .no-games {
+            text-align: center;
+            color: #aaa;
+            padding: 30px;
+            display: none;
+        }
+
+        /* GAME CARDS */
+
         .games {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
             gap: 20px;
         }
-
-        /* GAME CARD */
 
         .game-card {
             position: relative;
@@ -425,21 +424,21 @@
 
             <section class="section" id="games">
 
-            <h2>✨ Featured Games ✨</h2>
+                <h2>✨ Featured Games ✨</h2>
 
-            <input
-                type="search"
-                id="game-search"
-                class="game-search"
-                placeholder="🔎 Search games or creators..."
-                autocomplete="off"
-            >
+                <input
+                    type="search"
+                    id="game-search"
+                    class="game-search"
+                    placeholder="🔎 Search games or creators..."
+                    autocomplete="off"
+                >
 
-            <div class="games" id="games-list"></div>
+                <div class="games" id="games-list"></div>
 
-            <div id="no-games" class="no-games">
-                No games found. 😢
-            </div>
+                <div id="no-games" class="no-games">
+                    No games found. 😢
+                </div>
 
             </section>
 
@@ -612,117 +611,132 @@
          * ============================================================
          */
 
-function createGameCards(searchText = "") {
+        function createGameCards(searchText = "") {
 
-    const gamesList =
-        document.getElementById("games-list");
+            const gamesList =
+                document.getElementById("games-list");
 
-    const noGames =
-        document.getElementById("no-games");
+            const noGames =
+                document.getElementById("no-games");
 
-    gamesList.innerHTML = "";
+            gamesList.innerHTML = "";
 
-    const search =
-        searchText.trim().toLowerCase();
+            const search =
+                searchText.trim().toLowerCase();
 
-    const filteredGames =
-        games.filter(game => {
-
-            return (
-                game.name.toLowerCase().includes(search) ||
-                game.creator.toLowerCase().includes(search)
-            );
-
-        });
+            const filteredGames =
+                games.filter(game =>
+                    game.name.toLowerCase().includes(search) ||
+                    game.creator.toLowerCase().includes(search)
+                );
 
 
-    filteredGames.forEach(game => {
+            filteredGames.forEach(game => {
 
-        const card =
-            document.createElement("div");
+                const card =
+                    document.createElement("div");
 
-        card.className = "game-card";
+                card.className = "game-card";
 
-        card.onclick = function() {
-            openGame(game.id);
-        };
-
-
-        const thumbnail =
-            document.createElement("img");
-
-        thumbnail.className =
-            "game-thumbnail";
-
-        thumbnail.src =
-            "/game-thumbnail/" + game.id;
-
-        thumbnail.alt =
-            game.name + " thumbnail";
+                card.onclick = function() {
+                    openGame(game.id);
+                };
 
 
-        const overlay =
-            document.createElement("div");
+                const thumbnail =
+                    document.createElement("img");
 
-        overlay.className =
-            "game-thumbnail-overlay";
+                thumbnail.className =
+                    "game-thumbnail";
 
+                thumbnail.src =
+                    "/game-thumbnail/" + game.id;
 
-        const content =
-            document.createElement("div");
-
-        content.className =
-            "game-card-content";
-
-
-        const title =
-            document.createElement("h3");
-
-        title.textContent =
-            game.name;
+                thumbnail.alt =
+                    game.name + " thumbnail";
 
 
-        const creator =
-            document.createElement("p");
+                const overlay =
+                    document.createElement("div");
 
-        creator.textContent =
-            "by " + game.creator;
-
-
-        const button =
-            document.createElement("button");
-
-        button.textContent =
-            "View Game";
+                overlay.className =
+                    "game-thumbnail-overlay";
 
 
-        button.onclick = function(event) {
+                const content =
+                    document.createElement("div");
 
-            event.stopPropagation();
-
-            openGame(game.id);
-
-        };
+                content.className =
+                    "game-card-content";
 
 
-        content.appendChild(title);
-        content.appendChild(creator);
-        content.appendChild(button);
+                const title =
+                    document.createElement("h3");
 
-        card.appendChild(thumbnail);
-        card.appendChild(overlay);
-        card.appendChild(content);
-
-        gamesList.appendChild(card);
-
-    });
+                title.textContent =
+                    game.name;
 
 
-    noGames.style.display =
-        filteredGames.length === 0
-            ? "block"
-            : "none";
-}
+                const creator =
+                    document.createElement("p");
+
+                creator.textContent =
+                    "by " + game.creator;
+
+
+                const button =
+                    document.createElement("button");
+
+                button.textContent =
+                    "View Game";
+
+                button.onclick = function(event) {
+
+                    event.stopPropagation();
+
+                    openGame(game.id);
+
+                };
+
+
+                content.appendChild(title);
+
+                content.appendChild(creator);
+
+                content.appendChild(button);
+
+                card.appendChild(thumbnail);
+
+                card.appendChild(overlay);
+
+                card.appendChild(content);
+
+                gamesList.appendChild(card);
+
+            });
+
+
+            noGames.style.display =
+                filteredGames.length === 0
+                    ? "block"
+                    : "none";
+
+        }
+
+
+        /*
+         * ============================================================
+         * SEARCH
+         * ============================================================
+         */
+
+        document
+            .getElementById("game-search")
+            .addEventListener("input", function() {
+
+                createGameCards(this.value);
+
+            });
 
 
         /*
