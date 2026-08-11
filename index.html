@@ -397,38 +397,7 @@
 
                 <h2>✨ Featured Games ✨</h2>
 
-                <div class="games">
-
-                    <div
-                        class="game-card"
-                        onclick="openGame('Gravi-Plat')"
-                    >
-
-                        <img
-                            class="game-thumbnail"
-                            src="/game-thumbnail/Gravi-Plat"
-                            alt="Gravi-Plat thumbnail"
-                        >
-
-                        <div class="game-thumbnail-overlay"></div>
-
-                        <div class="game-card-content">
-
-                            <h3>Gravi-Plat</h3>
-
-                            <p>by zoomyeah</p>
-
-                            <button
-                                onclick="event.stopPropagation(); openGame('Gravi-Plat')"
-                            >
-                                View Game
-                            </button>
-
-                        </div>
-
-                    </div>
-
-                </div>
+                <div class="games" id="games-list"></div>
 
             </section>
 
@@ -475,19 +444,16 @@
                 ← Back to GameSwapHQ
             </button>
 
-            <h1 class="game-title">
-                Gravi-Plat
-            </h1>
+            <h1 class="game-title" id="game-title"></h1>
 
-            <div class="game-info">
-                Created by zoomyeah · Released August 10, 2026
-            </div>
+            <div class="game-info" id="game-info"></div>
 
             <div class="game-page-thumbnail">
 
                 <img
-                    src="/game-thumbnail/Gravi-Plat"
-                    alt="Gravi-Plat thumbnail"
+                    id="game-thumbnail"
+                    src=""
+                    alt="Game thumbnail"
                 >
 
             </div>
@@ -523,7 +489,7 @@
                     <iframe
                         id="game-frame"
                         class="game-frame"
-                        title="Gravi-Plat"
+                        title="Game"
                         sandbox="allow-scripts allow-same-origin allow-popups"
                         allowfullscreen
                         loading="lazy">
@@ -565,77 +531,331 @@
 
     <script>
 
-        const GAME_URL = "/game/Gravi-Plat";
+        /*
+         * ============================================================
+         * GAME LIST
+         * ============================================================
+         *
+         * ADD NEW GAMES HERE.
+         *
+         * The game file and thumbnail in R2 should use the same ID.
+         *
+         * Example:
+         *
+         * {
+         *     id: "Cool-Game",
+         *     name: "Cool Game",
+         *     creator: "Someone",
+         *     date: "August 11, 2026"
+         * }
+         *
+         * ============================================================
+         */
+
+        const games = [
+
+            {
+                id: "Gravi-Plat",
+                name: "Gravi-Plat",
+                creator: "zoomyeah",
+                date: "August 10, 2026"
+            }
+
+        ];
 
 
-        function openGame(game) {
+        /*
+         * ============================================================
+         * HOMEPAGE
+         * ============================================================
+         */
 
-            if (game !== "Gravi-Plat") {
+        function createGameCards() {
+
+            const gamesList =
+                document.getElementById("games-list");
+
+            gamesList.innerHTML = "";
+
+            games.forEach(game => {
+
+                const card =
+                    document.createElement("div");
+
+                card.className = "game-card";
+
+                card.onclick = function() {
+                    openGame(game.id);
+                };
+
+
+                const thumbnail =
+                    document.createElement("img");
+
+                thumbnail.className = "game-thumbnail";
+
+                thumbnail.src =
+                    "/game-thumbnail/" + game.id;
+
+                thumbnail.alt =
+                    game.name + " thumbnail";
+
+
+                const overlay =
+                    document.createElement("div");
+
+                overlay.className =
+                    "game-thumbnail-overlay";
+
+
+                const content =
+                    document.createElement("div");
+
+                content.className =
+                    "game-card-content";
+
+
+                const title =
+                    document.createElement("h3");
+
+                title.textContent =
+                    game.name;
+
+
+                const creator =
+                    document.createElement("p");
+
+                creator.textContent =
+                    "by " + game.creator;
+
+
+                const button =
+                    document.createElement("button");
+
+                button.textContent =
+                    "View Game";
+
+                button.onclick = function(event) {
+
+                    event.stopPropagation();
+
+                    openGame(game.id);
+
+                };
+
+
+                content.appendChild(title);
+
+                content.appendChild(creator);
+
+                content.appendChild(button);
+
+                card.appendChild(thumbnail);
+
+                card.appendChild(overlay);
+
+                card.appendChild(content);
+
+                gamesList.appendChild(card);
+
+            });
+
+        }
+
+
+        /*
+         * ============================================================
+         * OPEN GAME
+         * ============================================================
+         */
+
+        let currentGame = null;
+
+
+        function openGame(gameID) {
+
+            const game =
+                games.find(
+                    game => game.id === gameID
+                );
+
+
+            if (!game) {
                 return;
             }
 
-            document.getElementById("home-page").style.display = "none";
 
-            document.getElementById("game-page").style.display = "block";
+            currentGame = game;
+
+
+            document.getElementById("home-page")
+                .style.display = "none";
+
+            document.getElementById("game-page")
+                .style.display = "block";
+
+
+            document.getElementById("game-title")
+                .textContent = game.name;
+
+
+            document.getElementById("game-info")
+                .textContent =
+                "Created by " +
+                game.creator +
+                " · Released " +
+                game.date;
+
+
+            const thumbnail =
+                document.getElementById("game-thumbnail");
+
+
+            thumbnail.src =
+                "/game-thumbnail/" + game.id;
+
+
+            thumbnail.alt =
+                game.name + " thumbnail";
+
+
+            document.getElementById("game-frame")
+                .src = "";
+
+
+            document.getElementById("game-frame-container")
+                .style.display = "none";
+
+
+            document.getElementById("play-button")
+                .style.display = "inline-block";
+
+
+            document.getElementById("fullscreen-button")
+                .style.display = "none";
+
 
             window.scrollTo(0, 0);
+
 
             history.pushState(
                 null,
                 "",
-                "#game-Gravi-Plat-zoomyeah-08-10-2026"
+                "#game-" + game.id
             );
+
         }
 
+
+        /*
+         * ============================================================
+         * GO HOME
+         * ============================================================
+         */
 
         function goHome() {
 
-            document.getElementById("game-page").style.display = "none";
+            document.getElementById("game-page")
+                .style.display = "none";
 
-            document.getElementById("home-page").style.display = "block";
 
-            document.getElementById("game-frame").src = "";
+            document.getElementById("home-page")
+                .style.display = "block";
 
-            document.getElementById("game-frame-container").style.display = "none";
 
-            document.getElementById("play-button").style.display = "inline-block";
+            document.getElementById("game-frame")
+                .src = "";
 
-            document.getElementById("fullscreen-button").style.display = "none";
 
-            history.pushState(null, "", "#home");
+            document.getElementById("game-frame-container")
+                .style.display = "none";
+
+
+            document.getElementById("play-button")
+                .style.display = "inline-block";
+
+
+            document.getElementById("fullscreen-button")
+                .style.display = "none";
+
+
+            currentGame = null;
+
+
+            history.pushState(
+                null,
+                "",
+                "#home"
+            );
+
 
             window.scrollTo(0, 0);
+
         }
 
 
+        /*
+         * ============================================================
+         * PLAY GAME
+         * ============================================================
+         */
+
         function playGame() {
+
+            if (!currentGame) {
+                return;
+            }
+
 
             const frame =
                 document.getElementById("game-frame");
 
+
             const container =
                 document.getElementById("game-frame-container");
+
 
             const playButton =
                 document.getElementById("play-button");
 
+
             const fullscreenButton =
                 document.getElementById("fullscreen-button");
 
-            frame.src = GAME_URL;
 
-            container.style.display = "block";
+            frame.src =
+                "/game/" + currentGame.id;
 
-            playButton.style.display = "none";
 
-            fullscreenButton.style.display = "inline-block";
+            frame.title =
+                currentGame.name;
+
+
+            container.style.display =
+                "block";
+
+
+            playButton.style.display =
+                "none";
+
+
+            fullscreenButton.style.display =
+                "inline-block";
+
         }
 
+
+        /*
+         * ============================================================
+         * FULLSCREEN
+         * ============================================================
+         */
 
         function toggleFullscreen() {
 
             const container =
                 document.getElementById("game-frame-container");
+
 
             if (!document.fullscreenElement) {
 
@@ -646,30 +866,116 @@
                 document.exitFullscreen();
 
             }
+
         }
 
+
+        /*
+         * ============================================================
+         * HASH NAVIGATION
+         * ============================================================
+         */
 
         function checkHash() {
 
-            if (
-                window.location.hash ===
-                "#game-Gravi-Plat-zoomyeah-08-10-2026"
-            ) {
+            const hash =
+                window.location.hash;
 
-                document.getElementById("home-page").style.display = "none";
 
-                document.getElementById("game-page").style.display = "block";
+            if (hash.startsWith("#game-")) {
 
-            } else {
+                const gameID =
+                    hash.substring(6);
 
-                document.getElementById("home-page").style.display = "block";
 
-                document.getElementById("game-page").style.display = "none";
+                const game =
+                    games.find(
+                        game => game.id === gameID
+                    );
+
+
+                if (game) {
+
+                    openGameWithoutHistory(game);
+
+                    return;
+
+                }
 
             }
 
+
+            document.getElementById("home-page")
+                .style.display = "block";
+
+            document.getElementById("game-page")
+                .style.display = "none";
+
         }
 
+
+        function openGameWithoutHistory(game) {
+
+            currentGame = game;
+
+
+            document.getElementById("home-page")
+                .style.display = "none";
+
+
+            document.getElementById("game-page")
+                .style.display = "block";
+
+
+            document.getElementById("game-title")
+                .textContent = game.name;
+
+
+            document.getElementById("game-info")
+                .textContent =
+                "Created by " +
+                game.creator +
+                " · Released " +
+                game.date;
+
+
+            const thumbnail =
+                document.getElementById("game-thumbnail");
+
+
+            thumbnail.src =
+                "/game-thumbnail/" + game.id;
+
+
+            thumbnail.alt =
+                game.name + " thumbnail";
+
+
+            document.getElementById("game-frame")
+                .src = "";
+
+
+            document.getElementById("game-frame-container")
+                .style.display = "none";
+
+
+            document.getElementById("play-button")
+                .style.display = "inline-block";
+
+
+            document.getElementById("fullscreen-button")
+                .style.display = "none";
+
+        }
+
+
+        /*
+         * ============================================================
+         * START WEBSITE
+         * ============================================================
+         */
+
+        createGameCards();
 
         window.addEventListener(
             "popstate",
