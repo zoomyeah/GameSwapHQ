@@ -1020,13 +1020,15 @@
             id: "Gravi-Plat",
             name: "Gravi-Plat",
             creator: "zoomyeah",
-            date: "August 10, 2026"
+            date: "August 10, 2026",
+            gameFile: "Gravi-Plat"
         },
         {
             id: "WallRider TN",
-            name: "• WallRider • ",
+            name: "• WallRider •",
             creator: "zoomyeah",
-            date: "August 11, 2026"
+            date: "August 11, 2026",
+            gameFile: "• WallRider •"
         }
 
     ];
@@ -1459,7 +1461,7 @@
 
         frame.src =
             "/game/" +
-            currentGame.id;
+            (currentGame.gameFile || currentGame.id);
 
 
         frame.title =
