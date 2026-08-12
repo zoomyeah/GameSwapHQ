@@ -770,10 +770,10 @@ main {
 
 
 /* ============================================================
-   VIEW COUNT
+   ONLINE STATS
    ============================================================ */
 
-.view-count {
+.game-stat {
     color: #aaa;
 
     font-size: 0.85rem;
@@ -784,7 +784,21 @@ main {
 
     align-items: center;
 
-    margin-right: 2px;
+    gap: 3px;
+
+    margin-right: 1px;
+}
+
+.view-count {
+    color: #aaa;
+}
+
+.like-count {
+    color: #aaa;
+}
+
+.like-button.liked {
+    color: #ff4d6d;
 }
 
 
@@ -1350,11 +1364,22 @@ footer p {
                         <!-- VIEW COUNT -->
 
                         <div
-                            class="view-count"
+                            class="game-stat view-count"
                             id="view-count"
                             title="Views"
                         >
                             👁 0
+                        </div>
+
+
+                        <!-- LIKE COUNT -->
+
+                        <div
+                            class="game-stat like-count"
+                            id="like-count"
+                            title="Likes"
+                        >
+                            0
                         </div>
 
 
@@ -1592,10 +1617,8 @@ const games = [
         date: "August 10, 2026",
         gameFile: "Gravi-Plat",
 
-        /* Temporary view count.
-           Later this will come from Cloudflare. */
-
         views: 0,
+        likes: 0,
 
         instructions: [
             "• Touch the START button and press ENTER",
@@ -1618,6 +1641,7 @@ const games = [
         gameFile: "• WallRider •",
 
         views: 0,
+        likes: 0,
 
         instructions: [
             "WASD/Arrow keys to move",
@@ -1638,6 +1662,7 @@ const games = [
         gameFile: "Painterz",
 
         views: 0,
+        likes: 0,
 
         instructions: [
             "⠀• ⠀Player1 (Blue) === 'Q' to move.",
@@ -1658,8 +1683,8 @@ const games = [
 /*
    For now, YOU choose the featured games.
 
-   Later we can replace this with an automatic system
-   based on views + likes.
+   Later we can automatically select these based
+   on views + likes from the online statistics.
 */
 
 const featuredGames = [
@@ -1668,6 +1693,215 @@ const featuredGames = [
     "Painterz"
 
 ];
+
+
+/* ============================================================
+   ONLINE STATISTICS
+   ============================================================ */
+
+/*
+   These endpoints will be handled by the GameSwapHQ
+   Cloudflare Worker.
+
+   GET:
+       /api/stats/GAME_ID
+
+   POST:
+       /api/stats/GAME_ID/view
+
+   POST:
+       /api/stats/GAME_ID/like
+
+   POST:
+       /api/stats/GAME_ID/unlike
+*/
+
+async function loadOnlineStats(game) {
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/stats/" +
+                encodeURIComponent(game.id)
+            );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Stats request failed"
+            );
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        game.views =
+            Number(data.views || 0);
+
+
+        game.likes =
+            Number(data.likes || 0);
+
+
+        loadViewCount(game);
+
+        loadLikeCount(game);
+
+
+    }
+
+    catch (error) {
+
+        console.warn(
+            "Could not load online statistics:",
+            error
+        );
+
+
+        /*
+           Keep the locally known values if the
+           statistics server is temporarily unavailable.
+        */
+
+        loadViewCount(game);
+
+        loadLikeCount(game);
+
+    }
+
+}
+
+
+/* ============================================================
+   LOAD ALL ONLINE STATISTICS
+   ============================================================ */
+
+async function loadAllOnlineStats() {
+
+    await Promise.all(
+
+        games.map(
+            game =>
+                loadOnlineStats(game)
+        )
+
+    );
+
+}
+
+
+/* ============================================================
+   LOAD VIEW COUNT
+   ============================================================ */
+
+function loadViewCount(game) {
+
+    const viewCount =
+        document.getElementById(
+            "view-count"
+        );
+
+
+    if (!viewCount) {
+
+        return;
+
+    }
+
+
+    viewCount.textContent =
+        "👁 " +
+        Number(game.views || 0);
+
+}
+
+
+/* ============================================================
+   LOAD LIKE COUNT
+   ============================================================ */
+
+function loadLikeCount(game) {
+
+    const likeCount =
+        document.getElementById(
+            "like-count"
+        );
+
+
+    if (!likeCount) {
+
+        return;
+
+    }
+
+
+    likeCount.textContent =
+        Number(game.likes || 0);
+
+}
+
+
+/* ============================================================
+   CHECK WHETHER USER HAS LIKED GAME
+   ============================================================ */
+
+function hasLikedGame(game) {
+
+    return localStorage.getItem(
+        "gameswaphq-liked-" +
+        game.id
+    ) === "true";
+
+}
+
+
+/* ============================================================
+   UPDATE LIKE BUTTON
+   ============================================================ */
+
+function updateLikeButton(game) {
+
+    const button =
+        document.getElementById(
+            "like-button"
+        );
+
+
+    if (!button) {
+
+        return;
+
+    }
+
+
+    if (hasLikedGame(game)) {
+
+        button.textContent =
+            "❤︎";
+
+        button.classList.add(
+            "liked"
+        );
+
+    }
+
+    else {
+
+        button.textContent =
+            "♡";
+
+        button.classList.remove(
+            "liked"
+        );
+
+    }
+
+}
 
 
 /* ============================================================
@@ -1696,8 +1930,6 @@ function showPage(pageID) {
     }
 
 
-    /* Toggle Developers page mode */
-
     if (pageID === "developers-page") {
 
         document.body.classList.add(
@@ -1714,8 +1946,6 @@ function showPage(pageID) {
 
     }
 
-
-    /* Toggle Game page mode */
 
     if (pageID === "game-page") {
 
@@ -2124,25 +2354,6 @@ function loadInstructions(game) {
 
 
 /* ============================================================
-   LOAD VIEW COUNT
-   ============================================================ */
-
-function loadViewCount(game) {
-
-    const viewCount =
-        document.getElementById(
-            "view-count"
-        );
-
-
-    viewCount.textContent =
-        "👁 " +
-        (game.views || 0);
-
-}
-
-
-/* ============================================================
    OPEN GAME
    ============================================================ */
 
@@ -2206,8 +2417,14 @@ function openGame(gameID) {
 
     loadInstructions(game);
 
-
     loadViewCount(game);
+
+    loadLikeCount(game);
+
+    updateLikeButton(game);
+
+
+    loadOnlineStats(game);
 
 
     const thumbnail =
@@ -2327,15 +2544,81 @@ function resetGame() {
             currentGame
         );
 
+        loadLikeCount(
+            currentGame
+        );
+
+        updateLikeButton(
+            currentGame
+        );
+
     }
 
+}
 
-    /* Reset like button */
 
-    document
-        .getElementById("like-button")
-        .textContent =
-            "♡";
+/* ============================================================
+   RECORD ONLINE VIEW
+   ============================================================ */
+
+async function recordView(game) {
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/stats/" +
+                encodeURIComponent(game.id) +
+                "/view",
+                {
+                    method: "POST"
+                }
+            );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "View request failed"
+            );
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        if (
+            typeof data.views ===
+            "number"
+        ) {
+
+            game.views =
+                data.views;
+
+        }
+
+        else {
+
+            game.views =
+                (game.views || 0) + 1;
+
+        }
+
+
+        loadViewCount(game);
+
+    }
+
+    catch (error) {
+
+        console.warn(
+            "Could not record online view:",
+            error
+        );
+
+    }
 
 }
 
@@ -2423,20 +2706,13 @@ function playGame() {
 
 
     /*
-       TEMPORARY VIEW COUNT
+       Record the view ONLINE.
 
-       This increments the local count for now.
-
-       Later this will be replaced with the
-       Cloudflare Worker view-count system so
-       everyone sees the same number.
+       The Cloudflare Worker is responsible
+       for storing the shared count.
     */
 
-    currentGame.views =
-        (currentGame.views || 0) + 1;
-
-
-    loadViewCount(
+    recordView(
         currentGame
     );
 
@@ -2471,10 +2747,17 @@ function toggleFullscreen() {
 
 
 /* ============================================================
-   LIKE
+   LIKE GAME ONLINE
    ============================================================ */
 
-function likeGame() {
+async function likeGame() {
+
+    if (!currentGame) {
+
+        return;
+
+    }
+
 
     const button =
         document.getElementById(
@@ -2482,17 +2765,99 @@ function likeGame() {
         );
 
 
-    if (button.textContent === "♡") {
+    const alreadyLiked =
+        hasLikedGame(
+            currentGame
+        );
 
-        button.textContent =
-            "❤︎";
+
+    try {
+
+        const endpoint =
+            alreadyLiked
+                ? "/api/stats/" +
+                  encodeURIComponent(
+                      currentGame.id
+                  ) +
+                  "/unlike"
+
+                : "/api/stats/" +
+                  encodeURIComponent(
+                      currentGame.id
+                  ) +
+                  "/like";
+
+
+        const response =
+            await fetch(
+                endpoint,
+                {
+                    method: "POST"
+                }
+            );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Like request failed"
+            );
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        if (
+            typeof data.likes ===
+            "number"
+        ) {
+
+            currentGame.likes =
+                data.likes;
+
+        }
+
+
+        if (alreadyLiked) {
+
+            localStorage.removeItem(
+                "gameswaphq-liked-" +
+                currentGame.id
+            );
+
+        }
+
+        else {
+
+            localStorage.setItem(
+                "gameswaphq-liked-" +
+                currentGame.id,
+                "true"
+            );
+
+        }
+
+
+        loadLikeCount(
+            currentGame
+        );
+
+
+        updateLikeButton(
+            currentGame
+        );
 
     }
 
-    else {
+    catch (error) {
 
-        button.textContent =
-            "♡";
+        console.warn(
+            "Could not update online like:",
+            error
+        );
 
     }
 
@@ -2644,8 +3009,6 @@ function showPageWithoutHistory(pageID) {
     }
 
 
-    /* Toggle Game page mode */
-
     if (pageID === "game-page") {
 
         document.body.classList.add(
@@ -2700,8 +3063,14 @@ function openGameWithoutHistory(game) {
 
     loadInstructions(game);
 
-
     loadViewCount(game);
+
+    loadLikeCount(game);
+
+    updateLikeButton(game);
+
+
+    loadOnlineStats(game);
 
 
     const thumbnail =
@@ -2738,6 +3107,17 @@ function openGameWithoutHistory(game) {
 createGameCards();
 
 createFeaturedCards();
+
+
+/*
+   Load the shared statistics from Cloudflare.
+
+   This happens after the page is created so
+   the site still works if the statistics
+   service is temporarily unavailable.
+*/
+
+loadAllOnlineStats();
 
 
 window.addEventListener(
