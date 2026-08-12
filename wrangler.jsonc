@@ -20,6 +20,13 @@
     }
   ],
 
+  "kv_namespaces": [
+    {
+      "binding": "GAME_STATS",
+      "id": 16d3faccc62248439e23d71ec84e4487
+    }
+  ],
+
   "compatibility_flags": [
     "nodejs_compat"
   ]
