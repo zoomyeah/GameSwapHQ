@@ -39,6 +39,88 @@ header {
     color: white;
     padding: 20px 30px;
     text-align: center;
+    position: relative;
+}
+
+
+/* ============================================================
+   PROFILE BUTTON
+   ============================================================ */
+
+.profile-button {
+    position: absolute;
+
+    top: 18px;
+    right: 25px;
+
+    display: flex;
+    align-items: center;
+    gap: 9px;
+
+    background: #1f511b;
+    color: white;
+
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 10px;
+
+    padding: 9px 14px;
+
+    font-family: "Nunito", sans-serif;
+    font-size: 0.95rem;
+    font-weight: 800;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s,
+        transform 0.2s,
+        box-shadow 0.2s;
+}
+
+.profile-button:hover {
+    background: #347c2e;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 4px 12px rgba(0,0,0,0.3);
+}
+
+.profile-icon {
+    width: 28px;
+    height: 28px;
+
+    border-radius: 50%;
+
+    background: #6fcf68;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #163b13;
+
+    font-size: 17px;
+    font-weight: 900;
+}
+
+.profile-text {
+    white-space: nowrap;
+}
+
+@media (max-width: 600px) {
+
+    .profile-button {
+        right: 12px;
+        top: 12px;
+
+        padding: 7px;
+    }
+
+    .profile-text {
+        display: none;
+    }
+
 }
 
 header h1 {
@@ -1147,6 +1229,18 @@ footer p {
      ============================================================ -->
 
 <header>
+
+    <button class="profile-button" onclick="openProfile()">
+
+        <span class="profile-icon">
+            👤
+        </span>
+
+        <span class="profile-text">
+            Profile
+        </span>
+
+    </button>
 
     <h1>GameSwapHQ</h1>
 
