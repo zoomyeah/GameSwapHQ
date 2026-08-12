@@ -493,6 +493,48 @@
     }
 
     /* ============================================================
+   GAME INSTRUCTIONS
+   ============================================================ */
+
+.game-instructions {
+    max-width: 900px;
+    margin: 30px auto;
+
+    background: #000000;
+
+    border: 1px solid #2c2c2c;
+    border-radius: 12px;
+
+    padding: 25px 30px;
+
+    text-align: left;
+
+    box-shadow:
+        0 3px 12px rgba(0,0,0,0.4);
+
+    color: #d8f3dc;
+}
+
+.game-instructions h2 {
+    margin: 0 0 15px;
+
+    font-family: "Nunito", sans-serif;
+    font-size: 1.5rem;
+    font-weight: 900;
+
+    color: #d8f3dc;
+}
+
+.game-instructions p {
+    margin: 7px 0;
+
+    color: #d8f3dc;
+
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+    /* ============================================================
        GAME PAGE THUMBNAIL
        ============================================================ */
 
@@ -1109,7 +1151,16 @@
             class="game-info"
             id="game-info">
         </div>
+        
+    <div
+        class="game-instructions"
+        id="game-instructions">
 
+        <h2>➜I Controls/Instructions:</h2>
+
+        <div id="game-instructions-list"></div>
+
+    </div>
 
         <!-- GAME THUMBNAIL -->
 
@@ -1260,25 +1311,37 @@
 
     const games = [
 
-        {
-            id: "Gravi-Plat",
-            name: "Gravi-Plat",
-            creator: "zoomyeah",
-            date: "August 10, 2026",
-            gameFile: "Gravi-Plat"
-        },
+{
+    id: "Gravi-Plat",
+    name: "Gravi-Plat",
+    creator: "zoomyeah",
+    date: "August 10, 2026",
+    gameFile: "Gravi-Plat",
+    instructions: [
+        "• Touch the START button and press ENTER",
+        "• WASD / Arrow Keys to move",
+        "• Space to switch gravity",
+        "• Don't hit spikes.",
+        "• The purple forces you down.",
+        "• The green forces you down.",
+        "• The yellow changes your gravity.",
+        "• Get to the teleporter to advance!"
+    ]
+},
 
-        {
-            id: "WallRider TN",
-            name: "• WallRider •",
-            creator: "zoomyeah",
-            date: "August 11, 2026",
-            gameFile: "• WallRider •"
-        }
+{
+    id: "WallRider TN",
+    name: "• WallRider •",
+    creator: "zoomyeah",
+    date: "August 11, 2026",
+    gameFile: "• WallRider •",
+    instructions: [
+        "• Instructions coming soon!"
+    ]
+}
 
-    ];
-
-
+];
+    
     /* ============================================================
        PAGE NAVIGATION
        ============================================================ */
@@ -1569,7 +1632,27 @@
                 game.creator +
                 " · Released " +
                 game.date;
+        
+const instructionsList =
+    document.getElementById(
+        "game-instructions-list"
+    );
 
+instructionsList.innerHTML = "";
+
+game.instructions.forEach(instruction => {
+
+    const instructionText =
+        document.createElement("p");
+
+    instructionText.textContent =
+        instruction;
+
+    instructionsList.appendChild(
+        instructionText
+    );
+
+});
 
         const thumbnail =
             document
