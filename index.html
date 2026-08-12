@@ -146,16 +146,153 @@ main {
 }
 
 /* ============================================================
-   FEATURED SECTION
+   FEATURED GAMES
    ============================================================ */
 
 .featured-section {
     margin-top: 20px;
+    margin-bottom: 70px;
 }
 
 .featured-section h2 {
     text-align: center;
-    margin-bottom: 25px;
+
+    font-family: "Nunito", sans-serif;
+    font-size: 2.4rem;
+    font-weight: 900;
+
+    margin-bottom: 30px;
+}
+
+.featured-grid {
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 30px;
+
+    max-width: 1050px;
+
+    margin: 0 auto;
+}
+
+/*
+   Featured cards are intentionally MUCH larger
+   than normal game cards.
+*/
+
+.featured-card {
+    position: relative;
+
+    overflow: hidden;
+
+    border-radius: 18px;
+
+    border: 1px solid #333;
+
+    background: #1e1e1e;
+
+    box-shadow:
+        0 5px 20px rgba(0,0,0,0.6);
+
+    cursor: pointer;
+
+    aspect-ratio: 16 / 9;
+
+    transition:
+        transform 0.2s,
+        box-shadow 0.2s;
+}
+
+.featured-card:hover {
+    transform: translateY(-6px);
+
+    box-shadow:
+        0 10px 30px rgba(0,0,0,0.7),
+        0 0 25px rgba(111,207,104,0.2);
+}
+
+.featured-thumbnail-container {
+    width: 100%;
+    height: 100%;
+
+    background: #080808;
+
+    position: relative;
+
+    overflow: hidden;
+}
+
+.featured-thumbnail {
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+
+    display: block;
+
+    transition:
+        transform 0.3s;
+}
+
+.featured-card:hover .featured-thumbnail {
+    transform: scale(1.03);
+}
+
+.featured-thumbnail-overlay {
+    position: absolute;
+
+    inset: 0;
+
+    background: linear-gradient(
+        to bottom,
+        rgba(0,0,0,0),
+        rgba(0,0,0,0.05) 30%,
+        rgba(0,0,0,0.85) 100%
+    );
+}
+
+.featured-card-content {
+    position: absolute;
+
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    padding: 30px;
+
+    text-align: center;
+
+    z-index: 2;
+}
+
+.featured-card h3 {
+    margin: 0 0 6px;
+
+    font-family: "Nunito", sans-serif;
+
+    font-size: 2.2rem;
+
+    font-weight: 900;
+
+    text-shadow:
+        0 0 5px #000,
+        0 0 10px #000,
+        0 0 20px #000,
+        0 3px 6px #000;
+}
+
+.featured-card p {
+    margin: 0;
+
+    color: white;
+
+    font-size: 1.05rem;
+
+    text-shadow:
+        0 0 5px #000,
+        0 0 10px #000,
+        0 2px 5px #000;
 }
 
 /* ============================================================
@@ -164,7 +301,9 @@ main {
 
 .games-grid {
     display: grid;
+
     grid-template-columns: repeat(3, 1fr);
+
     gap: 25px;
 }
 
@@ -172,6 +311,10 @@ main {
 
     .games-grid {
         grid-template-columns: repeat(2, 1fr);
+    }
+
+    .featured-grid {
+        grid-template-columns: 1fr;
     }
 
 }
@@ -182,6 +325,14 @@ main {
         grid-template-columns: 1fr;
     }
 
+    .featured-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .featured-card h3 {
+        font-size: 1.7rem;
+    }
+
 }
 
 /* ============================================================
@@ -190,11 +341,18 @@ main {
 
 .game-card {
     position: relative;
+
     overflow: hidden;
+
     border-radius: 14px;
+
     border: 1px solid #2c2c2c;
+
     background: #1e1e1e;
-    box-shadow: 0 3px 12px rgba(0,0,0,0.5);
+
+    box-shadow:
+        0 3px 12px rgba(0,0,0,0.5);
+
     cursor: pointer;
 
     transition:
@@ -216,21 +374,28 @@ main {
 
 .game-thumbnail-container {
     width: 100%;
+
     aspect-ratio: 16 / 9;
+
     background: #080808;
+
     position: relative;
+
     overflow: hidden;
 }
 
 .game-thumbnail {
     width: 100%;
     height: 100%;
+
     object-fit: contain;
+
     display: block;
 }
 
 .game-thumbnail-overlay {
     position: absolute;
+
     inset: 0;
 
     background: linear-gradient(
@@ -247,6 +412,7 @@ main {
 
 .game-card-content {
     position: absolute;
+
     left: 0;
     right: 0;
     bottom: 0;
@@ -262,7 +428,9 @@ main {
     margin: 0 0 3px;
 
     font-family: "Nunito", sans-serif;
+
     font-size: 1.6rem;
+
     font-weight: 900;
 
     text-shadow:
@@ -276,6 +444,7 @@ main {
     margin: 0;
 
     color: white;
+
     font-size: 0.9rem;
 
     text-shadow:
@@ -290,6 +459,7 @@ main {
 
 .game-search {
     width: 100%;
+
     max-width: 600px;
 
     display: block;
@@ -299,9 +469,11 @@ main {
     padding: 14px 18px;
 
     border-radius: 10px;
+
     border: 1px solid #333;
 
     background: #1e1e1e;
+
     color: white;
 
     font-size: 1.05rem;
@@ -321,8 +493,11 @@ main {
 
 .no-games {
     text-align: center;
+
     color: #aaa;
+
     padding: 30px;
+
     display: none;
 }
 
@@ -332,6 +507,7 @@ main {
 
 .submit-box {
     background: #1e1e1e;
+
     border-radius: 12px;
 
     padding: 30px;
@@ -346,6 +522,7 @@ main {
 
 .submit-box p {
     color: #cfcfcf;
+
     line-height: 1.6;
 }
 
@@ -357,12 +534,15 @@ main {
     display: inline-flex;
 
     align-items: center;
+
     gap: 8px;
 
     background: #1e1e1e;
+
     color: white;
 
     border: 1px solid #333;
+
     border-radius: 8px;
 
     padding: 10px 16px;
@@ -384,6 +564,7 @@ main {
     font-family: "Nunito", sans-serif;
 
     font-size: 3rem;
+
     font-weight: 900;
 
     margin: 10px 0;
@@ -403,6 +584,7 @@ main {
 
 .game-page-thumbnail {
     width: 100%;
+
     max-width: 900px;
 
     margin: 25px auto 30px;
@@ -422,6 +604,7 @@ main {
 
 .game-page-thumbnail img {
     width: 100%;
+
     height: auto;
 
     display: block;
@@ -491,6 +674,7 @@ main {
     max-width: none;
 
     width: 100vw;
+
     height: 100vh;
 
     padding: 0;
@@ -502,6 +686,7 @@ main {
 
 .game-frame-container:fullscreen .game-frame {
     width: 100vw;
+
     height: 100vh;
 
     border-radius: 0;
@@ -511,6 +696,7 @@ main {
     display: block;
 
     width: 100%;
+
     height: 650px;
 
     border: none;
@@ -528,7 +714,9 @@ main {
     position: absolute;
 
     left: 8px;
+
     right: 8px;
+
     bottom: 8px;
 
     height: 42px;
@@ -581,11 +769,13 @@ main {
 
 .gameplay-button {
     width: 30px;
+
     height: 30px;
 
     display: flex;
 
     align-items: center;
+
     justify-content: center;
 
     border: none;
@@ -609,6 +799,7 @@ main {
 
 .gameplay-button:hover {
     background: #292929;
+
     color: white;
 }
 
@@ -628,6 +819,7 @@ main {
     position: absolute;
 
     left: 50%;
+
     bottom: 7px;
 
     transform: translateX(-50%);
@@ -649,6 +841,7 @@ main {
 
 .hide-bar-button:hover {
     color: #ADE8F4;
+
     text-decoration: underline;
 }
 
@@ -679,7 +872,9 @@ main {
 
 .game-frame-container:fullscreen .gameplay-bar {
     left: 0;
+
     right: 0;
+
     bottom: 0;
 
     border-radius: 0;
@@ -873,6 +1068,7 @@ footer p {
     display: flex;
 
     justify-content: space-between;
+
     align-items: center;
 
     max-width: 1100px;
@@ -957,15 +1153,15 @@ footer p {
              FEATURED GAMES
              ==================================================== -->
 
-        <section class="section featured-section">
+        <section class="featured-section">
 
             <h2>
-                ✨ Featured Games ✨
+                Featured Games
             </h2>
 
             <div
                 id="featured-games-list"
-                class="games-grid">
+                class="featured-grid">
             </div>
 
         </section>
@@ -1388,22 +1584,22 @@ const games = [
    ============================================================ */
 
 /*
-   Add the IDs of games you want featured here.
+   Add game IDs here to feature them on the homepage.
 
    Example:
 
-   const featuredGames = [
-       "Painterz",
-       "Gravi-Plat"
+   const featuredGameIDs = [
+       "Gravi-Plat",
+       "Painterz"
    ];
 
 */
 
-const featuredGames = [
+const featuredGameIDs = [
 
-    "Painterz",
     "Gravi-Plat",
-    "WallRider TN"
+    "WallRider TN",
+    "Painterz"
 
 ];
 
@@ -1492,114 +1688,140 @@ function showPage(pageID) {
 
 
 /* ============================================================
-   CREATE GAME CARD
+   CREATE FEATURED CARDS
    ============================================================ */
 
-function createGameCard(game) {
+function createFeaturedCards() {
 
-    const card =
-        document.createElement("div");
-
-
-    card.className =
-        "game-card";
+    const featuredList =
+        document.getElementById(
+            "featured-games-list"
+        );
 
 
-    card.onclick =
-        function() {
-
-            openGame(game.id);
-
-        };
+    featuredList.innerHTML = "";
 
 
-    const thumbnailContainer =
-        document.createElement("div");
+    featuredGameIDs.forEach(gameID => {
+
+        const game =
+            games.find(
+                game => game.id === gameID
+            );
 
 
-    thumbnailContainer.className =
-        "game-thumbnail-container";
+        if (!game) {
+
+            return;
+
+        }
 
 
-    const thumbnail =
-        document.createElement("img");
+        const card =
+            document.createElement("div");
 
 
-    thumbnail.className =
-        "game-thumbnail";
+        card.className =
+            "featured-card";
 
 
-    thumbnail.src =
-        "/game-thumbnail/" +
-        game.id;
+        card.onclick =
+            function() {
+
+                openGame(game.id);
+
+            };
 
 
-    thumbnail.alt =
-        game.name +
-        " thumbnail";
+        const thumbnailContainer =
+            document.createElement("div");
 
 
-    const overlay =
-        document.createElement("div");
+        thumbnailContainer.className =
+            "featured-thumbnail-container";
 
 
-    overlay.className =
-        "game-thumbnail-overlay";
+        const thumbnail =
+            document.createElement("img");
 
 
-    const content =
-        document.createElement("div");
+        thumbnail.className =
+            "featured-thumbnail";
 
 
-    content.className =
-        "game-card-content";
+        thumbnail.src =
+            "/game-thumbnail/" +
+            game.id;
 
 
-    const title =
-        document.createElement("h3");
+        thumbnail.alt =
+            game.name +
+            " thumbnail";
 
 
-    title.textContent =
-        game.name;
+        const overlay =
+            document.createElement("div");
 
 
-    const creator =
-        document.createElement("p");
+        overlay.className =
+            "featured-thumbnail-overlay";
 
 
-    creator.textContent =
-        "by " +
-        game.creator +
-        " · " +
-        game.date;
+        const content =
+            document.createElement("div");
 
 
-    content.appendChild(title);
-
-    content.appendChild(creator);
-
-
-    thumbnailContainer.appendChild(
-        thumbnail
-    );
+        content.className =
+            "featured-card-content";
 
 
-    thumbnailContainer.appendChild(
-        overlay
-    );
+        const title =
+            document.createElement("h3");
 
 
-    thumbnailContainer.appendChild(
-        content
-    );
+        title.textContent =
+            game.name;
 
 
-    card.appendChild(
-        thumbnailContainer
-    );
+        const creator =
+            document.createElement("p");
 
 
-    return card;
+        creator.textContent =
+            "by " +
+            game.creator +
+            " · " +
+            game.date;
+
+
+        content.appendChild(title);
+
+        content.appendChild(creator);
+
+
+        thumbnailContainer.appendChild(
+            thumbnail
+        );
+
+
+        thumbnailContainer.appendChild(
+            overlay
+        );
+
+
+        thumbnailContainer.appendChild(
+            content
+        );
+
+
+        card.appendChild(
+            thumbnailContainer
+        );
+
+
+        featuredList.appendChild(card);
+
+    });
 
 }
 
@@ -1635,48 +1857,109 @@ function createGameCards(gameList = games) {
 
     gameList.forEach(game => {
 
-        gamesList.appendChild(
-            createGameCard(game)
+        const card =
+            document.createElement("div");
+
+
+        card.className =
+            "game-card";
+
+
+        card.onclick =
+            function() {
+
+                openGame(game.id);
+
+            };
+
+
+        const thumbnailContainer =
+            document.createElement("div");
+
+
+        thumbnailContainer.className =
+            "game-thumbnail-container";
+
+
+        const thumbnail =
+            document.createElement("img");
+
+
+        thumbnail.className =
+            "game-thumbnail";
+
+
+        thumbnail.src =
+            "/game-thumbnail/" +
+            game.id;
+
+
+        thumbnail.alt =
+            game.name +
+            " thumbnail";
+
+
+        const overlay =
+            document.createElement("div");
+
+
+        overlay.className =
+            "game-thumbnail-overlay";
+
+
+        const content =
+            document.createElement("div");
+
+
+        content.className =
+            "game-card-content";
+
+
+        const title =
+            document.createElement("h3");
+
+
+        title.textContent =
+            game.name;
+
+
+        const creator =
+            document.createElement("p");
+
+
+        creator.textContent =
+            "by " +
+            game.creator +
+            " · " +
+            game.date;
+
+
+        content.appendChild(title);
+
+        content.appendChild(creator);
+
+
+        thumbnailContainer.appendChild(
+            thumbnail
         );
 
-    });
 
-}
-
-
-/* ============================================================
-   CREATE FEATURED GAME CARDS
-   ============================================================ */
-
-function createFeaturedGameCards() {
-
-    const featuredList =
-        document.getElementById(
-            "featured-games-list"
+        thumbnailContainer.appendChild(
+            overlay
         );
 
 
-    featuredList.innerHTML = "";
-
-
-    featuredGames.forEach(gameID => {
-
-        const game =
-            games.find(
-                game => game.id === gameID
-            );
-
-
-        if (!game) {
-
-            return;
-
-        }
-
-
-        featuredList.appendChild(
-            createGameCard(game)
+        thumbnailContainer.appendChild(
+            content
         );
+
+
+        card.appendChild(
+            thumbnailContainer
+        );
+
+
+        gamesList.appendChild(card);
 
     });
 
@@ -2318,7 +2601,7 @@ function openGameWithoutHistory(game) {
 
 createGameCards();
 
-createFeaturedGameCards();
+createFeaturedCards();
 
 
 window.addEventListener(
