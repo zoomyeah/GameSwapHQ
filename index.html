@@ -29,6 +29,7 @@ body {
     color: #f1f1f1;
 }
 
+
 /* ============================================================
    HEADER
    ============================================================ */
@@ -51,6 +52,7 @@ header p {
     margin: 8px 0 0;
     font-size: 1.05rem;
 }
+
 
 /* ============================================================
    NAVIGATION
@@ -75,11 +77,13 @@ nav a:hover {
     text-decoration: underline;
 }
 
+
 /* Hide navigation on Developers page */
 
 body.developers-mode nav {
     display: none;
 }
+
 
 /* Hide header and navigation on individual game pages */
 
@@ -87,6 +91,7 @@ body.game-mode header,
 body.game-mode nav {
     display: none;
 }
+
 
 /* ============================================================
    MAIN
@@ -97,6 +102,7 @@ main {
     margin: auto;
     padding: 40px 20px;
 }
+
 
 /* ============================================================
    PAGES
@@ -109,6 +115,7 @@ main {
 .page.active {
     display: block;
 }
+
 
 /* ============================================================
    HOME
@@ -132,6 +139,7 @@ main {
     color: #cfcfcf;
 }
 
+
 /* ============================================================
    SECTIONS
    ============================================================ */
@@ -145,20 +153,21 @@ main {
     margin-bottom: 25px;
 }
 
+
 /* ============================================================
    FEATURED GAMES
    ============================================================ */
 
 .featured-section {
     margin-top: 20px;
-    margin-bottom: 70px;
 }
 
 .featured-section h2 {
     text-align: center;
 
     font-family: "Nunito", sans-serif;
-    font-size: 2.4rem;
+
+    font-size: 2.3rem;
     font-weight: 900;
 
     margin-bottom: 30px;
@@ -170,16 +179,20 @@ main {
     grid-template-columns: repeat(2, 1fr);
 
     gap: 30px;
-
-    max-width: 1050px;
-
-    margin: 0 auto;
 }
 
-/*
-   Featured cards are intentionally MUCH larger
-   than normal game cards.
-*/
+@media (max-width: 800px) {
+
+    .featured-grid {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+
+/* ============================================================
+   FEATURED CARD
+   ============================================================ */
 
 .featured-card {
     position: relative;
@@ -193,11 +206,9 @@ main {
     background: #1e1e1e;
 
     box-shadow:
-        0 5px 20px rgba(0,0,0,0.6);
+        0 5px 20px rgba(0,0,0,0.55);
 
     cursor: pointer;
-
-    aspect-ratio: 16 / 9;
 
     transition:
         transform 0.2s,
@@ -209,12 +220,13 @@ main {
 
     box-shadow:
         0 10px 30px rgba(0,0,0,0.7),
-        0 0 25px rgba(111,207,104,0.2);
+        0 0 20px rgba(111,207,104,0.2);
 }
 
 .featured-thumbnail-container {
     width: 100%;
-    height: 100%;
+
+    aspect-ratio: 16 / 9;
 
     background: #080808;
 
@@ -230,13 +242,6 @@ main {
     object-fit: contain;
 
     display: block;
-
-    transition:
-        transform 0.3s;
-}
-
-.featured-card:hover .featured-thumbnail {
-    transform: scale(1.03);
 }
 
 .featured-thumbnail-overlay {
@@ -247,8 +252,8 @@ main {
     background: linear-gradient(
         to bottom,
         rgba(0,0,0,0),
-        rgba(0,0,0,0.05) 30%,
-        rgba(0,0,0,0.85) 100%
+        rgba(0,0,0,0.1) 35%,
+        rgba(0,0,0,0.92) 100%
     );
 }
 
@@ -259,7 +264,7 @@ main {
     right: 0;
     bottom: 0;
 
-    padding: 30px;
+    padding: 28px;
 
     text-align: center;
 
@@ -267,7 +272,7 @@ main {
 }
 
 .featured-card h3 {
-    margin: 0 0 6px;
+    margin: 0 0 5px;
 
     font-family: "Nunito", sans-serif;
 
@@ -279,7 +284,7 @@ main {
         0 0 5px #000,
         0 0 10px #000,
         0 0 20px #000,
-        0 3px 6px #000;
+        0 2px 4px #000;
 }
 
 .featured-card p {
@@ -287,13 +292,14 @@ main {
 
     color: white;
 
-    font-size: 1.05rem;
+    font-size: 1rem;
 
     text-shadow:
         0 0 5px #000,
         0 0 10px #000,
-        0 2px 5px #000;
+        0 2px 4px #000;
 }
+
 
 /* ============================================================
    GAMES GRID
@@ -313,10 +319,6 @@ main {
         grid-template-columns: repeat(2, 1fr);
     }
 
-    .featured-grid {
-        grid-template-columns: 1fr;
-    }
-
 }
 
 @media (max-width: 550px) {
@@ -325,15 +327,8 @@ main {
         grid-template-columns: 1fr;
     }
 
-    .featured-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .featured-card h3 {
-        font-size: 1.7rem;
-    }
-
 }
+
 
 /* ============================================================
    GAME CARD
@@ -367,6 +362,7 @@ main {
         0 6px 20px rgba(0,0,0,0.6),
         0 0 15px rgba(111,207,104,0.15);
 }
+
 
 /* ============================================================
    THUMBNAILS
@@ -405,6 +401,7 @@ main {
         rgba(0,0,0,0.9) 100%
     );
 }
+
 
 /* ============================================================
    CARD TEXT
@@ -452,6 +449,7 @@ main {
         0 0 10px #000,
         0 2px 4px #000;
 }
+
 
 /* ============================================================
    SEARCH
@@ -501,6 +499,7 @@ main {
     display: none;
 }
 
+
 /* ============================================================
    SUBMIT BOX
    ============================================================ */
@@ -525,6 +524,7 @@ main {
 
     line-height: 1.6;
 }
+
 
 /* ============================================================
    GAME PAGE
@@ -578,6 +578,7 @@ main {
     margin-bottom: 25px;
 }
 
+
 /* ============================================================
    GAME PAGE THUMBNAIL
    ============================================================ */
@@ -610,6 +611,7 @@ main {
     display: block;
 }
 
+
 /* ============================================================
    PLAY AREA
    ============================================================ */
@@ -617,6 +619,7 @@ main {
 .play-area {
     text-align: center;
 }
+
 
 /* ============================================================
    PLAY BUTTON
@@ -643,6 +646,7 @@ main {
 .play-button:hover {
     background: #347c2e;
 }
+
 
 /* ============================================================
    GAME FRAME
@@ -674,7 +678,6 @@ main {
     max-width: none;
 
     width: 100vw;
-
     height: 100vh;
 
     padding: 0;
@@ -686,7 +689,6 @@ main {
 
 .game-frame-container:fullscreen .game-frame {
     width: 100vw;
-
     height: 100vh;
 
     border-radius: 0;
@@ -706,6 +708,7 @@ main {
     background: #000;
 }
 
+
 /* ============================================================
    GAMEPLAY BAR
    ============================================================ */
@@ -714,9 +717,7 @@ main {
     position: absolute;
 
     left: 8px;
-
     right: 8px;
-
     bottom: 8px;
 
     height: 42px;
@@ -767,6 +768,30 @@ main {
     gap: 7px;
 }
 
+
+/* ============================================================
+   VIEW COUNT
+   ============================================================ */
+
+.view-count {
+    color: #aaa;
+
+    font-size: 0.85rem;
+
+    white-space: nowrap;
+
+    display: flex;
+
+    align-items: center;
+
+    margin-right: 2px;
+}
+
+
+/* ============================================================
+   GAMEPLAY BUTTONS
+   ============================================================ */
+
 .gameplay-button {
     width: 30px;
 
@@ -811,6 +836,7 @@ main {
     font-size: 20px;
 }
 
+
 /* ============================================================
    HIDE / SHOW BAR BUTTON
    ============================================================ */
@@ -845,6 +871,7 @@ main {
     text-decoration: underline;
 }
 
+
 /* ============================================================
    HIDDEN GAMEPLAY BAR
    ============================================================ */
@@ -854,6 +881,7 @@ main {
 
     transform: translateY(10px);
 }
+
 
 /* Keep Show bar visible when bar is hidden */
 
@@ -865,6 +893,7 @@ main {
 
     pointer-events: auto;
 }
+
 
 /* ============================================================
    FULLSCREEN GAMEPLAY BAR
@@ -885,6 +914,7 @@ main {
 .game-frame-container:fullscreen .hide-bar-button {
     display: block;
 }
+
 
 /* ============================================================
    GAME INSTRUCTIONS
@@ -932,6 +962,7 @@ main {
 
     line-height: 1.5;
 }
+
 
 /* ============================================================
    DEVELOPERS PAGE
@@ -1044,6 +1075,7 @@ main {
     transform: translateY(-2px);
 }
 
+
 /* ============================================================
    FOOTER
    ============================================================ */
@@ -1092,7 +1124,9 @@ footer p {
 
 </head>
 
+
 <body>
+
 
 <!-- ============================================================
      HEADER
@@ -1153,15 +1187,17 @@ footer p {
              FEATURED GAMES
              ==================================================== -->
 
-        <section class="featured-section">
+        <section class="section featured-section">
 
             <h2>
                 Featured Games
             </h2>
 
+
             <div
-                id="featured-games-list"
-                class="featured-grid">
+                id="featured-list"
+                class="featured-grid"
+            >
             </div>
 
         </section>
@@ -1185,6 +1221,7 @@ footer p {
                 Games
             </h2>
 
+
             <input
                 type="text"
                 id="game-search"
@@ -1193,10 +1230,12 @@ footer p {
                 oninput="searchGames()"
             >
 
+
             <div
                 id="games-list"
                 class="games-grid">
             </div>
+
 
             <div
                 id="no-games"
@@ -1245,13 +1284,15 @@ footer p {
 
         <div
             class="game-page-thumbnail"
-            id="game-page-thumbnail">
+            id="game-page-thumbnail"
+        >
 
             <img
                 id="game-thumbnail"
                 src=""
                 alt="Game thumbnail"
             >
+
 
             <button
                 class="play-button"
@@ -1305,6 +1346,20 @@ footer p {
 
                     <div class="gameplay-controls">
 
+
+                        <!-- VIEW COUNT -->
+
+                        <div
+                            class="view-count"
+                            id="view-count"
+                            title="Views"
+                        >
+                            👁 0
+                        </div>
+
+
+                        <!-- LIKE -->
+
                         <button
                             class="gameplay-button like-button"
                             id="like-button"
@@ -1314,6 +1369,8 @@ footer p {
                             ♡
                         </button>
 
+
+                        <!-- FULLSCREEN -->
 
                         <button
                             class="gameplay-button fullscreen-button"
@@ -1354,6 +1411,7 @@ footer p {
                 ➜I Controls/Instructions:
             </h2>
 
+
             <div
                 id="game-instructions-list">
             </div>
@@ -1386,6 +1444,7 @@ footer p {
                     Want your game on GameSwapHQ?
                 </h2>
 
+
                 <p>
                     GameSwapHQ is a curated gaming portal.
                     Every game is reviewed before being added
@@ -1396,6 +1455,7 @@ footer p {
                 <h3>
                     Game requirements
                 </h3>
+
 
                 <ul>
 
@@ -1445,6 +1505,7 @@ footer p {
                     What happens after you submit?
                 </h3>
 
+
                 <p>
                     Submit your game using the form below.
                     Your game will be reviewed manually. If it
@@ -1456,6 +1517,7 @@ footer p {
                 <h3>
                     Ready to submit?
                 </h3>
+
 
                 <p>
                     Use the submission form below to send us
@@ -1516,6 +1578,7 @@ footer p {
 
 <script>
 
+
 /* ============================================================
    GAME LIST
    ============================================================ */
@@ -1528,6 +1591,11 @@ const games = [
         creator: "zoomyeah",
         date: "August 10, 2026",
         gameFile: "Gravi-Plat",
+
+        /* Temporary view count.
+           Later this will come from Cloudflare. */
+
+        views: 0,
 
         instructions: [
             "• Touch the START button and press ENTER",
@@ -1549,6 +1617,8 @@ const games = [
         date: "August 11, 2026",
         gameFile: "• WallRider •",
 
+        views: 0,
+
         instructions: [
             "WASD/Arrow keys to move",
             "H to slice",
@@ -1567,6 +1637,8 @@ const games = [
         date: "August 12, 2026",
         gameFile: "Painterz",
 
+        views: 0,
+
         instructions: [
             "⠀• ⠀Player1 (Blue) === 'Q' to move.",
             "⠀• ⠀Player2 (Red) === Up-Arrow to move",
@@ -1584,21 +1656,15 @@ const games = [
    ============================================================ */
 
 /*
-   Add game IDs here to feature them on the homepage.
+   For now, YOU choose the featured games.
 
-   Example:
-
-   const featuredGameIDs = [
-       "Gravi-Plat",
-       "Painterz"
-   ];
-
+   Later we can replace this with an automatic system
+   based on views + likes.
 */
 
-const featuredGameIDs = [
+const featuredGames = [
 
     "Gravi-Plat",
-    "WallRider TN",
     "Painterz"
 
 ];
@@ -1695,14 +1761,14 @@ function createFeaturedCards() {
 
     const featuredList =
         document.getElementById(
-            "featured-games-list"
+            "featured-list"
         );
 
 
     featuredList.innerHTML = "";
 
 
-    featuredGameIDs.forEach(gameID => {
+    featuredGames.forEach(gameID => {
 
         const game =
             games.find(
@@ -1833,26 +1899,32 @@ function createFeaturedCards() {
 function createGameCards(gameList = games) {
 
     const gamesList =
-        document.getElementById("games-list");
+        document.getElementById(
+            "games-list"
+        );
 
 
     gamesList.innerHTML = "";
 
 
     const noGames =
-        document.getElementById("no-games");
+        document.getElementById(
+            "no-games"
+        );
 
 
     if (gameList.length === 0) {
 
-        noGames.style.display = "block";
+        noGames.style.display =
+            "block";
 
         return;
 
     }
 
 
-    noGames.style.display = "none";
+    noGames.style.display =
+        "none";
 
 
     gameList.forEach(game => {
@@ -2052,6 +2124,25 @@ function loadInstructions(game) {
 
 
 /* ============================================================
+   LOAD VIEW COUNT
+   ============================================================ */
+
+function loadViewCount(game) {
+
+    const viewCount =
+        document.getElementById(
+            "view-count"
+        );
+
+
+    viewCount.textContent =
+        "👁 " +
+        (game.views || 0);
+
+}
+
+
+/* ============================================================
    OPEN GAME
    ============================================================ */
 
@@ -2116,9 +2207,13 @@ function openGame(gameID) {
     loadInstructions(game);
 
 
+    loadViewCount(game);
+
+
     const thumbnail =
-        document
-            .getElementById("game-thumbnail");
+        document.getElementById(
+            "game-thumbnail"
+        );
 
 
     thumbnail.src =
@@ -2225,6 +2320,23 @@ function resetGame() {
 
     }
 
+
+    if (currentGame) {
+
+        loadViewCount(
+            currentGame
+        );
+
+    }
+
+
+    /* Reset like button */
+
+    document
+        .getElementById("like-button")
+        .textContent =
+            "♡";
+
 }
 
 
@@ -2279,8 +2391,10 @@ function playGame() {
 
     frame.src =
         "/game/" +
-        (currentGame.gameFile ||
-         currentGame.id);
+        (
+            currentGame.gameFile ||
+            currentGame.id
+        );
 
 
     frame.title =
@@ -2306,6 +2420,25 @@ function playGame() {
 
     hideBarButton.textContent =
         "Hide bar";
+
+
+    /*
+       TEMPORARY VIEW COUNT
+
+       This increments the local count for now.
+
+       Later this will be replaced with the
+       Cloudflare Worker view-count system so
+       everyone sees the same number.
+    */
+
+    currentGame.views =
+        (currentGame.views || 0) + 1;
+
+
+    loadViewCount(
+        currentGame
+    );
 
 }
 
@@ -2566,6 +2699,9 @@ function openGameWithoutHistory(game) {
 
 
     loadInstructions(game);
+
+
+    loadViewCount(game);
 
 
     const thumbnail =
