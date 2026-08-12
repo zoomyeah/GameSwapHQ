@@ -8,7 +8,16 @@ export default {
          * ============================================================
          * ONLINE GAME STATISTICS
          * ============================================================
+         *
+         * GET:
+         * /api/stats/Gravi-Plat
+         *
+         * POST:
+         * /api/stats/Gravi-Plat/view
+         * /api/stats/Gravi-Plat/like
+         * /api/stats/Gravi-Plat/unlike
          */
+
 
         if (url.pathname.startsWith("/api/stats/")) {
 
@@ -21,34 +30,52 @@ export default {
                 decodeURIComponent(parts[0]);
 
             const action =
-                parts[1] || "";
+                parts[1] || null;
 
 
             if (!gameID) {
 
                 return new Response(
-                    JSON.stringify({
-                        error: "Game not specified."
-                    }),
+                    "Game not specified.",
                     {
-                        status: 400,
-                        headers: {
-                            "Content-Type": "application/json"
-                        }
+                        status: 400
                     }
                 );
 
             }
 
 
+            /*
+             * Get existing statistics.
+             */
+
             const key =
-                `game:${gameID}`;
+                "stats:" + gameID;
+
+            let stats =
+                await env.GAME_STATS.get(
+                    key,
+                    "json"
+                );
 
 
             /*
-             * GET STATS
-             *
-             * /api/stats/Gravi-Plat
+             * If this game has never been
+             * accessed before, create it.
+             */
+
+            if (!stats) {
+
+                stats = {
+                    views: 0,
+                    likes: 0
+                };
+
+            }
+
+
+            /*
+             * GET STATISTICS
              */
 
             if (
@@ -56,30 +83,29 @@ export default {
                 !action
             ) {
 
-                const stored =
-                    await env.GAME_STATS.get(
-                        key,
-                        "json"
-                    );
-
-
-                const stats =
-                    stored || {
-                        views: 0,
-                        likes: 0
-                    };
-
-
-                return new Response(
-                    JSON.stringify(stats),
+                return Response.json(
+                    stats,
                     {
                         headers: {
-                            "Content-Type":
-                                "application/json",
-
-                            "Cache-Control":
-                                "no-store"
+                            "Cache-Control": "no-store"
                         }
+                    }
+                );
+
+            }
+
+
+            /*
+             * Only POST requests can
+             * change statistics.
+             */
+
+            if (request.method !== "POST") {
+
+                return new Response(
+                    "Method not allowed.",
+                    {
+                        status: 405
                     }
                 );
 
@@ -88,169 +114,78 @@ export default {
 
             /*
              * RECORD VIEW
-             *
-             * POST /api/stats/Gravi-Plat/view
              */
 
-            if (
-                request.method === "POST" &&
-                action === "view"
-            ) {
+            if (action === "view") {
 
-                const stored =
-                    await env.GAME_STATS.get(
-                        key,
-                        "json"
-                    );
-
-
-                const stats =
-                    stored || {
-                        views: 0,
-                        likes: 0
-                    };
-
-
-                stats.views =
-                    Number(stats.views || 0) + 1;
-
-
-                await env.GAME_STATS.put(
-                    key,
-                    JSON.stringify(stats)
-                );
-
-
-                return new Response(
-                    JSON.stringify(stats),
-                    {
-                        headers: {
-                            "Content-Type":
-                                "application/json",
-
-                            "Cache-Control":
-                                "no-store"
-                        }
-                    }
-                );
+                stats.views++;
 
             }
 
 
             /*
-             * LIKE
-             *
-             * POST /api/stats/Gravi-Plat/like
+             * LIKE GAME
              */
 
-            if (
-                request.method === "POST" &&
-                action === "like"
-            ) {
+            else if (action === "like") {
 
-                const stored =
-                    await env.GAME_STATS.get(
-                        key,
-                        "json"
-                    );
-
-
-                const stats =
-                    stored || {
-                        views: 0,
-                        likes: 0
-                    };
-
-
-                stats.likes =
-                    Number(stats.likes || 0) + 1;
-
-
-                await env.GAME_STATS.put(
-                    key,
-                    JSON.stringify(stats)
-                );
-
-
-                return new Response(
-                    JSON.stringify(stats),
-                    {
-                        headers: {
-                            "Content-Type":
-                                "application/json",
-
-                            "Cache-Control":
-                                "no-store"
-                        }
-                    }
-                );
+                stats.likes++;
 
             }
 
 
             /*
-             * UNLIKE
-             *
-             * POST /api/stats/Gravi-Plat/unlike
+             * UNLIKE GAME
              */
 
-            if (
-                request.method === "POST" &&
-                action === "unlike"
-            ) {
-
-                const stored =
-                    await env.GAME_STATS.get(
-                        key,
-                        "json"
-                    );
-
-
-                const stats =
-                    stored || {
-                        views: 0,
-                        likes: 0
-                    };
-
+            else if (action === "unlike") {
 
                 stats.likes =
                     Math.max(
                         0,
-                        Number(stats.likes || 0) - 1
+                        stats.likes - 1
                     );
 
+            }
 
-                await env.GAME_STATS.put(
-                    key,
-                    JSON.stringify(stats)
-                );
 
+            /*
+             * Unknown action.
+             */
+
+            else {
 
                 return new Response(
-                    JSON.stringify(stats),
+                    "Unknown statistics action.",
                     {
-                        headers: {
-                            "Content-Type":
-                                "application/json",
-
-                            "Cache-Control":
-                                "no-store"
-                        }
+                        status: 400
                     }
                 );
 
             }
 
 
-            return new Response(
-                JSON.stringify({
-                    error: "Invalid statistics request."
-                }),
+            /*
+             * Save updated statistics
+             * to Cloudflare KV.
+             */
+
+            await env.GAME_STATS.put(
+                key,
+                JSON.stringify(stats)
+            );
+
+
+            /*
+             * Return the new statistics
+             * to the website.
+             */
+
+            return Response.json(
+                stats,
                 {
-                    status: 400,
                     headers: {
-                        "Content-Type":
-                            "application/json"
+                        "Cache-Control": "no-store"
                     }
                 }
             );
@@ -262,7 +197,11 @@ export default {
          * ============================================================
          * GAME
          * ============================================================
+         *
+         * /game/Gravi-Plat
+         * /game/Cool-Game
          */
+
 
         if (url.pathname.startsWith("/game/")) {
 
@@ -324,7 +263,10 @@ export default {
          * ============================================================
          * THUMBNAIL
          * ============================================================
+         *
+         * /game-thumbnail/Gravi-Plat
          */
+
 
         if (
             url.pathname.startsWith(
@@ -389,9 +331,11 @@ export default {
         /*
          * ============================================================
          * EVERYTHING ELSE
-         * → GameSwapHQ website
          * ============================================================
+         *
+         * → GameSwapHQ website
          */
+
 
         return env.ASSETS.fetch(request);
 
