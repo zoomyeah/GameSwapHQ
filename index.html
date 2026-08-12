@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-
 <html lang="en">
 
 <head>
-    
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -19,859 +18,866 @@
 
 <style>
 
-    * {
-        box-sizing: border-box;
-    }
+* {
+    box-sizing: border-box;
+}
 
-    body {
-        margin: 0;
-        font-family: Arial, sans-serif;
-        background: #121212;
-        color: #f1f1f1;
-    }
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #121212;
+    color: #f1f1f1;
+}
 
-    /* ============================================================
-       HEADER
-       ============================================================ */
+/* ============================================================
+   HEADER
+   ============================================================ */
 
-    header {
-        background: #276221;
-        color: white;
-        padding: 20px 30px;
-        text-align: center;
-    }
+header {
+    background: #276221;
+    color: white;
+    padding: 20px 30px;
+    text-align: center;
+}
 
-    header h1 {
-        font-family: "Nunito", sans-serif;
-        font-weight: 900;
-        margin: 0;
-        font-size: 3.5rem;
-    }
+header h1 {
+    font-family: "Nunito", sans-serif;
+    font-weight: 900;
+    margin: 0;
+    font-size: 3.5rem;
+}
 
-    header p {
-        margin: 8px 0 0;
-        font-size: 1.05rem;
-    }
+header p {
+    margin: 8px 0 0;
+    font-size: 1.05rem;
+}
 
-    /* ============================================================
-       NAVIGATION
-       ============================================================ */
+/* ============================================================
+   NAVIGATION
+   ============================================================ */
 
-    nav {
-        background: #1b1b1b;
-        padding: 12px;
-        text-align: center;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.4);
-    }
+nav {
+    background: #1b1b1b;
+    padding: 12px;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+}
 
-    nav a {
-        color: #6fcf68;
-        text-decoration: none;
-        margin: 0 15px;
-        font-weight: bold;
-        cursor: pointer;
-    }
+nav a {
+    color: #6fcf68;
+    text-decoration: none;
+    margin: 0 15px;
+    font-weight: bold;
+    cursor: pointer;
+}
 
-    nav a:hover {
-        text-decoration: underline;
-    }
+nav a:hover {
+    text-decoration: underline;
+}
 
-    /* Hide navigation on Developers page */
+/* Hide navigation on Developers page */
 
-    body.developers-mode nav {
-        display: none;
-    }
+body.developers-mode nav {
+    display: none;
+}
 
-    /* ============================================================
-       MAIN
-       ============================================================ */
+/* Hide header and navigation on individual game pages */
 
-    main {
-        max-width: 1100px;
-        margin: auto;
-        padding: 40px 20px;
-    }
+body.game-mode header,
+body.game-mode nav {
+    display: none;
+}
 
-    /* ============================================================
-       PAGES
-       ============================================================ */
+/* ============================================================
+   MAIN
+   ============================================================ */
 
-    .page {
-        display: none;
-    }
+main {
+    max-width: 1100px;
+    margin: auto;
+    padding: 40px 20px;
+}
 
-    .page.active {
-        display: block;
-    }
+/* ============================================================
+   PAGES
+   ============================================================ */
 
-    /* ============================================================
-       HOME
-       ============================================================ */
+.page {
+    display: none;
+}
 
-    .hero {
-        text-align: center;
-        padding: 50px 20px;
-    }
+.page.active {
+    display: block;
+}
 
-    .hero h2 {
-        font-size: 2.2rem;
-        margin-bottom: 15px;
-    }
+/* ============================================================
+   HOME
+   ============================================================ */
 
-    .hero p {
-        max-width: 650px;
-        margin: auto;
-        font-size: 1.1rem;
-        line-height: 1.6;
-        color: #cfcfcf;
-    }
+.hero {
+    text-align: center;
+    padding: 50px 20px;
+}
 
-    /* ============================================================
-       SECTIONS
-       ============================================================ */
+.hero h2 {
+    font-size: 2.2rem;
+    margin-bottom: 15px;
+}
 
-    .section {
-        margin-top: 50px;
-    }
+.hero p {
+    max-width: 650px;
+    margin: auto;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #cfcfcf;
+}
 
-    .section h2 {
-        text-align: center;
-        margin-bottom: 25px;
-    }
+/* ============================================================
+   SECTIONS
+   ============================================================ */
 
-    /* ============================================================
-       GAMES GRID
-       ============================================================ */
+.section {
+    margin-top: 50px;
+}
+
+.section h2 {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+/* ============================================================
+   GAMES GRID
+   ============================================================ */
+
+.games-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+@media (max-width: 800px) {
 
     .games-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 25px;
+        grid-template-columns: repeat(2, 1fr);
     }
 
-    @media (max-width: 800px) {
+}
 
-        .games-grid {
-            grid-template-columns: repeat(2, 1fr);
-        }
+@media (max-width: 550px) {
 
+    .games-grid {
+        grid-template-columns: 1fr;
     }
 
-    @media (max-width: 550px) {
-
-        .games-grid {
-            grid-template-columns: 1fr;
-        }
-
-    }
-
-    /* ============================================================
-       GAME CARD
-       ============================================================ */
-
-    .game-card {
-        position: relative;
-        overflow: hidden;
-        border-radius: 14px;
-        border: 1px solid #2c2c2c;
-        background: #1e1e1e;
-        box-shadow: 0 3px 12px rgba(0,0,0,0.5);
-        cursor: pointer;
-
-        transition:
-            transform 0.2s,
-            box-shadow 0.2s;
-    }
-
-    .game-card:hover {
-        transform: translateY(-4px);
-
-        box-shadow:
-            0 6px 20px rgba(0,0,0,0.6),
-            0 0 15px rgba(111,207,104,0.15);
-    }
-
-    /* ============================================================
-       THUMBNAILS
-       ============================================================ */
-
-    .game-thumbnail-container {
-        width: 100%;
-        aspect-ratio: 16 / 9;
-        background: #080808;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .game-thumbnail {
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
-        display: block;
-    }
-
-    .game-thumbnail-overlay {
-        position: absolute;
-        inset: 0;
-
-        background: linear-gradient(
-            to bottom,
-            rgba(0,0,0,0),
-            rgba(0,0,0,0.15) 40%,
-            rgba(0,0,0,0.9) 100%
-        );
-    }
+}
+
+/* ============================================================
+   GAME CARD
+   ============================================================ */
+
+.game-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 14px;
+    border: 1px solid #2c2c2c;
+    background: #1e1e1e;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.5);
+    cursor: pointer;
+
+    transition:
+        transform 0.2s,
+        box-shadow 0.2s;
+}
+
+.game-card:hover {
+    transform: translateY(-4px);
+
+    box-shadow:
+        0 6px 20px rgba(0,0,0,0.6),
+        0 0 15px rgba(111,207,104,0.15);
+}
+
+/* ============================================================
+   THUMBNAILS
+   ============================================================ */
+
+.game-thumbnail-container {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: #080808;
+    position: relative;
+    overflow: hidden;
+}
+
+.game-thumbnail {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+.game-thumbnail-overlay {
+    position: absolute;
+    inset: 0;
+
+    background: linear-gradient(
+        to bottom,
+        rgba(0,0,0,0),
+        rgba(0,0,0,0.15) 40%,
+        rgba(0,0,0,0.9) 100%
+    );
+}
+
+/* ============================================================
+   CARD TEXT
+   ============================================================ */
 
-    /* ============================================================
-       CARD TEXT
-       ============================================================ */
+.game-card-content {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
 
-    .game-card-content {
-        position: absolute;
-        left: 0;
-        right: 0;
-        bottom: 0;
+    padding: 20px;
+
+    text-align: center;
 
-        padding: 20px;
+    z-index: 2;
+}
 
-        text-align: center;
+.game-card h3 {
+    margin: 0 0 3px;
 
-        z-index: 2;
-    }
+    font-family: "Nunito", sans-serif;
+    font-size: 1.6rem;
+    font-weight: 900;
 
-    .game-card h3 {
-        margin: 0 0 3px;
+    text-shadow:
+        0 0 5px #000,
+        0 0 10px #000,
+        0 0 20px #000,
+        0 2px 4px #000;
+}
 
-        font-family: "Nunito", sans-serif;
-        font-size: 1.6rem;
-        font-weight: 900;
+.game-card p {
+    margin: 0;
 
-        text-shadow:
-            0 0 5px #000,
-            0 0 10px #000,
-            0 0 20px #000,
-            0 2px 4px #000;
-    }
+    color: white;
+    font-size: 0.9rem;
 
-    .game-card p {
-        margin: 0;
+    text-shadow:
+        0 0 5px #000,
+        0 0 10px #000,
+        0 2px 4px #000;
+}
 
-        color: white;
-        font-size: 0.9rem;
+/* ============================================================
+   SEARCH
+   ============================================================ */
 
-        text-shadow:
-            0 0 5px #000,
-            0 0 10px #000,
-            0 2px 4px #000;
-    }
+.game-search {
+    width: 100%;
+    max-width: 600px;
 
-    /* ============================================================
-       SEARCH
-       ============================================================ */
+    display: block;
 
-    .game-search {
-        width: 100%;
-        max-width: 600px;
+    margin: 0 auto 35px;
 
-        display: block;
+    padding: 14px 18px;
 
-        margin: 0 auto 35px;
+    border-radius: 10px;
+    border: 1px solid #333;
 
-        padding: 14px 18px;
+    background: #1e1e1e;
+    color: white;
 
-        border-radius: 10px;
-        border: 1px solid #333;
+    font-size: 1.05rem;
 
-        background: #1e1e1e;
-        color: white;
+    outline: none;
 
-        font-size: 1.05rem;
+    box-shadow:
+        0 3px 12px rgba(0,0,0,0.4);
+}
 
-        outline: none;
+.game-search:focus {
+    border-color: #6fcf68;
 
-        box-shadow:
-            0 3px 12px rgba(0,0,0,0.4);
-    }
+    box-shadow:
+        0 0 10px rgba(111,207,104,0.25);
+}
 
-    .game-search:focus {
-        border-color: #6fcf68;
+.no-games {
+    text-align: center;
+    color: #aaa;
+    padding: 30px;
+    display: none;
+}
 
-        box-shadow:
-            0 0 10px rgba(111,207,104,0.25);
-    }
+/* ============================================================
+   SUBMIT BOX
+   ============================================================ */
 
-    .no-games {
-        text-align: center;
-        color: #aaa;
-        padding: 30px;
-        display: none;
-    }
+.submit-box {
+    background: #1e1e1e;
+    border-radius: 12px;
 
-    /* ============================================================
-       SUBMIT BOX
-       ============================================================ */
+    padding: 30px;
 
-    .submit-box {
-        background: #1e1e1e;
-        border-radius: 12px;
+    text-align: center;
 
-        padding: 30px;
+    box-shadow:
+        0 3px 12px rgba(0,0,0,0.4);
 
-        text-align: center;
+    border: 1px solid #2c2c2c;
+}
 
-        box-shadow:
-            0 3px 12px rgba(0,0,0,0.4);
+.submit-box p {
+    color: #cfcfcf;
+    line-height: 1.6;
+}
 
-        border: 1px solid #2c2c2c;
-    }
+/* ============================================================
+   GAME PAGE
+   ============================================================ */
 
-    .submit-box p {
-        color: #cfcfcf;
-        line-height: 1.6;
-    }
+.back-button {
+    display: inline-flex;
 
-    /* ============================================================
-       GAME PAGE
-       ============================================================ */
+    align-items: center;
+    gap: 8px;
 
-    .back-button {
-        display: inline-flex;
+    background: #1e1e1e;
+    color: white;
 
-        align-items: center;
-        gap: 8px;
+    border: 1px solid #333;
+    border-radius: 8px;
 
-        background: #1e1e1e;
-        color: white;
+    padding: 10px 16px;
 
-        border: 1px solid #333;
-        border-radius: 8px;
+    cursor: pointer;
 
-        padding: 10px 16px;
+    font-size: 1rem;
 
-        cursor: pointer;
+    margin-bottom: 30px;
+}
 
-        font-size: 1rem;
+.back-button:hover {
+    background: #292929;
+}
 
-        margin-bottom: 30px;
-    }
+.game-title {
+    text-align: center;
 
-    .back-button:hover {
-        background: #292929;
-    }
+    font-family: "Nunito", sans-serif;
 
-    .game-title {
-        text-align: center;
+    font-size: 3rem;
+    font-weight: 900;
 
-        font-family: "Nunito", sans-serif;
+    margin: 10px 0;
+}
 
-        font-size: 3rem;
-        font-weight: 900;
+.game-info {
+    text-align: center;
 
-        margin: 10px 0;
-    }
+    color: #aaa;
 
-    .game-info {
-        text-align: center;
+    margin-bottom: 25px;
+}
 
-        color: #aaa;
+/* ============================================================
+   GAME PAGE THUMBNAIL
+   ============================================================ */
 
-        margin-bottom: 25px;
-    }
+.game-page-thumbnail {
+    width: 100%;
+    max-width: 900px;
 
-    /* ============================================================
-       GAME PAGE THUMBNAIL
-       ============================================================ */
+    margin: 25px auto 30px;
 
-    .game-page-thumbnail {
-        width: 100%;
-        max-width: 900px;
+    border-radius: 16px;
 
-        margin: 25px auto 30px;
+    overflow: hidden;
 
-        border-radius: 16px;
+    background: #080808;
 
-        overflow: hidden;
+    position: relative;
 
-        background: #080808;
+    box-shadow:
+        0 0 20px #03045e,
+        0 0 40px #03045e;
+}
 
-        position: relative;
+.game-page-thumbnail img {
+    width: 100%;
+    height: auto;
 
-        box-shadow:
-            0 0 20px #03045e,
-            0 0 40px #03045e;
-    }
+    display: block;
+}
 
-    .game-page-thumbnail img {
-        width: 100%;
-        height: auto;
+/* ============================================================
+   PLAY AREA
+   ============================================================ */
 
-        display: block;
-    }
+.play-area {
+    text-align: center;
+}
 
-    /* ============================================================
-       PLAY AREA
-       ============================================================ */
+/* ============================================================
+   PLAY BUTTON
+   ============================================================ */
 
-    .play-area {
-        text-align: center;
-    }
+.play-button {
+    background: #276221;
 
-    /* ============================================================
-       PLAY BUTTON
-       ============================================================ */
+    color: white;
 
-    .play-button {
-        background: #276221;
+    border: none;
 
-        color: white;
+    border-radius: 8px;
 
-        border: none;
+    padding: 13px 28px;
 
-        border-radius: 8px;
+    cursor: pointer;
 
-        padding: 13px 28px;
+    font-size: 1.15rem;
 
-        cursor: pointer;
+    font-weight: bold;
+}
 
-        font-size: 1.15rem;
+.play-button:hover {
+    background: #347c2e;
+}
 
-        font-weight: bold;
-    }
+/* ============================================================
+   GAME FRAME
+   ============================================================ */
 
-    .play-button:hover {
-        background: #347c2e;
-    }
+.game-frame-container {
+    display: none;
 
-    /* ============================================================
-       GAME FRAME
-       ============================================================ */
+    width: 100%;
 
-    .game-frame-container {
-        display: none;
+    max-width: 1000px;
 
-        width: 100%;
+    margin: 0 auto;
 
-        max-width: 1000px;
+    padding: 8px;
 
-        margin: 0 auto;
+    border-radius: 16px;
 
-        padding: 8px;
+    background: #03045e;
 
-        border-radius: 16px;
+    box-shadow:
+        0 0 20px #03045e,
+        0 0 45px #03045e;
 
-        background: #03045e;
+    position: relative;
+}
 
-        box-shadow:
-            0 0 20px #03045e,
-            0 0 45px #03045e;
+.game-frame-container:fullscreen {
+    max-width: none;
 
-        position: relative;
-    }
+    width: 100vw;
+    height: 100vh;
 
-    .game-frame-container:fullscreen {
-        max-width: none;
+    padding: 0;
 
-        width: 100vw;
-        height: 100vh;
+    border-radius: 0;
 
-        padding: 0;
+    background: #000;
+}
 
-        border-radius: 0;
+.game-frame-container:fullscreen .game-frame {
+    width: 100vw;
+    height: 100vh;
 
-        background: #000;
-    }
+    border-radius: 0;
+}
 
-    .game-frame-container:fullscreen .game-frame {
-        width: 100vw;
-        height: 100vh;
+.game-frame {
+    display: block;
 
-        border-radius: 0;
-    }
+    width: 100%;
+    height: 650px;
 
-    .game-frame {
-        display: block;
+    border: none;
 
-        width: 100%;
-        height: 650px;
+    border-radius: 10px;
 
-        border: none;
+    background: #000;
+}
 
-        border-radius: 10px;
+/* ============================================================
+   GAMEPLAY BAR
+   ============================================================ */
 
-        background: #000;
-    }
+.gameplay-bar {
+    position: absolute;
 
-    /* ============================================================
-       GAMEPLAY BAR
-       ============================================================ */
+    left: 8px;
+    right: 8px;
+    bottom: 8px;
 
-    .gameplay-bar {
-        position: absolute;
+    height: 42px;
 
-        left: 8px;
-        right: 8px;
-        bottom: 8px;
+    background: rgba(13,13,13,0.94);
 
-        height: 42px;
+    border-radius: 0 0 10px 10px;
 
-        background: rgba(13,13,13,0.94);
+    display: flex;
 
-        border-radius: 0 0 10px 10px;
+    align-items: center;
 
-        display: flex;
+    padding: 0 10px;
 
-        align-items: center;
+    z-index: 10;
 
-        padding: 0 10px;
+    backdrop-filter: blur(6px);
 
-        z-index: 10;
+    box-shadow:
+        0 -3px 12px rgba(0,0,0,0.35);
 
-        backdrop-filter: blur(6px);
+    transition:
+        opacity 0.2s,
+        transform 0.2s;
+}
 
-        box-shadow:
-            0 -3px 12px rgba(0,0,0,0.35);
+.gameplay-name {
+    color: #aaa;
 
-        transition:
-            opacity 0.2s,
-            transform 0.2s;
-    }
+    font-size: 0.78rem;
 
-    .gameplay-name {
-        color: #aaa;
+    white-space: nowrap;
 
-        font-size: 0.78rem;
+    overflow: hidden;
 
-        white-space: nowrap;
+    text-overflow: ellipsis;
 
-        overflow: hidden;
+    max-width: 40%;
+}
 
-        text-overflow: ellipsis;
+.gameplay-controls {
+    margin-left: auto;
 
-        max-width: 40%;
-    }
+    display: flex;
 
-    .gameplay-controls {
-        margin-left: auto;
+    align-items: center;
 
-        display: flex;
+    gap: 7px;
+}
 
-        align-items: center;
+.gameplay-button {
+    width: 30px;
+    height: 30px;
 
-        gap: 7px;
-    }
+    display: flex;
 
-    .gameplay-button {
-        width: 30px;
-        height: 30px;
+    align-items: center;
+    justify-content: center;
 
-        display: flex;
+    border: none;
 
-        align-items: center;
-        justify-content: center;
+    border-radius: 6px;
 
-        border: none;
+    background: transparent;
 
-        border-radius: 6px;
+    color: #ccc;
 
-        background: transparent;
+    cursor: pointer;
 
-        color: #ccc;
+    font-size: 18px;
 
-        cursor: pointer;
+    padding: 0;
 
-        font-size: 18px;
+    transition:
+        background 0.15s,
+        color 0.15s;
+}
 
-        padding: 0;
+.gameplay-button:hover {
+    background: #292929;
+    color: white;
+}
 
-        transition:
-            background 0.15s,
-            color 0.15s;
-    }
+.like-button {
+    font-size: 19px;
+}
 
-    .gameplay-button:hover {
-        background: #292929;
-        color: white;
-    }
+.fullscreen-button {
+    font-size: 20px;
+}
 
-    .like-button {
-        font-size: 19px;
-    }
+/* ============================================================
+   HIDE / SHOW BAR BUTTON
+   ============================================================ */
 
-    .fullscreen-button {
-        font-size: 20px;
-    }
+.hide-bar-button {
+    position: absolute;
 
-    /* ============================================================
-       HIDE / SHOW BAR BUTTON
-       ============================================================ */
+    left: 50%;
+    bottom: 7px;
 
-    .hide-bar-button {
-        position: absolute;
+    transform: translateX(-50%);
 
-        left: 50%;
-        bottom: 7px;
+    background: transparent;
 
-        transform: translateX(-50%);
+    color: #00B4D8;
 
-        background: transparent;
+    border: none;
 
-        color: #00B4D8;
+    padding: 4px 8px;
 
-        border: none;
+    font-size: 0.78rem;
 
-        padding: 4px 8px;
+    cursor: pointer;
 
-        font-size: 0.78rem;
+    z-index: 20;
+}
 
-        cursor: pointer;
+.hide-bar-button:hover {
+    color: #ADE8F4;
+    text-decoration: underline;
+}
 
-        z-index: 20;
-    }
+/* ============================================================
+   HIDDEN GAMEPLAY BAR
+   ============================================================ */
 
-    .hide-bar-button:hover {
-        color: #ADE8F4;
-        text-decoration: underline;
-    }
+.gameplay-bar.hidden {
+    opacity: 0;
 
-    /* ============================================================
-       HIDDEN GAMEPLAY BAR
-       ============================================================ */
+    transform: translateY(10px);
+}
 
-    .gameplay-bar.hidden {
-        opacity: 0;
+/* Keep Show bar visible when bar is hidden */
 
-        transform: translateY(10px);
-    }
+.game-frame-container:fullscreen
+.gameplay-bar.hidden
+.hide-bar-button {
 
-    /* Keep Show bar visible when bar is hidden */
+    opacity: 1;
 
-    .game-frame-container:fullscreen
-    .gameplay-bar.hidden
-    .hide-bar-button {
+    pointer-events: auto;
+}
 
-        opacity: 1;
+/* ============================================================
+   FULLSCREEN GAMEPLAY BAR
+   ============================================================ */
 
-        pointer-events: auto;
-    }
+.game-frame-container:fullscreen .gameplay-bar {
+    left: 0;
+    right: 0;
+    bottom: 0;
 
-    /* ============================================================
-       FULLSCREEN GAMEPLAY BAR
-       ============================================================ */
+    border-radius: 0;
 
-    .game-frame-container:fullscreen .gameplay-bar {
-        left: 0;
-        right: 0;
-        bottom: 0;
+    height: 44px;
+}
 
-        border-radius: 0;
+.game-frame-container:fullscreen .hide-bar-button {
+    display: block;
+}
 
-        height: 44px;
-    }
+/* ============================================================
+   GAME INSTRUCTIONS
+   ============================================================ */
 
-    .game-frame-container:fullscreen .hide-bar-button {
-        display: block;
-    }
+.game-instructions {
+    max-width: 900px;
 
-    /* ============================================================
-       GAME INSTRUCTIONS
-       ============================================================ */
+    margin: 40px auto 0;
 
-    .game-instructions {
-        max-width: 900px;
+    background: #000000;
 
-        margin: 40px auto 0;
+    border: 1px solid #2c2c2c;
 
-        background: #000000;
+    border-radius: 12px;
 
-        border: 1px solid #2c2c2c;
+    padding: 25px 30px;
 
-        border-radius: 12px;
+    text-align: left;
 
-        padding: 25px 30px;
+    box-shadow:
+        0 3px 12px rgba(0,0,0,0.4);
 
-        text-align: left;
+    color: #d8f3dc;
+}
 
-        box-shadow:
-            0 3px 12px rgba(0,0,0,0.4);
+.game-instructions h2 {
+    margin: 0 0 15px;
 
-        color: #d8f3dc;
-    }
+    font-family: "Nunito", sans-serif;
 
-    .game-instructions h2 {
-        margin: 0 0 15px;
+    font-size: 1.5rem;
 
-        font-family: "Nunito", sans-serif;
+    font-weight: 900;
 
-        font-size: 1.5rem;
+    color: #d8f3dc;
+}
 
-        font-weight: 900;
+.game-instructions p {
+    margin: 7px 0;
 
-        color: #d8f3dc;
-    }
+    color: #d8f3dc;
 
-    .game-instructions p {
-        margin: 7px 0;
+    font-size: 1rem;
 
-        color: #d8f3dc;
+    line-height: 1.5;
+}
 
-        font-size: 1rem;
+/* ============================================================
+   DEVELOPERS PAGE
+   ============================================================ */
 
-        line-height: 1.5;
-    }
+.developers-page-content {
+    max-width: 850px;
 
-    /* ============================================================
-       DEVELOPERS PAGE
-       ============================================================ */
+    margin: 0 auto;
 
-    .developers-page-content {
-        max-width: 850px;
+    padding: 40px 20px 80px;
 
-        margin: 0 auto;
+    text-align: left;
+}
 
-        padding: 40px 20px 80px;
+.developers-page-content h1 {
+    text-align: center;
 
-        text-align: left;
-    }
+    font-family: "Nunito", sans-serif;
 
-    .developers-page-content h1 {
-        text-align: center;
+    font-size: 2.6rem;
 
-        font-family: "Nunito", sans-serif;
+    font-weight: 900;
 
-        font-size: 2.6rem;
+    margin: 0 0 35px;
+}
 
-        font-weight: 900;
+.developers-box {
+    background: #000000;
 
-        margin: 0 0 35px;
-    }
+    border: 1px solid #2c2c2c;
 
-    .developers-box {
-        background: #000000;
+    border-radius: 12px;
 
-        border: 1px solid #2c2c2c;
+    padding: 30px;
 
-        border-radius: 12px;
+    box-shadow:
+        0 3px 12px rgba(0,0,0,0.45);
+}
 
-        padding: 30px;
+.developers-box h2 {
+    font-family: "Nunito", sans-serif;
 
-        box-shadow:
-            0 3px 12px rgba(0,0,0,0.45);
-    }
+    font-size: 1.5rem;
 
-    .developers-box h2 {
-        font-family: "Nunito", sans-serif;
+    font-weight: 900;
 
-        font-size: 1.5rem;
+    margin: 0 0 15px;
 
-        font-weight: 900;
+    color: #d8f3dc;
+}
 
-        margin: 0 0 15px;
+.developers-box h3 {
+    font-family: "Nunito", sans-serif;
 
-        color: #d8f3dc;
-    }
+    font-size: 1.15rem;
 
-    .developers-box h3 {
-        font-family: "Nunito", sans-serif;
+    margin: 28px 0 10px;
 
-        font-size: 1.15rem;
+    color: #d8f3dc;
+}
 
-        margin: 28px 0 10px;
+.developers-box p {
+    color: #d8f3dc;
 
-        color: #d8f3dc;
-    }
+    line-height: 1.7;
 
-    .developers-box p {
-        color: #d8f3dc;
+    margin: 8px 0;
+}
 
-        line-height: 1.7;
+.developers-box ul {
+    margin: 10px 0 0;
 
-        margin: 8px 0;
-    }
+    padding-left: 25px;
 
-    .developers-box ul {
-        margin: 10px 0 0;
+    color: #d8f3dc;
 
-        padding-left: 25px;
+    line-height: 1.8;
+}
 
-        color: #d8f3dc;
+.developers-box li {
+    margin-bottom: 5px;
+}
 
-        line-height: 1.8;
-    }
+.developer-submit {
+    display: inline-block;
 
-    .developers-box li {
-        margin-bottom: 5px;
-    }
+    margin-top: 25px;
 
-    .developer-submit {
-        display: inline-block;
+    background: #276221;
 
-        margin-top: 25px;
+    color: white;
 
-        background: #276221;
+    text-decoration: none;
 
-        color: white;
+    font-weight: bold;
 
-        text-decoration: none;
+    padding: 13px 22px;
 
-        font-weight: bold;
+    border-radius: 8px;
 
-        padding: 13px 22px;
+    transition:
+        background 0.2s,
+        transform 0.2s;
+}
 
-        border-radius: 8px;
+.developer-submit:hover {
+    background: #347c2e;
 
-        transition:
-            background 0.2s,
-            transform 0.2s;
-    }
+    transform: translateY(-2px);
+}
 
-    .developer-submit:hover {
-        background: #347c2e;
+/* ============================================================
+   FOOTER
+   ============================================================ */
 
-        transform: translateY(-2px);
-    }
+footer {
+    margin-top: 60px;
 
-    /* ============================================================
-       FOOTER
-       ============================================================ */
+    padding: 25px 30px;
 
-    footer {
-        margin-top: 60px;
+    text-align: center;
 
-        padding: 25px 30px;
+    background: #0d0d0d;
 
-        text-align: center;
+    color: #aaa;
+}
 
-        background: #0d0d0d;
+footer p {
+    margin: 0 0 12px;
+}
 
-        color: #aaa;
-    }
+.footer-links {
+    display: flex;
 
-    footer p {
-        margin: 0 0 12px;
-    }
+    justify-content: space-between;
+    align-items: center;
 
-    .footer-links {
-        display: flex;
+    max-width: 1100px;
 
-        justify-content: space-between;
-        align-items: center;
+    margin: 0 auto;
+}
 
-        max-width: 1100px;
+.footer-links a {
+    color: #6fcf68;
 
-        margin: 0 auto;
-    }
+    text-decoration: none;
 
-    .footer-links a {
-        color: #6fcf68;
+    font-weight: bold;
+}
 
-        text-decoration: none;
-
-        font-weight: bold;
-    }
-
-    .footer-links a:hover {
-        text-decoration: underline;
-    }
+.footer-links a:hover {
+    text-decoration: underline;
+}
 
 </style>
 
@@ -1283,346 +1289,734 @@
 
 <script>
 
-    /* ============================================================
-       GAME LIST
-       ============================================================ */
+/* ============================================================
+   GAME LIST
+   ============================================================ */
 
-    const games = [
+const games = [
 
-        {
-            id: "Gravi-Plat",
-            name: "Gravi-Plat",
-            creator: "zoomyeah",
-            date: "August 10, 2026",
-            gameFile: "Gravi-Plat",
+    {
+        id: "Gravi-Plat",
+        name: "Gravi-Plat",
+        creator: "zoomyeah",
+        date: "August 10, 2026",
+        gameFile: "Gravi-Plat",
 
-            instructions: [
-                "• Touch the START button and press ENTER",
-                "• WASD / Arrow Keys to move",
-                "• Space to switch gravity",
-                "• Don't hit spikes.",
-                "• The purple forces you down.",
-                "• The green forces you down.",
-                "• The yellow changes your gravity.",
-                "• Get to the teleporter to advance!"
-            ]
-        },
-
-
-        {
-            id: "WallRider TN",
-            name: "• WallRider •",
-            creator: "zoomyeah",
-            date: "August 11, 2026",
-            gameFile: "• WallRider •",
-
-            instructions: [
-                "• WASD/Arrow keys to move",
-                "H to slice",
-                "Y to shoot fireball (needs: Fireball)",
-                "Go to the side of the screen you'd like to enter.",
-                "Get checkpoints and collect hidden collectibles.",
-                "Defeat all enemy ninjas and pass all the levels."
-            ]
-        }
-
-    ];
+        instructions: [
+            "• Touch the START button and press ENTER",
+            "• WASD / Arrow Keys to move",
+            "• Space to switch gravity",
+            "• Don't hit spikes.",
+            "• The purple forces you down.",
+            "• The green forces you down.",
+            "• The yellow changes your gravity.",
+            "• Get to the teleporter to advance!"
+        ]
+    },
 
 
-    /* ============================================================
-       PAGE NAVIGATION
-       ============================================================ */
+    {
+        id: "WallRider TN",
+        name: "• WallRider •",
+        creator: "zoomyeah",
+        date: "August 11, 2026",
+        gameFile: "• WallRider •",
 
-    function showPage(pageID) {
-
-        document
-            .querySelectorAll(".page")
-            .forEach(page => {
-
-                page.classList.remove("active");
-
-            });
-
-
-        const page =
-            document.getElementById(pageID);
-
-
-        if (page) {
-
-            page.classList.add("active");
-
-        }
-
-
-        /* Toggle Developers page mode */
-
-        if (pageID === "developers-page") {
-
-            document.body.classList.add(
-                "developers-mode"
-            );
-
-        }
-
-        else {
-
-            document.body.classList.remove(
-                "developers-mode"
-            );
-
-        }
-
-
-        window.scrollTo(0, 0);
-
-
-        if (pageID !== "game-page") {
-
-            history.pushState(
-                null,
-                "",
-                pageID === "home-page"
-                    ? "#home"
-                    : "#" +
-                      pageID.replace("-page", "")
-            );
-
-        }
-
+        instructions: [
+            "• WASD/Arrow keys to move",
+            "H to slice",
+            "Y to shoot fireball (needs: Fireball)",
+            "Go to the side of the screen you'd like to enter.",
+            "Get checkpoints and collect hidden collectibles.",
+            "Defeat all enemy ninjas and pass all the levels."
+        ]
     }
 
+];
 
-    /* ============================================================
-       CREATE GAME CARDS
-       ============================================================ */
 
-    function createGameCards(gameList = games) {
+/* ============================================================
+   PAGE NAVIGATION
+   ============================================================ */
 
-        const gamesList =
-            document.getElementById("games-list");
+function showPage(pageID) {
 
+    document
+        .querySelectorAll(".page")
+        .forEach(page => {
 
-        gamesList.innerHTML = "";
-
-
-        const noGames =
-            document.getElementById("no-games");
-
-
-        if (gameList.length === 0) {
-
-            noGames.style.display = "block";
-
-            return;
-
-        }
-
-
-        noGames.style.display = "none";
-
-
-        gameList.forEach(game => {
-
-            const card =
-                document.createElement("div");
-
-
-            card.className =
-                "game-card";
-
-
-            card.onclick =
-                function() {
-
-                    openGame(game.id);
-
-                };
-
-
-            const thumbnailContainer =
-                document.createElement("div");
-
-
-            thumbnailContainer.className =
-                "game-thumbnail-container";
-
-
-            const thumbnail =
-                document.createElement("img");
-
-
-            thumbnail.className =
-                "game-thumbnail";
-
-
-            thumbnail.src =
-                "/game-thumbnail/" +
-                game.id;
-
-
-            thumbnail.alt =
-                game.name +
-                " thumbnail";
-
-
-            const overlay =
-                document.createElement("div");
-
-
-            overlay.className =
-                "game-thumbnail-overlay";
-
-
-            const content =
-                document.createElement("div");
-
-
-            content.className =
-                "game-card-content";
-
-
-            const title =
-                document.createElement("h3");
-
-
-            title.textContent =
-                game.name;
-
-
-            const creator =
-                document.createElement("p");
-
-
-            creator.textContent =
-                "by " +
-                game.creator +
-                " · " +
-                game.date;
-
-
-            content.appendChild(title);
-
-            content.appendChild(creator);
-
-
-            thumbnailContainer.appendChild(
-                thumbnail
-            );
-
-
-            thumbnailContainer.appendChild(
-                overlay
-            );
-
-
-            thumbnailContainer.appendChild(
-                content
-            );
-
-
-            card.appendChild(
-                thumbnailContainer
-            );
-
-
-            gamesList.appendChild(card);
+            page.classList.remove("active");
 
         });
 
-    }
+
+    const page =
+        document.getElementById(pageID);
 
 
-    /* ============================================================
-       SEARCH
-       ============================================================ */
+    if (page) {
 
-    function searchGames() {
-
-        const search =
-            document
-                .getElementById("game-search")
-                .value
-                .toLowerCase()
-                .trim();
-
-
-        const filtered =
-            games.filter(game =>
-
-                game.name
-                    .toLowerCase()
-                    .includes(search)
-
-                ||
-
-                game.creator
-                    .toLowerCase()
-                    .includes(search)
-
-            );
-
-
-        createGameCards(filtered);
+        page.classList.add("active");
 
     }
 
 
-    /* ============================================================
-       CURRENT GAME
-       ============================================================ */
+    /* Toggle Developers page mode */
 
-    let currentGame = null;
+    if (pageID === "developers-page") {
 
+        document.body.classList.add(
+            "developers-mode"
+        );
 
-    /* ============================================================
-       LOAD INSTRUCTIONS
-       ============================================================ */
+    }
 
-    function loadInstructions(game) {
+    else {
 
-        const instructionsList =
-            document.getElementById(
-                "game-instructions-list"
-            );
-
-
-        instructionsList.innerHTML = "";
-
-
-        if (!game.instructions) {
-
-            return;
-
-        }
-
-
-        game.instructions.forEach(
-            instruction => {
-
-                const instructionText =
-                    document.createElement("p");
-
-
-                instructionText.textContent =
-                    instruction;
-
-
-                instructionsList.appendChild(
-                    instructionText
-                );
-
-            }
+        document.body.classList.remove(
+            "developers-mode"
         );
 
     }
 
 
-    /* ============================================================
-       OPEN GAME
-       ============================================================ */
+    /* Toggle Game page mode */
 
-    function openGame(gameID) {
+    if (pageID === "game-page") {
+
+        document.body.classList.add(
+            "game-mode"
+        );
+
+    }
+
+    else {
+
+        document.body.classList.remove(
+            "game-mode"
+        );
+
+    }
+
+
+    window.scrollTo(0, 0);
+
+
+    if (pageID !== "game-page") {
+
+        history.pushState(
+            null,
+            "",
+            pageID === "home-page"
+                ? "#home"
+                : "#" +
+                  pageID.replace("-page", "")
+        );
+
+    }
+
+}
+
+
+/* ============================================================
+   CREATE GAME CARDS
+   ============================================================ */
+
+function createGameCards(gameList = games) {
+
+    const gamesList =
+        document.getElementById("games-list");
+
+
+    gamesList.innerHTML = "";
+
+
+    const noGames =
+        document.getElementById("no-games");
+
+
+    if (gameList.length === 0) {
+
+        noGames.style.display = "block";
+
+        return;
+
+    }
+
+
+    noGames.style.display = "none";
+
+
+    gameList.forEach(game => {
+
+        const card =
+            document.createElement("div");
+
+
+        card.className =
+            "game-card";
+
+
+        card.onclick =
+            function() {
+
+                openGame(game.id);
+
+            };
+
+
+        const thumbnailContainer =
+            document.createElement("div");
+
+
+        thumbnailContainer.className =
+            "game-thumbnail-container";
+
+
+        const thumbnail =
+            document.createElement("img");
+
+
+        thumbnail.className =
+            "game-thumbnail";
+
+
+        thumbnail.src =
+            "/game-thumbnail/" +
+            game.id;
+
+
+        thumbnail.alt =
+            game.name +
+            " thumbnail";
+
+
+        const overlay =
+            document.createElement("div");
+
+
+        overlay.className =
+            "game-thumbnail-overlay";
+
+
+        const content =
+            document.createElement("div");
+
+
+        content.className =
+            "game-card-content";
+
+
+        const title =
+            document.createElement("h3");
+
+
+        title.textContent =
+            game.name;
+
+
+        const creator =
+            document.createElement("p");
+
+
+        creator.textContent =
+            "by " +
+            game.creator +
+            " · " +
+            game.date;
+
+
+        content.appendChild(title);
+
+        content.appendChild(creator);
+
+
+        thumbnailContainer.appendChild(
+            thumbnail
+        );
+
+
+        thumbnailContainer.appendChild(
+            overlay
+        );
+
+
+        thumbnailContainer.appendChild(
+            content
+        );
+
+
+        card.appendChild(
+            thumbnailContainer
+        );
+
+
+        gamesList.appendChild(card);
+
+    });
+
+}
+
+
+/* ============================================================
+   SEARCH
+   ============================================================ */
+
+function searchGames() {
+
+    const search =
+        document
+            .getElementById("game-search")
+            .value
+            .toLowerCase()
+            .trim();
+
+
+    const filtered =
+        games.filter(game =>
+
+            game.name
+                .toLowerCase()
+                .includes(search)
+
+            ||
+
+            game.creator
+                .toLowerCase()
+                .includes(search)
+
+        );
+
+
+    createGameCards(filtered);
+
+}
+
+
+/* ============================================================
+   CURRENT GAME
+   ============================================================ */
+
+let currentGame = null;
+
+
+/* ============================================================
+   LOAD INSTRUCTIONS
+   ============================================================ */
+
+function loadInstructions(game) {
+
+    const instructionsList =
+        document.getElementById(
+            "game-instructions-list"
+        );
+
+
+    instructionsList.innerHTML = "";
+
+
+    if (!game.instructions) {
+
+        return;
+
+    }
+
+
+    game.instructions.forEach(
+        instruction => {
+
+            const instructionText =
+                document.createElement("p");
+
+
+            instructionText.textContent =
+                instruction;
+
+
+            instructionsList.appendChild(
+                instructionText
+            );
+
+        }
+    );
+
+}
+
+
+/* ============================================================
+   OPEN GAME
+   ============================================================ */
+
+function openGame(gameID) {
+
+    const game =
+        games.find(
+            game => game.id === gameID
+        );
+
+
+    if (!game) {
+
+        return;
+
+    }
+
+
+    currentGame =
+        game;
+
+
+    document
+        .querySelectorAll(".page")
+        .forEach(page => {
+
+            page.classList.remove("active");
+
+        });
+
+
+    document
+        .getElementById("game-page")
+        .classList.add("active");
+
+
+    document.body.classList.remove(
+        "developers-mode"
+    );
+
+
+    document.body.classList.add(
+        "game-mode"
+    );
+
+
+    document
+        .getElementById("game-title")
+        .textContent =
+            game.name;
+
+
+    document
+        .getElementById("game-info")
+        .textContent =
+            "Created by " +
+            game.creator +
+            " · Released " +
+            game.date;
+
+
+    loadInstructions(game);
+
+
+    const thumbnail =
+        document
+            .getElementById("game-thumbnail");
+
+
+    thumbnail.src =
+        "/game-thumbnail/" +
+        game.id;
+
+
+    thumbnail.alt =
+        game.name +
+        " thumbnail";
+
+
+    document
+        .getElementById("gameplay-name")
+        .textContent =
+            game.name;
+
+
+    resetGame();
+
+
+    history.pushState(
+        null,
+        "",
+        "#game-" +
+        game.id
+    );
+
+
+    window.scrollTo(0, 0);
+
+}
+
+
+/* ============================================================
+   RESET GAME
+   ============================================================ */
+
+function resetGame() {
+
+    const frame =
+        document.getElementById(
+            "game-frame"
+        );
+
+
+    const container =
+        document.getElementById(
+            "game-frame-container"
+        );
+
+
+    const thumbnail =
+        document.getElementById(
+            "game-page-thumbnail"
+        );
+
+
+    const thumbnailPlay =
+        document.getElementById(
+            "thumbnail-play-button"
+        );
+
+
+    const bar =
+        document.getElementById(
+            "gameplay-bar"
+        );
+
+
+    const hideBarButton =
+        document.getElementById(
+            "hide-bar-button"
+        );
+
+
+    frame.src = "";
+
+
+    container.style.display =
+        "none";
+
+
+    thumbnail.style.display =
+        "block";
+
+
+    thumbnailPlay.style.display =
+        "block";
+
+
+    bar.classList.remove(
+        "hidden"
+    );
+
+
+    hideBarButton.textContent =
+        "Hide bar";
+
+
+    if (document.fullscreenElement) {
+
+        document.exitFullscreen();
+
+    }
+
+}
+
+
+/* ============================================================
+   PLAY GAME
+   ============================================================ */
+
+function playGame() {
+
+    if (!currentGame) {
+
+        return;
+
+    }
+
+
+    const frame =
+        document.getElementById(
+            "game-frame"
+        );
+
+
+    const container =
+        document.getElementById(
+            "game-frame-container"
+        );
+
+
+    const thumbnail =
+        document.getElementById(
+            "game-page-thumbnail"
+        );
+
+
+    const thumbnailPlay =
+        document.getElementById(
+            "thumbnail-play-button"
+        );
+
+
+    const bar =
+        document.getElementById(
+            "gameplay-bar"
+        );
+
+
+    const hideBarButton =
+        document.getElementById(
+            "hide-bar-button"
+        );
+
+
+    frame.src =
+        "/game/" +
+        (currentGame.gameFile ||
+         currentGame.id);
+
+
+    frame.title =
+        currentGame.name;
+
+
+    container.style.display =
+        "block";
+
+
+    thumbnail.style.display =
+        "none";
+
+
+    thumbnailPlay.style.display =
+        "none";
+
+
+    bar.classList.remove(
+        "hidden"
+    );
+
+
+    hideBarButton.textContent =
+        "Hide bar";
+
+}
+
+
+/* ============================================================
+   FULLSCREEN
+   ============================================================ */
+
+function toggleFullscreen() {
+
+    const container =
+        document.getElementById(
+            "game-frame-container"
+        );
+
+
+    if (!document.fullscreenElement) {
+
+        container.requestFullscreen();
+
+    }
+
+    else {
+
+        document.exitFullscreen();
+
+    }
+
+}
+
+
+/* ============================================================
+   LIKE
+   ============================================================ */
+
+function likeGame() {
+
+    const button =
+        document.getElementById(
+            "like-button"
+        );
+
+
+    if (button.textContent === "♡") {
+
+        button.textContent =
+            "❤︎";
+
+    }
+
+    else {
+
+        button.textContent =
+            "♡";
+
+    }
+
+}
+
+
+/* ============================================================
+   HIDE / SHOW GAMEPLAY BAR
+   ============================================================ */
+
+function toggleGameBar() {
+
+    const bar =
+        document.getElementById(
+            "gameplay-bar"
+        );
+
+
+    const button =
+        document.getElementById(
+            "hide-bar-button"
+        );
+
+
+    bar.classList.toggle(
+        "hidden"
+    );
+
+
+    if (
+        bar.classList.contains(
+            "hidden"
+        )
+    ) {
+
+        button.textContent =
+            "Show bar";
+
+    }
+
+    else {
+
+        button.textContent =
+            "Hide bar";
+
+    }
+
+}
+
+
+/* ============================================================
+   HASH NAVIGATION
+   ============================================================ */
+
+function checkHash() {
+
+    const hash =
+        window.location.hash;
+
+
+    if (hash.startsWith("#game-")) {
+
+        const gameID =
+            hash.substring(6);
+
 
         const game =
             games.find(
@@ -1630,534 +2024,189 @@
             );
 
 
-        if (!game) {
+        if (game) {
+
+            openGameWithoutHistory(
+                game
+            );
 
             return;
 
         }
 
-
-        currentGame =
-            game;
+    }
 
 
-        document
-            .querySelectorAll(".page")
-            .forEach(page => {
+    if (hash === "#games") {
 
-                page.classList.remove("active");
+        showPageWithoutHistory(
+            "games-page"
+        );
 
-            });
+        return;
+
+    }
 
 
-        document
-            .getElementById("game-page")
-            .classList.add("active");
+    if (hash === "#developers") {
 
+        showPageWithoutHistory(
+            "developers-page"
+        );
+
+        return;
+
+    }
+
+
+    showPageWithoutHistory(
+        "home-page"
+    );
+
+}
+
+
+/* ============================================================
+   SHOW PAGE WITHOUT HISTORY
+   ============================================================ */
+
+function showPageWithoutHistory(pageID) {
+
+    document
+        .querySelectorAll(".page")
+        .forEach(page => {
+
+            page.classList.remove("active");
+
+        });
+
+
+    document
+        .getElementById(pageID)
+        .classList.add("active");
+
+
+    if (pageID === "developers-page") {
+
+        document.body.classList.add(
+            "developers-mode"
+        );
+
+    }
+
+    else {
 
         document.body.classList.remove(
             "developers-mode"
         );
 
-
-        document
-            .getElementById("game-title")
-            .textContent =
-                game.name;
+    }
 
 
-        document
-            .getElementById("game-info")
-            .textContent =
-                "Created by " +
-                game.creator +
-                " · Released " +
-                game.date;
+    /* Toggle Game page mode */
 
+    if (pageID === "game-page") {
 
-        loadInstructions(game);
-
-
-        const thumbnail =
-            document
-                .getElementById("game-thumbnail");
-
-
-        thumbnail.src =
-            "/game-thumbnail/" +
-            game.id;
-
-
-        thumbnail.alt =
-            game.name +
-            " thumbnail";
-
-
-        document
-            .getElementById("gameplay-name")
-            .textContent =
-                game.name;
-
-
-        resetGame();
-
-
-        history.pushState(
-            null,
-            "",
-            "#game-" +
-            game.id
+        document.body.classList.add(
+            "game-mode"
         );
 
-
-        window.scrollTo(0, 0);
-
     }
 
+    else {
 
-    /* ============================================================
-       RESET GAME
-       ============================================================ */
-
-    function resetGame() {
-
-        const frame =
-            document.getElementById(
-                "game-frame"
-            );
-
-
-        const container =
-            document.getElementById(
-                "game-frame-container"
-            );
-
-
-        const thumbnail =
-            document.getElementById(
-                "game-page-thumbnail"
-            );
-
-
-        const thumbnailPlay =
-            document.getElementById(
-                "thumbnail-play-button"
-            );
-
-
-        const bar =
-            document.getElementById(
-                "gameplay-bar"
-            );
-
-
-        const hideBarButton =
-            document.getElementById(
-                "hide-bar-button"
-            );
-
-
-        frame.src = "";
-
-
-        container.style.display =
-            "none";
-
-
-        thumbnail.style.display =
-            "block";
-
-
-        thumbnailPlay.style.display =
-            "block";
-
-
-        bar.classList.remove(
-            "hidden"
-        );
-
-
-        hideBarButton.textContent =
-            "Hide bar";
-
-
-        if (document.fullscreenElement) {
-
-            document.exitFullscreen();
-
-        }
-
-    }
-
-
-    /* ============================================================
-       PLAY GAME
-       ============================================================ */
-
-    function playGame() {
-
-        if (!currentGame) {
-
-            return;
-
-        }
-
-
-        const frame =
-            document.getElementById(
-                "game-frame"
-            );
-
-
-        const container =
-            document.getElementById(
-                "game-frame-container"
-            );
-
-
-        const thumbnail =
-            document.getElementById(
-                "game-page-thumbnail"
-            );
-
-
-        const thumbnailPlay =
-            document.getElementById(
-                "thumbnail-play-button"
-            );
-
-
-        const bar =
-            document.getElementById(
-                "gameplay-bar"
-            );
-
-
-        const hideBarButton =
-            document.getElementById(
-                "hide-bar-button"
-            );
-
-
-        frame.src =
-            "/game/" +
-            (currentGame.gameFile ||
-             currentGame.id);
-
-
-        frame.title =
-            currentGame.name;
-
-
-        container.style.display =
-            "block";
-
-
-        thumbnail.style.display =
-            "none";
-
-
-        thumbnailPlay.style.display =
-            "none";
-
-
-        bar.classList.remove(
-            "hidden"
-        );
-
-
-        hideBarButton.textContent =
-            "Hide bar";
-
-    }
-
-
-    /* ============================================================
-       FULLSCREEN
-       ============================================================ */
-
-    function toggleFullscreen() {
-
-        const container =
-            document.getElementById(
-                "game-frame-container"
-            );
-
-
-        if (!document.fullscreenElement) {
-
-            container.requestFullscreen();
-
-        }
-
-        else {
-
-            document.exitFullscreen();
-
-        }
-
-    }
-
-
-    /* ============================================================
-       LIKE
-       ============================================================ */
-
-    function likeGame() {
-
-        const button =
-            document.getElementById(
-                "like-button"
-            );
-
-
-        if (button.textContent === "♡") {
-
-            button.textContent =
-                "❤︎";
-
-        }
-
-        else {
-
-            button.textContent =
-                "♡";
-
-        }
-
-    }
-
-
-    /* ============================================================
-       HIDE / SHOW GAMEPLAY BAR
-       ============================================================ */
-
-    function toggleGameBar() {
-
-        const bar =
-            document.getElementById(
-                "gameplay-bar"
-            );
-
-
-        const button =
-            document.getElementById(
-                "hide-bar-button"
-            );
-
-
-        bar.classList.toggle(
-            "hidden"
-        );
-
-
-        if (
-            bar.classList.contains(
-                "hidden"
-            )
-        ) {
-
-            button.textContent =
-                "Show bar";
-
-        }
-
-        else {
-
-            button.textContent =
-                "Hide bar";
-
-        }
-
-    }
-
-
-    /* ============================================================
-       HASH NAVIGATION
-       ============================================================ */
-
-    function checkHash() {
-
-        const hash =
-            window.location.hash;
-
-
-        if (hash.startsWith("#game-")) {
-
-            const gameID =
-                hash.substring(6);
-
-
-            const game =
-                games.find(
-                    game => game.id === gameID
-                );
-
-
-            if (game) {
-
-                openGameWithoutHistory(
-                    game
-                );
-
-                return;
-
-            }
-
-        }
-
-
-        if (hash === "#games") {
-
-            showPageWithoutHistory(
-                "games-page"
-            );
-
-            return;
-
-        }
-
-
-        if (hash === "#developers") {
-
-            showPageWithoutHistory(
-                "developers-page"
-            );
-
-            return;
-
-        }
-
-
-        showPageWithoutHistory(
-            "home-page"
+        document.body.classList.remove(
+            "game-mode"
         );
 
     }
 
 
-    /* ============================================================
-       SHOW PAGE WITHOUT HISTORY
-       ============================================================ */
+    window.scrollTo(0, 0);
 
-    function showPageWithoutHistory(pageID) {
-
-        document
-            .querySelectorAll(".page")
-            .forEach(page => {
-
-                page.classList.remove("active");
-
-            });
+}
 
 
-        document
-            .getElementById(pageID)
-            .classList.add("active");
+/* ============================================================
+   OPEN GAME WITHOUT HISTORY
+   ============================================================ */
+
+function openGameWithoutHistory(game) {
+
+    currentGame =
+        game;
 
 
-        if (pageID === "developers-page") {
-
-            document.body.classList.add(
-                "developers-mode"
-            );
-
-        }
-
-        else {
-
-            document.body.classList.remove(
-                "developers-mode"
-            );
-
-        }
-
-
-        window.scrollTo(0, 0);
-
-    }
-
-
-    /* ============================================================
-       OPEN GAME WITHOUT HISTORY
-       ============================================================ */
-
-    function openGameWithoutHistory(game) {
-
-        currentGame =
-            game;
-
-
-        showPageWithoutHistory(
-            "game-page"
-        );
-
-
-        document
-            .getElementById("game-title")
-            .textContent =
-                game.name;
-
-
-        document
-            .getElementById("game-info")
-            .textContent =
-                "Created by " +
-                game.creator +
-                " · Released " +
-                game.date;
-
-
-        loadInstructions(game);
-
-
-        const thumbnail =
-            document.getElementById(
-                "game-thumbnail"
-            );
-
-
-        thumbnail.src =
-            "/game-thumbnail/" +
-            game.id;
-
-
-        thumbnail.alt =
-            game.name +
-            " thumbnail";
-
-
-        document
-            .getElementById("gameplay-name")
-            .textContent =
-                game.name;
-
-
-        resetGame();
-
-    }
-
-
-    /* ============================================================
-       START
-       ============================================================ */
-
-    createGameCards();
-
-
-    window.addEventListener(
-        "popstate",
-        checkHash
+    showPageWithoutHistory(
+        "game-page"
     );
 
 
-    window.addEventListener(
-        "hashchange",
-        checkHash
-    );
+    document
+        .getElementById("game-title")
+        .textContent =
+            game.name;
 
 
-    checkHash();
+    document
+        .getElementById("game-info")
+        .textContent =
+            "Created by " +
+            game.creator +
+            " · Released " +
+            game.date;
+
+
+    loadInstructions(game);
+
+
+    const thumbnail =
+        document.getElementById(
+            "game-thumbnail"
+        );
+
+
+    thumbnail.src =
+        "/game-thumbnail/" +
+        game.id;
+
+
+    thumbnail.alt =
+        game.name +
+        " thumbnail";
+
+
+    document
+        .getElementById("gameplay-name")
+        .textContent =
+            game.name;
+
+
+    resetGame();
+
+}
+
+
+/* ============================================================
+   START
+   ============================================================ */
+
+createGameCards();
+
+
+window.addEventListener(
+    "popstate",
+    checkHash
+);
+
+
+window.addEventListener(
+    "hashchange",
+    checkHash
+);
+
+
+checkHash();
 
 </script>
 
