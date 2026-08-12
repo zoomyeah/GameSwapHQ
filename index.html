@@ -76,6 +76,12 @@
         text-decoration: underline;
     }
 
+    /* Hide navigation on Developers page */
+
+    body.developers-mode nav {
+        display: none;
+    }
+
     /* ============================================================
        MAIN
        ============================================================ */
@@ -171,6 +177,7 @@
         background: #1e1e1e;
         box-shadow: 0 3px 12px rgba(0,0,0,0.5);
         cursor: pointer;
+
         transition:
             transform 0.2s,
             box-shadow 0.2s;
@@ -410,19 +417,8 @@
     }
 
     /* ============================================================
-       GAME CONTROLS
+       PLAY BUTTON
        ============================================================ */
-
-    .game-controls {
-        display: flex;
-
-        justify-content: center;
-        align-items: center;
-
-        gap: 12px;
-
-        margin-bottom: 25px;
-    }
 
     .play-button {
         background: #276221;
@@ -606,7 +602,7 @@
     }
 
     /* ============================================================
-       HIDE BAR BUTTON
+       HIDE / SHOW BAR BUTTON
        ============================================================ */
 
     .hide-bar-button {
@@ -647,12 +643,15 @@
         transform: translateY(10px);
     }
 
-    .gameplay-bar.hidden .hide-bar-button {
+    /* Keep Show bar visible when bar is hidden */
+
+    .game-frame-container:fullscreen
+    .gameplay-bar.hidden
+    .hide-bar-button {
+
         opacity: 1;
 
         pointer-events: auto;
-
-        transform: translate(-50%, 10px);
     }
 
     /* ============================================================
@@ -718,6 +717,117 @@
         font-size: 1rem;
 
         line-height: 1.5;
+    }
+
+    /* ============================================================
+       DEVELOPERS PAGE
+       ============================================================ */
+
+    .developers-page-content {
+        max-width: 850px;
+
+        margin: 0 auto;
+
+        padding: 40px 20px 80px;
+
+        text-align: left;
+    }
+
+    .developers-page-content h1 {
+        text-align: center;
+
+        font-family: "Nunito", sans-serif;
+
+        font-size: 2.6rem;
+
+        font-weight: 900;
+
+        margin: 0 0 35px;
+    }
+
+    .developers-box {
+        background: #000000;
+
+        border: 1px solid #2c2c2c;
+
+        border-radius: 12px;
+
+        padding: 30px;
+
+        box-shadow:
+            0 3px 12px rgba(0,0,0,0.45);
+    }
+
+    .developers-box h2 {
+        font-family: "Nunito", sans-serif;
+
+        font-size: 1.5rem;
+
+        font-weight: 900;
+
+        margin: 0 0 15px;
+
+        color: #d8f3dc;
+    }
+
+    .developers-box h3 {
+        font-family: "Nunito", sans-serif;
+
+        font-size: 1.15rem;
+
+        margin: 28px 0 10px;
+
+        color: #d8f3dc;
+    }
+
+    .developers-box p {
+        color: #d8f3dc;
+
+        line-height: 1.7;
+
+        margin: 8px 0;
+    }
+
+    .developers-box ul {
+        margin: 10px 0 0;
+
+        padding-left: 25px;
+
+        color: #d8f3dc;
+
+        line-height: 1.8;
+    }
+
+    .developers-box li {
+        margin-bottom: 5px;
+    }
+
+    .developer-submit {
+        display: inline-block;
+
+        margin-top: 25px;
+
+        background: #276221;
+
+        color: white;
+
+        text-decoration: none;
+
+        font-weight: bold;
+
+        padding: 13px 22px;
+
+        border-radius: 8px;
+
+        transition:
+            background 0.2s,
+            transform 0.2s;
+    }
+
+    .developer-submit:hover {
+        background: #347c2e;
+
+        transform: translateY(-2px);
     }
 
     /* ============================================================
@@ -910,8 +1020,6 @@
                 alt="Game thumbnail"
             >
 
-            <!-- PLAY BUTTON ON THUMBNAIL -->
-
             <button
                 class="play-button"
                 id="thumbnail-play-button"
@@ -964,8 +1072,6 @@
 
                     <div class="gameplay-controls">
 
-                        <!-- LIKE -->
-
                         <button
                             class="gameplay-button like-button"
                             id="like-button"
@@ -975,8 +1081,6 @@
                             ♡
                         </button>
 
-
-                        <!-- FULLSCREEN -->
 
                         <button
                             class="gameplay-button fullscreen-button"
@@ -991,7 +1095,7 @@
                 </div>
 
 
-                <!-- HIDE BAR -->
+                <!-- HIDE / SHOW BAR -->
 
                 <button
                     class="hide-bar-button"
@@ -1006,9 +1110,7 @@
         </div>
 
 
-        <!-- ====================================================
-             GAME INSTRUCTIONS
-             ==================================================== -->
+        <!-- GAME INSTRUCTIONS -->
 
         <div
             class="game-instructions"
@@ -1021,6 +1123,122 @@
 
             <div
                 id="game-instructions-list">
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<!-- ============================================================
+     DEVELOPERS PAGE
+     ============================================================ -->
+
+<div id="developers-page" class="page">
+
+    <main>
+
+        <div class="developers-page-content">
+
+            <h1>
+                For Developers
+            </h1>
+
+
+            <div class="developers-box">
+
+                <h2>
+                    Want your game on GameSwapHQ?
+                </h2>
+
+                <p>
+                    GameSwapHQ is a curated gaming portal.
+                    Every game is reviewed before being added
+                    to the site.
+                </p>
+
+
+                <h3>
+                    Game requirements
+                </h3>
+
+                <ul>
+
+                    <li>
+                        The game must be clean and appropriate
+                        for kids.
+                    </li>
+
+                    <li>
+                        The game should be complete and playable.
+                    </li>
+
+                    <li>
+                        The game should be good quality and
+                        reasonably polished.
+                    </li>
+
+                    <li>
+                        The game must not contain inappropriate,
+                        offensive, or unsafe content.
+                    </li>
+
+                    <li>
+                        The game should not contain unmoderated
+                        chat or other unsafe communication features.
+                    </li>
+
+                    <li>
+                        The game should not attempt to collect
+                        personal information from players.
+                    </li>
+
+                    <li>
+                        The game should not contain inappropriate
+                        advertisements or external content.
+                    </li>
+
+                    <li>
+                        Games are reviewed manually before they
+                        are added to GameSwapHQ.
+                    </li>
+
+                </ul>
+
+
+                <h3>
+                    What happens after you submit?
+                </h3>
+
+                <p>
+                    Submit your game using the form below.
+                    Your game will be reviewed manually. If it
+                    meets the GameSwapHQ requirements, it can be
+                    added to the site.
+                </p>
+
+
+                <h3>
+                    Ready to submit?
+                </h3>
+
+                <p>
+                    Use the submission form below to send us
+                    your game.
+                </p>
+
+
+                <a
+                    class="developer-submit"
+                    href="https://forms.gle/WNzPoGJN3xop6NyP8"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    Submit a Game
+                </a>
+
             </div>
 
         </div>
@@ -1051,7 +1269,10 @@
         </a>
 
 
-        <a href="#developers">
+        <a
+            href="#developers"
+            onclick="showPage('developers-page')"
+        >
             For Developers
         </a>
 
@@ -1061,7 +1282,6 @@
 
 
 <script>
-
 
     /* ============================================================
        GAME LIST
@@ -1097,12 +1317,7 @@
             gameFile: "• WallRider •",
 
             instructions: [
-                "WASD/Arrow keys to move",
-                "H to slice",
-                "Y to shoot fireball. (Needs: Fireball)",
-                "Go to the side of the screen you'd like to enter.",
-                "Get the checkpoints and hidden collectibles.",
-                "Defeat all the enemy ninjas and pass all the levels!"
+                "• Instructions coming soon!"
             ]
         }
 
@@ -1131,6 +1346,25 @@
         if (page) {
 
             page.classList.add("active");
+
+        }
+
+
+        /* Toggle Developers page mode */
+
+        if (pageID === "developers-page") {
+
+            document.body.classList.add(
+                "developers-mode"
+            );
+
+        }
+
+        else {
+
+            document.body.classList.remove(
+                "developers-mode"
+            );
 
         }
 
@@ -1337,7 +1571,7 @@
 
 
     /* ============================================================
-       LOAD GAME INSTRUCTIONS
+       LOAD INSTRUCTIONS
        ============================================================ */
 
     function loadInstructions(game) {
@@ -1414,6 +1648,11 @@
         document
             .getElementById("game-page")
             .classList.add("active");
+
+
+        document.body.classList.remove(
+            "developers-mode"
+        );
 
 
         document
@@ -1774,6 +2013,17 @@
         }
 
 
+        if (hash === "#developers") {
+
+            showPageWithoutHistory(
+                "developers-page"
+            );
+
+            return;
+
+        }
+
+
         showPageWithoutHistory(
             "home-page"
         );
@@ -1799,6 +2049,23 @@
         document
             .getElementById(pageID)
             .classList.add("active");
+
+
+        if (pageID === "developers-page") {
+
+            document.body.classList.add(
+                "developers-mode"
+            );
+
+        }
+
+        else {
+
+            document.body.classList.remove(
+                "developers-mode"
+            );
+
+        }
 
 
         window.scrollTo(0, 0);
@@ -1886,7 +2153,6 @@
 
 
     checkHash();
-
 
 </script>
 
