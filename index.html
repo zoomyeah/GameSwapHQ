@@ -146,6 +146,19 @@ main {
 }
 
 /* ============================================================
+   FEATURED SECTION
+   ============================================================ */
+
+.featured-section {
+    margin-top: 20px;
+}
+
+.featured-section h2 {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+/* ============================================================
    GAMES GRID
    ============================================================ */
 
@@ -939,6 +952,24 @@ footer p {
 
         </section>
 
+
+        <!-- ====================================================
+             FEATURED GAMES
+             ==================================================== -->
+
+        <section class="section featured-section">
+
+            <h2>
+                Featured Games
+            </h2>
+
+            <div
+                id="featured-games-list"
+                class="games-grid">
+            </div>
+
+        </section>
+
     </main>
 
 </div>
@@ -1332,6 +1363,7 @@ const games = [
         ]
     },
 
+
     {
         id: "Painterz",
         name: "Painterz",
@@ -1348,6 +1380,29 @@ const games = [
         ]
     }
 
+];
+
+
+/* ============================================================
+   FEATURED GAMES
+   ============================================================ */
+
+/*
+   Add the IDs of games you want featured here.
+
+   Example:
+
+   const featuredGames = [
+       "Painterz",
+       "Gravi-Plat"
+   ];
+
+*/
+
+const featuredGames = [
+
+    "Painterz",
+    "Gravi-Plat"
 
 ];
 
@@ -1436,6 +1491,119 @@ function showPage(pageID) {
 
 
 /* ============================================================
+   CREATE GAME CARD
+   ============================================================ */
+
+function createGameCard(game) {
+
+    const card =
+        document.createElement("div");
+
+
+    card.className =
+        "game-card";
+
+
+    card.onclick =
+        function() {
+
+            openGame(game.id);
+
+        };
+
+
+    const thumbnailContainer =
+        document.createElement("div");
+
+
+    thumbnailContainer.className =
+        "game-thumbnail-container";
+
+
+    const thumbnail =
+        document.createElement("img");
+
+
+    thumbnail.className =
+        "game-thumbnail";
+
+
+    thumbnail.src =
+        "/game-thumbnail/" +
+        game.id;
+
+
+    thumbnail.alt =
+        game.name +
+        " thumbnail";
+
+
+    const overlay =
+        document.createElement("div");
+
+
+    overlay.className =
+        "game-thumbnail-overlay";
+
+
+    const content =
+        document.createElement("div");
+
+
+    content.className =
+        "game-card-content";
+
+
+    const title =
+        document.createElement("h3");
+
+
+    title.textContent =
+        game.name;
+
+
+    const creator =
+        document.createElement("p");
+
+
+    creator.textContent =
+        "by " +
+        game.creator +
+        " · " +
+        game.date;
+
+
+    content.appendChild(title);
+
+    content.appendChild(creator);
+
+
+    thumbnailContainer.appendChild(
+        thumbnail
+    );
+
+
+    thumbnailContainer.appendChild(
+        overlay
+    );
+
+
+    thumbnailContainer.appendChild(
+        content
+    );
+
+
+    card.appendChild(
+        thumbnailContainer
+    );
+
+
+    return card;
+
+}
+
+
+/* ============================================================
    CREATE GAME CARDS
    ============================================================ */
 
@@ -1466,109 +1634,48 @@ function createGameCards(gameList = games) {
 
     gameList.forEach(game => {
 
-        const card =
-            document.createElement("div");
+        gamesList.appendChild(
+            createGameCard(game)
+        );
+
+    });
+
+}
 
 
-        card.className =
-            "game-card";
+/* ============================================================
+   CREATE FEATURED GAME CARDS
+   ============================================================ */
 
+function createFeaturedGameCards() {
 
-        card.onclick =
-            function() {
-
-                openGame(game.id);
-
-            };
-
-
-        const thumbnailContainer =
-            document.createElement("div");
-
-
-        thumbnailContainer.className =
-            "game-thumbnail-container";
-
-
-        const thumbnail =
-            document.createElement("img");
-
-
-        thumbnail.className =
-            "game-thumbnail";
-
-
-        thumbnail.src =
-            "/game-thumbnail/" +
-            game.id;
-
-
-        thumbnail.alt =
-            game.name +
-            " thumbnail";
-
-
-        const overlay =
-            document.createElement("div");
-
-
-        overlay.className =
-            "game-thumbnail-overlay";
-
-
-        const content =
-            document.createElement("div");
-
-
-        content.className =
-            "game-card-content";
-
-
-        const title =
-            document.createElement("h3");
-
-
-        title.textContent =
-            game.name;
-
-
-        const creator =
-            document.createElement("p");
-
-
-        creator.textContent =
-            "by " +
-            game.creator +
-            " · " +
-            game.date;
-
-
-        content.appendChild(title);
-
-        content.appendChild(creator);
-
-
-        thumbnailContainer.appendChild(
-            thumbnail
+    const featuredList =
+        document.getElementById(
+            "featured-games-list"
         );
 
 
-        thumbnailContainer.appendChild(
-            overlay
+    featuredList.innerHTML = "";
+
+
+    featuredGames.forEach(gameID => {
+
+        const game =
+            games.find(
+                game => game.id === gameID
+            );
+
+
+        if (!game) {
+
+            return;
+
+        }
+
+
+        featuredList.appendChild(
+            createGameCard(game)
         );
-
-
-        thumbnailContainer.appendChild(
-            content
-        );
-
-
-        card.appendChild(
-            thumbnailContainer
-        );
-
-
-        gamesList.appendChild(card);
 
     });
 
@@ -2209,6 +2316,8 @@ function openGameWithoutHistory(game) {
    ============================================================ */
 
 createGameCards();
+
+createFeaturedGameCards();
 
 
 window.addEventListener(
