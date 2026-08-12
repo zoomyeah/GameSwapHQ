@@ -324,127 +324,6 @@
     }
 
     /* ============================================================
-       DEVELOPERS PAGE
-       ============================================================ */
-
-    .developers-page {
-        max-width: 850px;
-        margin: 0 auto;
-    }
-
-    .developers-page h2 {
-        text-align: center;
-
-        font-family: "Nunito", sans-serif;
-
-        font-size: 2.6rem;
-        font-weight: 900;
-
-        margin: 0 0 15px;
-    }
-
-    .developers-intro {
-        text-align: center;
-
-        color: #cfcfcf;
-
-        font-size: 1.1rem;
-
-        line-height: 1.6;
-
-        margin: 0 auto 40px;
-
-        max-width: 700px;
-    }
-
-    .developer-section {
-        background: #1e1e1e;
-
-        border: 1px solid #2c2c2c;
-
-        border-radius: 12px;
-
-        padding: 25px 30px;
-
-        margin-bottom: 20px;
-
-        box-shadow:
-            0 3px 12px rgba(0,0,0,0.4);
-    }
-
-    .developer-section h3 {
-        font-family: "Nunito", sans-serif;
-
-        font-size: 1.4rem;
-
-        font-weight: 900;
-
-        margin: 0 0 12px;
-    }
-
-    .developer-section p {
-        color: #cfcfcf;
-
-        line-height: 1.7;
-
-        margin: 0;
-    }
-
-    .developer-section ul {
-        color: #cfcfcf;
-
-        line-height: 1.8;
-
-        margin: 10px 0 0;
-
-        padding-left: 25px;
-    }
-
-    .developer-section li {
-        margin-bottom: 6px;
-    }
-
-    .developer-submit {
-        text-align: center;
-
-        margin: 40px 0 10px;
-    }
-
-    .developer-submit p {
-        color: #cfcfcf;
-
-        margin-bottom: 20px;
-    }
-
-    .developer-submit-button {
-        display: inline-block;
-
-        background: #276221;
-
-        color: white;
-
-        text-decoration: none;
-
-        border-radius: 8px;
-
-        padding: 13px 28px;
-
-        font-size: 1.1rem;
-
-        font-weight: bold;
-
-        transition:
-            background 0.2s,
-            transform 0.2s;
-    }
-
-    .developer-submit-button:hover {
-        background: #347c2e;
-
-        transform: translateY(-2px);
-    }
-
-    /* ============================================================
        GAME PAGE
        ============================================================ */
 
@@ -491,48 +370,6 @@
 
         margin-bottom: 25px;
     }
-
-    /* ============================================================
-   GAME INSTRUCTIONS
-   ============================================================ */
-
-.game-instructions {
-    max-width: 900px;
-    margin: 30px auto;
-
-    background: #000000;
-
-    border: 1px solid #2c2c2c;
-    border-radius: 12px;
-
-    padding: 25px 30px;
-
-    text-align: left;
-
-    box-shadow:
-        0 3px 12px rgba(0,0,0,0.4);
-
-    color: #d8f3dc;
-}
-
-.game-instructions h2 {
-    margin: 0 0 15px;
-
-    font-family: "Nunito", sans-serif;
-    font-size: 1.5rem;
-    font-weight: 900;
-
-    color: #d8f3dc;
-}
-
-.game-instructions p {
-    margin: 7px 0;
-
-    color: #d8f3dc;
-
-    font-size: 1rem;
-    line-height: 1.5;
-}
 
     /* ============================================================
        GAME PAGE THUMBNAIL
@@ -771,50 +608,52 @@
     /* ============================================================
        HIDE BAR BUTTON
        ============================================================ */
-.hide-bar-button {
-    position: absolute;
 
-    left: 50%;
-    bottom: 7px;
+    .hide-bar-button {
+        position: absolute;
 
-    transform: translateX(-50%);
+        left: 50%;
+        bottom: 7px;
 
-    background: transparent;
+        transform: translateX(-50%);
 
-    color: #00B4D8;
+        background: transparent;
 
-    border: none;
+        color: #00B4D8;
 
-    padding: 4px 8px;
+        border: none;
 
-    font-size: 0.78rem;
+        padding: 4px 8px;
 
-    cursor: pointer;
+        font-size: 0.78rem;
 
-    z-index: 20;
-}
+        cursor: pointer;
 
-.hide-bar-button:hover {
-    color: #ADE8F4;
-    text-decoration: underline;
-}
+        z-index: 20;
+    }
+
+    .hide-bar-button:hover {
+        color: #ADE8F4;
+        text-decoration: underline;
+    }
+
     /* ============================================================
        HIDDEN GAMEPLAY BAR
        ============================================================ */
 
-.gameplay-bar.hidden {
-    opacity: 0;
+    .gameplay-bar.hidden {
+        opacity: 0;
 
-    transform: translateY(10px);
-}
+        transform: translateY(10px);
+    }
 
-.gameplay-bar.hidden .hide-bar-button {
-    opacity: 1;
+    .gameplay-bar.hidden .hide-bar-button {
+        opacity: 1;
 
-    pointer-events: auto;
+        pointer-events: auto;
 
-    transform: translate(-50%, 10px);
-}
+        transform: translate(-50%, 10px);
+    }
 
     /* ============================================================
        FULLSCREEN GAMEPLAY BAR
@@ -832,6 +671,53 @@
 
     .game-frame-container:fullscreen .hide-bar-button {
         display: block;
+    }
+
+    /* ============================================================
+       GAME INSTRUCTIONS
+       ============================================================ */
+
+    .game-instructions {
+        max-width: 900px;
+
+        margin: 40px auto 0;
+
+        background: #000000;
+
+        border: 1px solid #2c2c2c;
+
+        border-radius: 12px;
+
+        padding: 25px 30px;
+
+        text-align: left;
+
+        box-shadow:
+            0 3px 12px rgba(0,0,0,0.4);
+
+        color: #d8f3dc;
+    }
+
+    .game-instructions h2 {
+        margin: 0 0 15px;
+
+        font-family: "Nunito", sans-serif;
+
+        font-size: 1.5rem;
+
+        font-weight: 900;
+
+        color: #d8f3dc;
+    }
+
+    .game-instructions p {
+        margin: 7px 0;
+
+        color: #d8f3dc;
+
+        font-size: 1rem;
+
+        line-height: 1.5;
     }
 
     /* ============================================================
@@ -956,7 +842,6 @@
                 Games
             </h2>
 
-
             <input
                 type="text"
                 id="game-search"
@@ -965,156 +850,16 @@
                 oninput="searchGames()"
             >
 
-
             <div
                 id="games-list"
                 class="games-grid">
             </div>
-
 
             <div
                 id="no-games"
                 class="no-games">
 
                 No games found.
-
-            </div>
-
-        </section>
-
-    </main>
-
-</div>
-
-
-<!-- ============================================================
-     DEVELOPERS PAGE
-     ============================================================ -->
-
-<div id="developers-page" class="page">
-
-    <main>
-
-        <section class="developers-page">
-
-            <h2>
-                For Developers
-            </h2>
-
-            <p class="developers-intro">
-                Want your game on GameSwapHQ?
-                GameSwapHQ is a curated gaming portal, so every
-                submitted game is reviewed before it is added.
-            </p>
-
-
-            <div class="developer-section">
-
-                <h3>
-                    Game Requirements
-                </h3>
-
-                <ul>
-
-                    <li>
-                        Games must be clean, kid-friendly, and
-                        appropriate for a general audience.
-                    </li>
-
-                    <li>
-                        Games should be complete, playable, and
-                        function properly.
-                    </li>
-
-                    <li>
-                        Games should be reasonably polished and
-                        provide a good experience for players.
-                    </li>
-
-                    <li>
-                        Games must not contain inappropriate,
-                        offensive, or disturbing content.
-                    </li>
-
-                    <li>
-                        Games must not contain unapproved external
-                        links or unsafe websites.
-                    </li>
-
-                    <li>
-                        Games should use original content or content
-                        that you have permission to use.
-                    </li>
-
-                </ul>
-
-            </div>
-
-
-            <div class="developer-section">
-
-                <h3>
-                    Quality & Safety
-                </h3>
-
-                <p>
-                    Every game is manually reviewed before it is
-                    published on GameSwapHQ. Games may be tested for
-                    functionality, quality, safety, and appropriate
-                    content. A submission is not guaranteed to be
-                    accepted.
-                </p>
-
-            </div>
-
-
-            <div class="developer-section">
-
-                <h3>
-                    What Happens After You Submit?
-                </h3>
-
-                <p>
-                    Your game will be reviewed manually. If it meets
-                    the GameSwapHQ requirements and passes our review,
-                    it may be added to the website. If changes are
-                    needed, you may be contacted before the game is
-                    published.
-                </p>
-
-            </div>
-
-
-            <div class="developer-section">
-
-                <h3>
-                    Submission Guidelines
-                </h3>
-
-                <p>
-                    Please submit a game that you created and provide
-                    accurate information about the game and its
-                    content. Do not submit someone else's project
-                    without permission.
-                </p>
-
-            </div>
-
-
-            <div class="developer-submit">
-
-                <p>
-                    Ready to submit your game?
-                </p>
-
-                <a
-                    class="developer-submit-button"
-                    href="https://forms.gle/WNzPoGJN3xop6NyP8"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    Submit a Game
-                </a>
 
             </div>
 
@@ -1151,16 +896,7 @@
             class="game-info"
             id="game-info">
         </div>
-        
-    <div
-        class="game-instructions"
-        id="game-instructions">
 
-        <h2>➜I Controls/Instructions:</h2>
-
-        <div id="game-instructions-list"></div>
-
-    </div>
 
         <!-- GAME THUMBNAIL -->
 
@@ -1173,6 +909,8 @@
                 src=""
                 alt="Game thumbnail"
             >
+
+            <!-- PLAY BUTTON ON THUMBNAIL -->
 
             <button
                 class="play-button"
@@ -1226,6 +964,8 @@
 
                     <div class="gameplay-controls">
 
+                        <!-- LIKE -->
+
                         <button
                             class="gameplay-button like-button"
                             id="like-button"
@@ -1235,6 +975,8 @@
                             ♡
                         </button>
 
+
+                        <!-- FULLSCREEN -->
 
                         <button
                             class="gameplay-button fullscreen-button"
@@ -1259,7 +1001,26 @@
                     Hide bar
                 </button>
 
+            </div>
 
+        </div>
+
+
+        <!-- ====================================================
+             GAME INSTRUCTIONS
+             ==================================================== -->
+
+        <div
+            class="game-instructions"
+            id="game-instructions"
+        >
+
+            <h2>
+                ➜I Controls/Instructions:
+            </h2>
+
+            <div
+                id="game-instructions-list">
             </div>
 
         </div>
@@ -1290,10 +1051,7 @@
         </a>
 
 
-        <a
-            href="#developers"
-            onclick="showPage('developers-page')"
-        >
+        <a href="#developers">
             For Developers
         </a>
 
@@ -1311,37 +1069,41 @@
 
     const games = [
 
-{
-    id: "Gravi-Plat",
-    name: "Gravi-Plat",
-    creator: "zoomyeah",
-    date: "August 10, 2026",
-    gameFile: "Gravi-Plat",
-    instructions: [
-        "• Touch the START button and press ENTER",
-        "• WASD / Arrow Keys to move",
-        "• Space to switch gravity",
-        "• Don't hit spikes.",
-        "• The purple forces you down.",
-        "• The green forces you down.",
-        "• The yellow changes your gravity.",
-        "• Get to the teleporter to advance!"
-    ]
-},
+        {
+            id: "Gravi-Plat",
+            name: "Gravi-Plat",
+            creator: "zoomyeah",
+            date: "August 10, 2026",
+            gameFile: "Gravi-Plat",
 
-{
-    id: "WallRider TN",
-    name: "• WallRider •",
-    creator: "zoomyeah",
-    date: "August 11, 2026",
-    gameFile: "• WallRider •",
-    instructions: [
-        "• Instructions coming soon!"
-    ]
-}
+            instructions: [
+                "• Touch the START button and press ENTER",
+                "• WASD / Arrow Keys to move",
+                "• Space to switch gravity",
+                "• Don't hit spikes.",
+                "• The purple forces you down.",
+                "• The green forces you down.",
+                "• The yellow changes your gravity.",
+                "• Get to the teleporter to advance!"
+            ]
+        },
 
-];
-    
+
+        {
+            id: "WallRider TN",
+            name: "• WallRider •",
+            creator: "zoomyeah",
+            date: "August 11, 2026",
+            gameFile: "• WallRider •",
+
+            instructions: [
+                "• Instructions coming soon!"
+            ]
+        }
+
+    ];
+
+
     /* ============================================================
        PAGE NAVIGATION
        ============================================================ */
@@ -1373,26 +1135,13 @@
 
         if (pageID !== "game-page") {
 
-            let hash = "#home";
-
-
-            if (pageID === "games-page") {
-
-                hash = "#games";
-
-            }
-
-            else if (pageID === "developers-page") {
-
-                hash = "#developers";
-
-            }
-
-
             history.pushState(
                 null,
                 "",
-                hash
+                pageID === "home-page"
+                    ? "#home"
+                    : "#" +
+                      pageID.replace("-page", "")
             );
 
         }
@@ -1583,6 +1332,49 @@
 
 
     /* ============================================================
+       LOAD GAME INSTRUCTIONS
+       ============================================================ */
+
+    function loadInstructions(game) {
+
+        const instructionsList =
+            document.getElementById(
+                "game-instructions-list"
+            );
+
+
+        instructionsList.innerHTML = "";
+
+
+        if (!game.instructions) {
+
+            return;
+
+        }
+
+
+        game.instructions.forEach(
+            instruction => {
+
+                const instructionText =
+                    document.createElement("p");
+
+
+                instructionText.textContent =
+                    instruction;
+
+
+                instructionsList.appendChild(
+                    instructionText
+                );
+
+            }
+        );
+
+    }
+
+
+    /* ============================================================
        OPEN GAME
        ============================================================ */
 
@@ -1632,27 +1424,10 @@
                 game.creator +
                 " · Released " +
                 game.date;
-        
-const instructionsList =
-    document.getElementById(
-        "game-instructions-list"
-    );
 
-instructionsList.innerHTML = "";
 
-game.instructions.forEach(instruction => {
+        loadInstructions(game);
 
-    const instructionText =
-        document.createElement("p");
-
-    instructionText.textContent =
-        instruction;
-
-    instructionsList.appendChild(
-        instructionText
-    );
-
-});
 
         const thumbnail =
             document
@@ -1727,6 +1502,12 @@ game.instructions.forEach(instruction => {
             );
 
 
+        const hideBarButton =
+            document.getElementById(
+                "hide-bar-button"
+            );
+
+
         frame.src = "";
 
 
@@ -1745,6 +1526,10 @@ game.instructions.forEach(instruction => {
         bar.classList.remove(
             "hidden"
         );
+
+
+        hideBarButton.textContent =
+            "Hide bar";
 
 
         if (document.fullscreenElement) {
@@ -1799,9 +1584,16 @@ game.instructions.forEach(instruction => {
             );
 
 
+        const hideBarButton =
+            document.getElementById(
+                "hide-bar-button"
+            );
+
+
         frame.src =
             "/game/" +
-            (currentGame.gameFile || currentGame.id);
+            (currentGame.gameFile ||
+             currentGame.id);
 
 
         frame.title =
@@ -1823,6 +1615,10 @@ game.instructions.forEach(instruction => {
         bar.classList.remove(
             "hidden"
         );
+
+
+        hideBarButton.textContent =
+            "Hide bar";
 
     }
 
@@ -1868,13 +1664,15 @@ game.instructions.forEach(instruction => {
 
         if (button.textContent === "♡") {
 
-            button.textContent = "❤︎";
+            button.textContent =
+                "❤︎";
 
         }
 
         else {
 
-            button.textContent = "♡";
+            button.textContent =
+                "♡";
 
         }
 
@@ -1885,39 +1683,45 @@ game.instructions.forEach(instruction => {
        HIDE / SHOW GAMEPLAY BAR
        ============================================================ */
 
-function toggleGameBar() {
+    function toggleGameBar() {
 
-    const bar =
-        document.getElementById(
-            "gameplay-bar"
+        const bar =
+            document.getElementById(
+                "gameplay-bar"
+            );
+
+
+        const button =
+            document.getElementById(
+                "hide-bar-button"
+            );
+
+
+        bar.classList.toggle(
+            "hidden"
         );
 
-    const button =
-        document.getElementById(
-            "hide-bar-button"
-        );
 
+        if (
+            bar.classList.contains(
+                "hidden"
+            )
+        ) {
 
-    bar.classList.toggle(
-        "hidden"
-    );
+            button.textContent =
+                "Show bar";
 
+        }
 
-    if (bar.classList.contains("hidden")) {
+        else {
 
-        button.textContent =
-            "Show bar";
+            button.textContent =
+                "Hide bar";
+
+        }
 
     }
 
-    else {
-
-        button.textContent =
-            "Hide bar";
-
-    }
-
-}
 
     /* ============================================================
        HASH NAVIGATION
@@ -1958,17 +1762,6 @@ function toggleGameBar() {
 
             showPageWithoutHistory(
                 "games-page"
-            );
-
-            return;
-
-        }
-
-
-        if (hash === "#developers") {
-
-            showPageWithoutHistory(
-                "developers-page"
             );
 
             return;
@@ -2036,6 +1829,9 @@ function toggleGameBar() {
                 game.creator +
                 " · Released " +
                 game.date;
+
+
+        loadInstructions(game);
 
 
         const thumbnail =
