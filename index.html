@@ -29,7 +29,113 @@ body {
     color: #f1f1f1;
 }
 
+/* ============================================================
+   PROFILE PAGE
+   ============================================================ */
 
+.profile-page-content {
+    max-width: 850px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.profile-avatar {
+    width: 110px;
+    height: 110px;
+
+    margin: 10px auto 20px;
+
+    border-radius: 50%;
+
+    background: #6fcf68;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 48px;
+
+    box-shadow:
+        0 0 20px rgba(111,207,104,0.25);
+}
+
+.profile-page-name {
+    font-family: "Nunito", sans-serif;
+
+    font-size: 2.6rem;
+    font-weight: 900;
+
+    margin: 0;
+}
+
+.profile-username {
+    color: #aaa;
+
+    font-size: 1.05rem;
+
+    margin: 5px 0 30px;
+}
+
+.profile-stats {
+    display: flex;
+
+    justify-content: center;
+
+    gap: 15px;
+
+    margin-bottom: 45px;
+}
+
+.profile-stat {
+    min-width: 130px;
+
+    background: #1e1e1e;
+
+    border: 1px solid #2c2c2c;
+
+    border-radius: 12px;
+
+    padding: 18px;
+}
+
+.profile-stat strong {
+    display: block;
+
+    font-family: "Nunito", sans-serif;
+
+    font-size: 1.6rem;
+
+    font-weight: 900;
+}
+
+.profile-stat span {
+    color: #aaa;
+
+    font-size: 0.9rem;
+}
+
+.profile-games {
+    background: #1e1e1e;
+
+    border: 1px solid #2c2c2c;
+
+    border-radius: 12px;
+
+    padding: 25px;
+}
+
+.profile-games h2 {
+    font-family: "Nunito", sans-serif;
+
+    font-weight: 900;
+
+    margin-top: 0;
+}
+
+.profile-games p {
+    color: #aaa;
+}
+    
 /* ============================================================
    HEADER
    ============================================================ */
@@ -1359,7 +1465,72 @@ footer p {
 
 </div>
 
+<!-- ============================================================
+     PROFILE PAGE
+     ============================================================ -->
 
+<div id="profile-page" class="page">
+
+    <main>
+
+        <button
+            class="back-button"
+            onclick="showPage('home-page')"
+        >
+            ← Back to Home
+        </button>
+
+        <section class="profile-page-content">
+
+            <div class="profile-avatar">
+                👤
+            </div>
+
+            <h1 class="profile-page-name">
+                Profile
+            </h1>
+
+            <p class="profile-username">
+                @username
+            </p>
+
+            <div class="profile-stats">
+
+                <div class="profile-stat">
+                    <strong>0</strong>
+                    <span>Games</span>
+                </div>
+
+                <div class="profile-stat">
+                    <strong>0</strong>
+                    <span>Followers</span>
+                </div>
+
+                <div class="profile-stat">
+                    <strong>0</strong>
+                    <span>Following</span>
+                </div>
+
+            </div>
+
+            <div class="profile-games">
+
+                <h2>
+                    Games
+                </h2>
+
+                <p>
+                    No games yet.
+                </p>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+    
 <!-- ============================================================
      GAME PAGE
      ============================================================ -->
@@ -1788,6 +1959,22 @@ const featuredGames = [
 
 ];
 
+    /* ============================================================
+   OPEN PROFILE
+   ============================================================ */
+
+function openProfile() {
+
+    showPage("profile-page");
+
+    history.pushState(
+        null,
+        "",
+        "#profile"
+    );
+
+}
+
 
 /* ============================================================
    ONLINE STATISTICS
@@ -2061,18 +2248,39 @@ function showPage(pageID) {
     window.scrollTo(0, 0);
 
 
-    if (pageID !== "game-page") {
+if (pageID !== "game-page") {
 
-        history.pushState(
-            null,
-            "",
-            pageID === "home-page"
-                ? "#home"
-                : "#" +
-                  pageID.replace("-page", "")
-        );
+    let hash = "#home";
 
+    if (pageID === "games-page") {
+        hash = "#games";
     }
+
+    else if (pageID === "developers-page") {
+        hash = "#developers";
+    }
+
+    else if (pageID === "profile-page") {
+        hash = "#profile";
+    }
+
+    history.pushState(
+        null,
+        "",
+        hash
+    );
+
+}
+
+}
+
+ /* ============================================================
+   PROFILE PAGE
+   ============================================================ */
+    
+function openProfile() {
+
+    showPage("profile-page");
 
 }
 
