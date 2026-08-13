@@ -1473,57 +1473,144 @@ footer p {
 
     <main>
 
-        <button
-            class="back-button"
-            onclick="showPage('home-page')"
-        >
-            ← Back to Home
-        </button>
+        <section class="profile-layout">
 
-        <section class="profile-page-content">
+            <!-- PROFILE SIDEBAR -->
 
-            <div class="profile-avatar">
-                👤
-            </div>
+            <aside class="profile-sidebar">
 
-            <h1 class="profile-page-name">
-                Profile
-            </h1>
-
-            <p class="profile-username">
-                @username
-            </p>
-
-            <div class="profile-stats">
-
-                <div class="profile-stat">
-                    <strong>0</strong>
-                    <span>Games</span>
+                <div class="profile-avatar">
+                    👤
                 </div>
 
-                <div class="profile-stat">
-                    <strong>0</strong>
-                    <span>Followers</span>
-                </div>
+                <h1 class="profile-page-name">
+                    Profile
+                </h1>
 
-                <div class="profile-stat">
-                    <strong>0</strong>
-                    <span>Following</span>
-                </div>
-
-            </div>
-
-            <div class="profile-games">
-
-                <h2>
-                    Games
-                </h2>
-
-                <p>
-                    No games yet.
+                <p class="profile-username">
+                    @username
                 </p>
 
-            </div>
+
+                <!-- PROFILE STATS -->
+
+                <div class="profile-stats">
+
+                    <div class="profile-stat">
+                        <strong>0</strong>
+                        <span>Followers</span>
+                    </div>
+
+                    <div class="profile-stat">
+                        <strong>0</strong>
+                        <span>Following</span>
+                    </div>
+
+                </div>
+
+            </aside>
+
+
+            <!-- PROFILE CONTENT -->
+
+            <section class="profile-content">
+
+
+                <!-- RECENTLY PLAYED -->
+
+                <div class="profile-section">
+
+                    <h2>
+                        Recently Played
+                    </h2>
+
+                    <div class="profile-empty">
+                        No recently played games yet.
+                    </div>
+
+                </div>
+
+
+                <!-- MOST PLAYED -->
+
+                <div class="profile-section">
+
+                    <h2>
+                        Most Played
+                    </h2>
+
+                    <div class="profile-empty">
+                        No games played yet.
+                    </div>
+
+                </div>
+
+
+                <!-- GAMES -->
+
+                <div class="profile-section">
+
+                    <h2>
+                        Games
+                    </h2>
+
+                    <div class="profile-empty">
+                        No games yet.
+                    </div>
+
+                </div>
+
+
+                <!-- ACHIEVEMENTS -->
+
+                <div class="profile-section">
+
+                    <h2>
+                        Achievements
+                    </h2>
+
+                    <div class="achievements-grid">
+
+                        <div class="achievement">
+                            <div class="achievement-icon">
+                                🎮
+                            </div>
+
+                            <div>
+                                <strong>First Game</strong>
+                                <p>Play 1 game</p>
+                            </div>
+                        </div>
+
+
+                        <div class="achievement locked">
+                            <div class="achievement-icon">
+                                🔒
+                            </div>
+
+                            <div>
+                                <strong>Game Sharer</strong>
+                                <p>Share 1 game</p>
+                            </div>
+                        </div>
+
+
+                        <div class="achievement locked">
+                            <div class="achievement-icon">
+                                🔒
+                            </div>
+
+                            <div>
+                                <strong>Game Spreader</strong>
+                                <p>Share 10 games</p>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
 
         </section>
 
