@@ -13,8 +13,7 @@ export class GameStats extends DurableObject {
 
         super(ctx, env);
 
-        this.sql =
-            ctx.storage.sql;
+        this.sql = ctx.storage.sql;
 
         this.sql.exec(`
             CREATE TABLE IF NOT EXISTS stats (
@@ -264,59 +263,82 @@ async function verifyPassword(
     storedHash
 ) {
 
-    const parts =
-        storedHash.split("$");
+    try {
 
-    if (
-        parts.length !== 4 ||
-        parts[0] !== "pbkdf2"
-    ) {
+        const parts =
+            storedHash.split("$");
+
+        if (
+            parts.length !== 4 ||
+            parts[0] !== "pbkdf2"
+        ) {
+
+            return false;
+
+        }
+
+        const iterations =
+            Number(parts[1]);
+
+        if (
+            !Number.isInteger(iterations) ||
+            iterations <= 0
+        ) {
+
+            return false;
+
+        }
+
+        const salt =
+            hexToBytes(parts[2]);
+
+        const expectedHash =
+            hexToBytes(parts[3]);
+
+        const encoder =
+            new TextEncoder();
+
+        const key =
+            await crypto.subtle.importKey(
+                "raw",
+                encoder.encode(password),
+                {
+                    name: "PBKDF2"
+                },
+                false,
+                [
+                    "deriveBits"
+                ]
+            );
+
+        const hash =
+            await crypto.subtle.deriveBits(
+                {
+                    name: "PBKDF2",
+                    salt: salt,
+                    iterations: iterations,
+                    hash: "SHA-256"
+                },
+                key,
+                256
+            );
+
+        return constantTimeEqual(
+            new Uint8Array(hash),
+            expectedHash
+        );
+
+    }
+    catch (error) {
+
+        console.error(
+            "Password verification error:",
+            error
+        );
 
         return false;
 
     }
-
-    const iterations =
-        Number(parts[1]);
-
-    const salt =
-        hexToBytes(parts[2]);
-
-    const expectedHash =
-        hexToBytes(parts[3]);
-
-    const encoder =
-        new TextEncoder();
-
-    const key =
-        await crypto.subtle.importKey(
-            "raw",
-            encoder.encode(password),
-            {
-                name: "PBKDF2"
-            },
-            false,
-            [
-                "deriveBits"
-            ]
-        );
-
-    const hash =
-        await crypto.subtle.deriveBits(
-            {
-                name: "PBKDF2",
-                salt: salt,
-                iterations: iterations,
-                hash: "SHA-256"
-            },
-            key,
-            256
-        );
-
-    return constantTimeEqual(
-        new Uint8Array(hash),
-        expectedHash
-    );
 
 }
 
@@ -342,6 +364,18 @@ function bytesToHex(bytes) {
 
 
 function hexToBytes(hex) {
+
+    if (
+        typeof hex !== "string" ||
+        hex.length % 2 !== 0 ||
+        !/^[0-9a-fA-F]+$/.test(hex)
+    ) {
+
+        throw new Error(
+            "Invalid hexadecimal data."
+        );
+
+    }
 
     const bytes =
         new Uint8Array(
@@ -401,26 +435,74 @@ function constantTimeEqual(a, b) {
 
 /*
  * ============================================================
- * AUTHENTICATION HELPERS
+ * SESSION HELPERS
  * ============================================================
+ */
+
+
+/*
+ * Create a cryptographically secure session token.
+ */
+
+function createSessionToken() {
+
+    const bytes =
+        crypto.getRandomValues(
+            new Uint8Array(32)
+        );
+
+    return bytesToHex(bytes);
+
+}
+
+
+/*
+ * Read a cookie from the Cookie header.
  */
 
 function getCookie(request, name) {
 
     const cookieHeader =
-        request.headers.get("Cookie") || "";
+        request.headers.get("Cookie");
+
+    if (!cookieHeader) {
+
+        return null;
+
+    }
 
     const cookies =
         cookieHeader.split(";");
 
     for (const cookie of cookies) {
 
-        const [key, ...valueParts] =
-            cookie.trim().split("=");
+        const separator =
+            cookie.indexOf("=");
+
+        if (separator === -1) {
+
+            continue;
+
+        }
+
+        const key =
+            cookie
+                .substring(
+                    0,
+                    separator
+                )
+                .trim();
+
+        const value =
+            cookie
+                .substring(
+                    separator + 1
+                )
+                .trim();
 
         if (key === name) {
 
-            return valueParts.join("=");
+            return value;
 
         }
 
@@ -431,26 +513,140 @@ function getCookie(request, name) {
 }
 
 
+/*
+ * ============================================================
+ * SESSION AUTHENTICATION
+ * ============================================================
+ *
+ * Returns the logged-in user, or null.
+ *
+ * Expired sessions are automatically deleted.
+ * ============================================================
+ */
+
+async function getCurrentUser(
+    request,
+    env
+) {
+
+    const token =
+        getCookie(
+            request,
+            "session"
+        );
+
+    if (!token) {
+
+        return null;
+
+    }
+
+
+    const now =
+        Math.floor(
+            Date.now() / 1000
+        );
+
+
+    const session =
+        await env.USERS
+            .prepare(`
+                SELECT
+                    sessions.user_id,
+                    sessions.expires_at,
+                    users.username
+                FROM sessions
+                INNER JOIN users
+                    ON users.id = sessions.user_id
+                WHERE sessions.token = ?
+                LIMIT 1
+            `)
+            .bind(token)
+            .first();
+
+
+    if (!session) {
+
+        return null;
+
+    }
+
+
+    /*
+     * Session expired.
+     */
+
+    if (
+        Number(session.expires_at) <= now
+    ) {
+
+        await env.USERS
+            .prepare(`
+                DELETE FROM sessions
+                WHERE token = ?
+            `)
+            .bind(token)
+            .run();
+
+        return null;
+
+    }
+
+
+    return {
+        id: Number(session.user_id),
+        username: session.username
+    };
+
+}
+
+
+/*
+ * ============================================================
+ * SESSION COOKIE
+ * ============================================================
+ */
+
 function createSessionCookie(token) {
 
+    /*
+     * 30 days.
+     */
+
+    const maxAge =
+        60 * 60 * 24 * 30;
+
     return (
-        "gameswaphq_session=" +
-        encodeURIComponent(token) +
-        "; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=2592000"
+        "session=" +
+        token +
+        "; " +
+        "Path=/; " +
+        "Max-Age=" +
+        maxAge +
+        "; " +
+        "HttpOnly; " +
+        "Secure; " +
+        "SameSite=Lax"
     );
 
 }
 
 
+/*
+ * ============================================================
+ * CLEAR SESSION COOKIE
+ * ============================================================
+ */
+
 function clearSessionCookie() {
 
     return (
-        "gameswaphq_session=;" +
-        " Path=/;" +
-        " HttpOnly;" +
-        " Secure;" +
-        " SameSite=Lax;" +
-        " Max-Age=0"
+        "session=; " +
+        "Path=/; " +
+        "Max-Age=0; " +
+        "HttpOnly; " +
+        "Secure; " +
+        "SameSite=Lax"
     );
 
 }
@@ -476,9 +672,9 @@ export default {
          * ========================================================
          *
          * POST:
-         * /api/auth/signup
-         * /api/auth/signin
-         * /api/auth/signout
+         * /api/auth/register
+         * /api/auth/login
+         * /api/auth/logout
          *
          * GET:
          * /api/auth/me
@@ -488,13 +684,13 @@ export default {
 
         /*
          * ========================================================
-         * SIGN UP
+         * REGISTER
          * ========================================================
          */
 
         if (
             request.method === "POST" &&
-            url.pathname === "/api/auth/signup"
+            url.pathname === "/api/auth/register"
         ) {
 
             try {
@@ -514,7 +710,7 @@ export default {
 
 
                 /*
-                 * Basic validation
+                 * Basic validation.
                  */
 
                 if (
@@ -536,6 +732,10 @@ export default {
                 }
 
 
+                /*
+                 * Username length.
+                 */
+
                 if (
                     username.length < 3 ||
                     username.length > 30
@@ -554,6 +754,10 @@ export default {
 
                 }
 
+
+                /*
+                 * Username characters.
+                 */
 
                 if (
                     !/^[a-zA-Z0-9_-]+$/.test(
@@ -574,6 +778,10 @@ export default {
 
                 }
 
+
+                /*
+                 * Password length.
+                 */
 
                 if (password.length < 8) {
 
@@ -625,7 +833,7 @@ export default {
 
 
                 /*
-                 * Hash password
+                 * Hash password.
                  */
 
                 const passwordHash =
@@ -635,7 +843,7 @@ export default {
 
 
                 /*
-                 * Create account
+                 * Create account.
                  */
 
                 const result =
@@ -672,57 +880,17 @@ export default {
                 }
 
 
-                /*
-                 * Create login session
-                 */
-
-                const sessionToken =
-                    crypto.randomUUID();
-
-
-                await env.USERS
-                    .prepare(`
-                        INSERT INTO sessions
-                            (
-                                token,
-                                user_id,
-                                expires_at
-                            )
-                        VALUES
-                            (?, ?, ?)
-                    `)
-                    .bind(
-                        sessionToken,
-                        result.meta.last_row_id,
-                        Date.now() + 2592000000
-                    )
-                    .run();
-
-
-                /*
-                 * Return account + session
-                 */
-
                 return Response.json(
                     {
                         success: true,
-
-                        user: {
-                            username: username
-                        }
-                    },
-                    {
-                        headers: {
-                            "Set-Cookie":
-                                createSessionCookie(
-                                    sessionToken
-                                )
-                        }
+                        message:
+                            "Account created successfully.",
+                        username:
+                            username
                     }
                 );
 
             }
-
             catch (error) {
 
                 console.error(
@@ -748,13 +916,13 @@ export default {
 
         /*
          * ========================================================
-         * SIGN IN
+         * LOGIN
          * ========================================================
          */
 
         if (
             request.method === "POST" &&
-            url.pathname === "/api/auth/signin"
+            url.pathname === "/api/auth/login"
         ) {
 
             try {
@@ -793,7 +961,7 @@ export default {
 
 
                 /*
-                 * Find account
+                 * Find account.
                  */
 
                 const user =
@@ -833,7 +1001,7 @@ export default {
 
 
                 /*
-                 * Verify password
+                 * Verify password.
                  */
 
                 const valid =
@@ -860,57 +1028,94 @@ export default {
 
 
                 /*
-                 * Create login session
+                 * Create session.
+                 *
+                 * 30 days from now.
                  */
 
-                const sessionToken =
-                    crypto.randomUUID();
+                const token =
+                    createSessionToken();
 
-
-                await env.USERS
-                    .prepare(`
-                        INSERT INTO sessions
-                            (
-                                token,
-                                user_id,
-                                expires_at
-                            )
-                        VALUES
-                            (?, ?, ?)
-                    `)
-                    .bind(
-                        sessionToken,
-                        user.id,
-                        Date.now() + 2592000000
-                    )
-                    .run();
+                const expiresAt =
+                    Math.floor(
+                        Date.now() / 1000
+                    ) +
+                    (
+                        60 * 60 * 24 * 30
+                    );
 
 
                 /*
-                 * Return account + session
+                 * Store session in D1.
                  */
 
-                return Response.json(
-                    {
-                        success: true,
+                const sessionResult =
+                    await env.USERS
+                        .prepare(`
+                            INSERT INTO sessions
+                                (
+                                    token,
+                                    user_id,
+                                    expires_at
+                                )
+                            VALUES
+                                (?, ?, ?)
+                        `)
+                        .bind(
+                            token,
+                            user.id,
+                            expiresAt
+                        )
+                        .run();
 
-                        user: {
+
+                if (
+                    !sessionResult.success
+                ) {
+
+                    return Response.json(
+                        {
+                            success: false,
+                            error:
+                                "Could not create login session."
+                        },
+                        {
+                            status: 500
+                        }
+                    );
+
+                }
+
+
+                /*
+                 * Set secure session cookie.
+                 */
+
+                return new Response(
+                    JSON.stringify(
+                        {
+                            success: true,
+                            message:
+                                "Signed in successfully.",
                             username:
                                 user.username
                         }
-                    },
+                    ),
                     {
+                        status: 200,
                         headers: {
+                            "Content-Type":
+                                "application/json; charset=UTF-8",
+
                             "Set-Cookie":
                                 createSessionCookie(
-                                    sessionToken
+                                    token
                                 )
                         }
                     }
                 );
 
             }
-
             catch (error) {
 
                 console.error(
@@ -938,6 +1143,13 @@ export default {
          * ========================================================
          * CURRENT USER
          * ========================================================
+         *
+         * GET:
+         * /api/auth/me
+         *
+         * Used by the website to determine whether
+         * the visitor currently has a valid session.
+         * ========================================================
          */
 
         if (
@@ -947,14 +1159,14 @@ export default {
 
             try {
 
-                const token =
-                    getCookie(
+                const user =
+                    await getCurrentUser(
                         request,
-                        "gameswaphq_session"
+                        env
                     );
 
 
-                if (!token) {
+                if (!user) {
 
                     return Response.json(
                         {
@@ -967,88 +1179,22 @@ export default {
 
                 }
 
-
-                const session =
-                    await env.USERS
-                        .prepare(`
-                            SELECT
-                                sessions.user_id,
-                                sessions.expires_at,
-                                users.username
-                            FROM sessions
-                            JOIN users
-                                ON users.id =
-                                   sessions.user_id
-                            WHERE sessions.token = ?
-                            LIMIT 1
-                        `)
-                        .bind(token)
-                        .first();
-
-
-                if (!session) {
-
-                    return Response.json(
-                        {
-                            user: null
-                        },
-                        {
-                            status: 401
-                        }
-                    );
-
-                }
-
-
-                /*
-                 * Check expiration
-                 */
-
-                if (
-                    Number(session.expires_at) <
-                    Date.now()
-                ) {
-
-                    await env.USERS
-                        .prepare(`
-                            DELETE FROM sessions
-                            WHERE token = ?
-                        `)
-                        .bind(token)
-                        .run();
-
-
-                    return Response.json(
-                        {
-                            user: null
-                        },
-                        {
-                            status: 401
-                        }
-                    );
-
-                }
-
-
-                /*
-                 * Session is valid
-                 */
 
                 return Response.json(
                     {
                         user: {
+                            id: user.id,
                             username:
-                                session.username
+                                user.username
                         }
                     }
                 );
 
             }
-
             catch (error) {
 
                 console.error(
-                    "Session check error:",
+                    "Current user error:",
                     error
                 );
 
@@ -1068,13 +1214,13 @@ export default {
 
         /*
          * ========================================================
-         * SIGN OUT
+         * LOGOUT
          * ========================================================
          */
 
         if (
             request.method === "POST" &&
-            url.pathname === "/api/auth/signout"
+            url.pathname === "/api/auth/logout"
         ) {
 
             try {
@@ -1082,7 +1228,7 @@ export default {
                 const token =
                     getCookie(
                         request,
-                        "gameswaphq_session"
+                        "session"
                     );
 
 
@@ -1100,15 +1246,18 @@ export default {
 
 
                 return new Response(
-                    JSON.stringify({
-                        success: true
-                    }),
+                    JSON.stringify(
+                        {
+                            success: true,
+                            message:
+                                "Signed out successfully."
+                        }
+                    ),
                     {
                         status: 200,
-
                         headers: {
                             "Content-Type":
-                                "application/json",
+                                "application/json; charset=UTF-8",
 
                             "Set-Cookie":
                                 clearSessionCookie()
@@ -1117,24 +1266,27 @@ export default {
                 );
 
             }
-
             catch (error) {
 
                 console.error(
-                    "Sign out error:",
+                    "Logout error:",
                     error
                 );
 
-                return Response.json(
-                    {
-                        success: false,
-                        error:
-                            "Could not sign out."
-                    },
+                return new Response(
+                    JSON.stringify(
+                        {
+                            success: false,
+                            error:
+                                "Could not sign out."
+                        }
+                    ),
                     {
                         status: 500,
-
                         headers: {
+                            "Content-Type":
+                                "application/json; charset=UTF-8",
+
                             "Set-Cookie":
                                 clearSessionCookie()
                         }
@@ -1198,6 +1350,11 @@ export default {
                 env.GAME_STATS.get(id);
 
 
+            /*
+             * GET:
+             * /api/stats/GameName
+             */
+
             if (
                 request.method === "GET" &&
                 !action
@@ -1212,7 +1369,13 @@ export default {
             }
 
 
-            if (request.method !== "POST") {
+            /*
+             * Statistics actions must use POST.
+             */
+
+            if (
+                request.method !== "POST"
+            ) {
 
                 return new Response(
                     "Method not allowed.",
@@ -1223,6 +1386,10 @@ export default {
 
             }
 
+
+            /*
+             * Validate action.
+             */
 
             if (
                 action !== "view" &&
