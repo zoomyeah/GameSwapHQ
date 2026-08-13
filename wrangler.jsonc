@@ -31,3 +31,23 @@
     "nodejs_compat"
   ]
 }
+
+{
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "GAME_STATS",
+        "class_name": "GameStats"
+      }
+    ]
+  },
+
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_sqlite_classes": [
+        "GameStats"
+      ]
+    }
+  ]
+}
