@@ -1,13 +1,229 @@
+import { DurableObject } from "cloudflare:workers";
+
+
+/*
+ * ============================================================
+ * GAME STATISTICS DURABLE OBJECT
+ * ============================================================
+ */
+
+export class GameStats extends DurableObject {
+
+    constructor(ctx, env) {
+
+        super(ctx, env);
+
+        this.sql =
+            ctx.storage.sql;
+
+        /*
+         * Create the statistics table
+         * the first time this Durable Object
+         * is used.
+         */
+
+        this.sql.exec(`
+            CREATE TABLE IF NOT EXISTS stats (
+                id INTEGER PRIMARY KEY CHECK (id = 1),
+                views INTEGER NOT NULL DEFAULT 0,
+                likes INTEGER NOT NULL DEFAULT 0
+            )
+        `);
+
+        /*
+         * Make sure the single statistics
+         * row exists.
+         */
+
+        this.sql.exec(`
+            INSERT OR IGNORE INTO stats
+                (id, views, likes)
+            VALUES
+                (1, 0, 0)
+        `);
+
+    }
+
+
+    /*
+     * ========================================================
+     * GET STATISTICS
+     * ========================================================
+     */
+
+    async getStats() {
+
+        const row =
+            this.sql
+                .exec(`
+                    SELECT
+                        views,
+                        likes
+                    FROM stats
+                    WHERE id = 1
+                `)
+                .one();
+
+        return {
+            views: Number(row.views),
+            likes: Number(row.likes)
+        };
+
+    }
+
+
+    /*
+     * ========================================================
+     * RECORD VIEW
+     * ========================================================
+     */
+
+    async recordView() {
+
+        this.sql.exec(`
+            UPDATE stats
+            SET views = views + 1
+            WHERE id = 1
+        `);
+
+        return this.getStats();
+
+    }
+
+
+    /*
+     * ========================================================
+     * LIKE
+     * ========================================================
+     */
+
+    async like() {
+
+        this.sql.exec(`
+            UPDATE stats
+            SET likes = likes + 1
+            WHERE id = 1
+        `);
+
+        return this.getStats();
+
+    }
+
+
+    /*
+     * ========================================================
+     * UNLIKE
+     * ========================================================
+     */
+
+    async unlike() {
+
+        this.sql.exec(`
+            UPDATE stats
+            SET likes =
+                CASE
+                    WHEN likes > 0
+                    THEN likes - 1
+                    ELSE 0
+                END
+            WHERE id = 1
+        `);
+
+        return this.getStats();
+
+    }
+
+
+    /*
+     * ========================================================
+     * DURABLE OBJECT FETCH
+     * ========================================================
+     */
+
+    async fetch(request) {
+
+        const url =
+            new URL(request.url);
+
+        const action =
+            url.pathname.substring(1);
+
+
+        if (request.method === "GET") {
+
+            return Response.json(
+                await this.getStats()
+            );
+
+        }
+
+
+        if (
+            request.method === "POST" &&
+            action === "view"
+        ) {
+
+            return Response.json(
+                await this.recordView()
+            );
+
+        }
+
+
+        if (
+            request.method === "POST" &&
+            action === "like"
+        ) {
+
+            return Response.json(
+                await this.like()
+            );
+
+        }
+
+
+        if (
+            request.method === "POST" &&
+            action === "unlike"
+        ) {
+
+            return Response.json(
+                await this.unlike()
+            );
+
+        }
+
+
+        return new Response(
+            "Method not allowed.",
+            {
+                status: 405
+            }
+        );
+
+    }
+
+}
+
+
+/*
+ * ============================================================
+ * MAIN WORKER
+ * ============================================================
+ */
+
 export default {
+
     async fetch(request, env) {
 
-        const url = new URL(request.url);
+        const url =
+            new URL(request.url);
 
 
         /*
-         * ============================================================
+         * ========================================================
          * ONLINE GAME STATISTICS
-         * ============================================================
+         * ========================================================
          *
          * GET:
          * /api/stats/Gravi-Plat
@@ -18,16 +234,25 @@ export default {
          * /api/stats/Gravi-Plat/unlike
          */
 
-
-        if (url.pathname.startsWith("/api/stats/")) {
+        if (
+            url.pathname.startsWith(
+                "/api/stats/"
+            )
+        ) {
 
             const parts =
                 url.pathname
-                    .substring("/api/stats/".length)
+                    .substring(
+                        "/api/stats/".length
+                    )
                     .split("/");
 
+
             const gameID =
-                decodeURIComponent(parts[0]);
+                decodeURIComponent(
+                    parts[0]
+                );
+
 
             const action =
                 parts[1] || null;
@@ -46,32 +271,28 @@ export default {
 
 
             /*
-             * Get existing statistics.
+             * Get one Durable Object
+             * specifically for this game.
+             *
+             * Therefore:
+             *
+             * Gravi-Plat
+             *      ↓
+             * one GameStats object
+             *
+             * Painterz
+             *      ↓
+             * another GameStats object
              */
 
-            const key =
-                "stats:" + gameID;
-
-            let stats =
-                await env.GAME_STATS.get(
-                    key,
-                    "json"
+            const id =
+                env.GAME_STATS.idFromName(
+                    gameID
                 );
 
 
-            /*
-             * If this game has never been
-             * accessed before, create it.
-             */
-
-            if (!stats) {
-
-                stats = {
-                    views: 0,
-                    likes: 0
-                };
-
-            }
+            const stats =
+                env.GAME_STATS.get(id);
 
 
             /*
@@ -83,13 +304,10 @@ export default {
                 !action
             ) {
 
-                return Response.json(
-                    stats,
-                    {
-                        headers: {
-                            "Cache-Control": "no-store"
-                        }
-                    }
+                return stats.fetch(
+                    new Request(
+                        "https://stats/"
+                    )
                 );
 
             }
@@ -113,47 +331,14 @@ export default {
 
 
             /*
-             * RECORD VIEW
+             * Check for a valid action.
              */
 
-            if (action === "view") {
-
-                stats.views++;
-
-            }
-
-
-            /*
-             * LIKE GAME
-             */
-
-            else if (action === "like") {
-
-                stats.likes++;
-
-            }
-
-
-            /*
-             * UNLIKE GAME
-             */
-
-            else if (action === "unlike") {
-
-                stats.likes =
-                    Math.max(
-                        0,
-                        stats.likes - 1
-                    );
-
-            }
-
-
-            /*
-             * Unknown action.
-             */
-
-            else {
+            if (
+                action !== "view" &&
+                action !== "like" &&
+                action !== "unlike"
+            ) {
 
                 return new Response(
                     "Unknown statistics action.",
@@ -166,28 +351,18 @@ export default {
 
 
             /*
-             * Save updated statistics
-             * to Cloudflare KV.
+             * Send the action to the
+             * game's Durable Object.
              */
 
-            await env.GAME_STATS.put(
-                key,
-                JSON.stringify(stats)
-            );
-
-
-            /*
-             * Return the new statistics
-             * to the website.
-             */
-
-            return Response.json(
-                stats,
-                {
-                    headers: {
-                        "Cache-Control": "no-store"
+            return stats.fetch(
+                new Request(
+                    "https://stats/" +
+                    action,
+                    {
+                        method: "POST"
                     }
-                }
+                )
             );
 
         }
@@ -202,8 +377,11 @@ export default {
          * /game/Cool-Game
          */
 
-
-        if (url.pathname.startsWith("/game/")) {
+        if (
+            url.pathname.startsWith(
+                "/game/"
+            )
+        ) {
 
             const gameID =
                 decodeURIComponent(
@@ -266,7 +444,6 @@ export default {
          *
          * /game-thumbnail/Gravi-Plat
          */
-
 
         if (
             url.pathname.startsWith(
@@ -336,8 +513,8 @@ export default {
          * → GameSwapHQ website
          */
 
-
         return env.ASSETS.fetch(request);
 
     }
+
 };
