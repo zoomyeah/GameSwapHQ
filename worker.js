@@ -401,6 +401,63 @@ function constantTimeEqual(a, b) {
 
 /*
  * ============================================================
+ * AUTHENTICATION HELPERS
+ * ============================================================
+ */
+
+function getCookie(request, name) {
+
+    const cookieHeader =
+        request.headers.get("Cookie") || "";
+
+    const cookies =
+        cookieHeader.split(";");
+
+    for (const cookie of cookies) {
+
+        const [key, ...valueParts] =
+            cookie.trim().split("=");
+
+        if (key === name) {
+
+            return valueParts.join("=");
+
+        }
+
+    }
+
+    return null;
+
+}
+
+
+function createSessionCookie(token) {
+
+    return (
+        "gameswaphq_session=" +
+        encodeURIComponent(token) +
+        "; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=2592000"
+    );
+
+}
+
+
+function clearSessionCookie() {
+
+    return (
+        "gameswaphq_session=;" +
+        " Path=/;" +
+        " HttpOnly;" +
+        " Secure;" +
+        " SameSite=Lax;" +
+        " Max-Age=0"
+    );
+
+}
+
+
+/*
+ * ============================================================
  * MAIN WORKER
  * ============================================================
  */
@@ -419,20 +476,25 @@ export default {
          * ========================================================
          *
          * POST:
-         * /api/auth/register
-         * /api/auth/login
+         * /api/auth/signup
+         * /api/auth/signin
+         * /api/auth/signout
+         *
+         * GET:
+         * /api/auth/me
+         * ========================================================
          */
 
 
         /*
          * ========================================================
-         * REGISTER
+         * SIGN UP
          * ========================================================
          */
 
         if (
             request.method === "POST" &&
-            url.pathname === "/api/auth/register"
+            url.pathname === "/api/auth/signup"
         ) {
 
             try {
@@ -610,16 +672,57 @@ export default {
                 }
 
 
+                /*
+                 * Create login session
+                 */
+
+                const sessionToken =
+                    crypto.randomUUID();
+
+
+                await env.USERS
+                    .prepare(`
+                        INSERT INTO sessions
+                            (
+                                token,
+                                user_id,
+                                expires_at
+                            )
+                        VALUES
+                            (?, ?, ?)
+                    `)
+                    .bind(
+                        sessionToken,
+                        result.meta.last_row_id,
+                        Date.now() + 2592000000
+                    )
+                    .run();
+
+
+                /*
+                 * Return account + session
+                 */
+
                 return Response.json(
                     {
                         success: true,
-                        message:
-                            "Account created successfully.",
-                        username: username
+
+                        user: {
+                            username: username
+                        }
+                    },
+                    {
+                        headers: {
+                            "Set-Cookie":
+                                createSessionCookie(
+                                    sessionToken
+                                )
+                        }
                     }
                 );
 
             }
+
             catch (error) {
 
                 console.error(
@@ -645,13 +748,13 @@ export default {
 
         /*
          * ========================================================
-         * LOGIN
+         * SIGN IN
          * ========================================================
          */
 
         if (
             request.method === "POST" &&
-            url.pathname === "/api/auth/login"
+            url.pathname === "/api/auth/signin"
         ) {
 
             try {
@@ -756,17 +859,58 @@ export default {
                 }
 
 
+                /*
+                 * Create login session
+                 */
+
+                const sessionToken =
+                    crypto.randomUUID();
+
+
+                await env.USERS
+                    .prepare(`
+                        INSERT INTO sessions
+                            (
+                                token,
+                                user_id,
+                                expires_at
+                            )
+                        VALUES
+                            (?, ?, ?)
+                    `)
+                    .bind(
+                        sessionToken,
+                        user.id,
+                        Date.now() + 2592000000
+                    )
+                    .run();
+
+
+                /*
+                 * Return account + session
+                 */
+
                 return Response.json(
                     {
                         success: true,
-                        message:
-                            "Signed in successfully.",
-                        username:
-                            user.username
+
+                        user: {
+                            username:
+                                user.username
+                        }
+                    },
+                    {
+                        headers: {
+                            "Set-Cookie":
+                                createSessionCookie(
+                                    sessionToken
+                                )
+                        }
                     }
                 );
 
             }
+
             catch (error) {
 
                 console.error(
@@ -782,6 +926,218 @@ export default {
                     },
                     {
                         status: 500
+                    }
+                );
+
+            }
+
+        }
+
+
+        /*
+         * ========================================================
+         * CURRENT USER
+         * ========================================================
+         */
+
+        if (
+            request.method === "GET" &&
+            url.pathname === "/api/auth/me"
+        ) {
+
+            try {
+
+                const token =
+                    getCookie(
+                        request,
+                        "gameswaphq_session"
+                    );
+
+
+                if (!token) {
+
+                    return Response.json(
+                        {
+                            user: null
+                        },
+                        {
+                            status: 401
+                        }
+                    );
+
+                }
+
+
+                const session =
+                    await env.USERS
+                        .prepare(`
+                            SELECT
+                                sessions.user_id,
+                                sessions.expires_at,
+                                users.username
+                            FROM sessions
+                            JOIN users
+                                ON users.id =
+                                   sessions.user_id
+                            WHERE sessions.token = ?
+                            LIMIT 1
+                        `)
+                        .bind(token)
+                        .first();
+
+
+                if (!session) {
+
+                    return Response.json(
+                        {
+                            user: null
+                        },
+                        {
+                            status: 401
+                        }
+                    );
+
+                }
+
+
+                /*
+                 * Check expiration
+                 */
+
+                if (
+                    Number(session.expires_at) <
+                    Date.now()
+                ) {
+
+                    await env.USERS
+                        .prepare(`
+                            DELETE FROM sessions
+                            WHERE token = ?
+                        `)
+                        .bind(token)
+                        .run();
+
+
+                    return Response.json(
+                        {
+                            user: null
+                        },
+                        {
+                            status: 401
+                        }
+                    );
+
+                }
+
+
+                /*
+                 * Session is valid
+                 */
+
+                return Response.json(
+                    {
+                        user: {
+                            username:
+                                session.username
+                        }
+                    }
+                );
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "Session check error:",
+                    error
+                );
+
+                return Response.json(
+                    {
+                        user: null
+                    },
+                    {
+                        status: 500
+                    }
+                );
+
+            }
+
+        }
+
+
+        /*
+         * ========================================================
+         * SIGN OUT
+         * ========================================================
+         */
+
+        if (
+            request.method === "POST" &&
+            url.pathname === "/api/auth/signout"
+        ) {
+
+            try {
+
+                const token =
+                    getCookie(
+                        request,
+                        "gameswaphq_session"
+                    );
+
+
+                if (token) {
+
+                    await env.USERS
+                        .prepare(`
+                            DELETE FROM sessions
+                            WHERE token = ?
+                        `)
+                        .bind(token)
+                        .run();
+
+                }
+
+
+                return new Response(
+                    JSON.stringify({
+                        success: true
+                    }),
+                    {
+                        status: 200,
+
+                        headers: {
+                            "Content-Type":
+                                "application/json",
+
+                            "Set-Cookie":
+                                clearSessionCookie()
+                        }
+                    }
+                );
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "Sign out error:",
+                    error
+                );
+
+                return Response.json(
+                    {
+                        success: false,
+                        error:
+                            "Could not sign out."
+                    },
+                    {
+                        status: 500,
+
+                        headers: {
+                            "Set-Cookie":
+                                clearSessionCookie()
+                        }
                     }
                 );
 
