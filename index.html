@@ -1791,6 +1791,195 @@ footer p {
     </main>
 
 </div>
+
+<!-- ============================================================
+     SIGN IN PAGE
+     ============================================================ -->
+
+<div id="signin-page" class="page">
+
+    <main>
+
+        <section class="auth-container">
+
+            <div class="auth-box">
+
+                <h1>
+                    Sign In
+                </h1>
+
+                <p class="auth-subtitle">
+                    Sign in to your GameSwapHQ account.
+                </p>
+
+
+                <form
+                    id="signin-form"
+                    onsubmit="signIn(event)"
+                >
+
+                    <label for="signin-username">
+                        Username
+                    </label>
+
+                    <input
+                        type="text"
+                        id="signin-username"
+                        autocomplete="username"
+                        required
+                        maxlength="20"
+                    >
+
+
+                    <label for="signin-password">
+                        Password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="signin-password"
+                        autocomplete="current-password"
+                        required
+                    >
+
+
+                    <button
+                        type="submit"
+                        class="auth-button"
+                    >
+                        Sign In
+                    </button>
+
+                </form>
+
+
+                <p
+                    class="auth-error"
+                    id="signin-error"
+                ></p>
+
+
+                <p class="auth-switch">
+
+                    Don't have an account?
+
+                    <button
+                        onclick="openCreateAccount()"
+                        type="button"
+                    >
+                        Create one
+                    </button>
+
+                </p>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<!-- ============================================================
+     CREATE ACCOUNT PAGE
+     ============================================================ -->
+
+<div id="create-account-page" class="page">
+
+    <main>
+
+        <section class="auth-container">
+
+            <div class="auth-box">
+
+                <h1>
+                    Create Account
+                </h1>
+
+                <p class="auth-subtitle">
+                    Create your GameSwapHQ account.
+                </p>
+
+
+                <form
+                    id="create-account-form"
+                    onsubmit="createAccount(event)"
+                >
+
+                    <label for="create-username">
+                        Username
+                    </label>
+
+                    <input
+                        type="text"
+                        id="create-username"
+                        autocomplete="username"
+                        required
+                        maxlength="20"
+                    >
+
+
+                    <label for="create-password">
+                        Password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="create-password"
+                        autocomplete="new-password"
+                        required
+                    >
+
+
+                    <label for="create-password-confirm">
+                        Confirm Password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="create-password-confirm"
+                        autocomplete="new-password"
+                        required
+                    >
+
+
+                    <button
+                        type="submit"
+                        class="auth-button"
+                    >
+                        Create Account
+                    </button>
+
+                </form>
+
+
+                <p
+                    class="auth-error"
+                    id="create-account-error"
+                ></p>
+
+
+                <p class="auth-switch">
+
+                    Already have an account?
+
+                    <button
+                        onclick="openSignIn()"
+                        type="button"
+                    >
+                        Sign In
+                    </button>
+
+                </p>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
     
 <!-- ============================================================
      GAME PAGE
