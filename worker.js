@@ -666,638 +666,727 @@ export default {
             new URL(request.url);
 
 
-        /*
-         * ========================================================
-         * ACCOUNT API
-         * ========================================================
-         *
-         * POST:
-         * /api/auth/register
-         * /api/auth/login
-         * /api/auth/logout
-         *
-         * GET:
-         * /api/auth/me
-         * ========================================================
-         */
+       /*
+ * ========================================================
+ * ACCOUNT API
+ * ========================================================
+ *
+ * POST:
+ * /api/auth/signup
+ * /api/auth/signin
+ * /api/auth/signout
+ *
+ * GET:
+ * /api/auth/me
+ * ========================================================
+ */
+
+
+/*
+ * ========================================================
+ * SIGN UP
+ * ========================================================
+ */
+
+if (
+    request.method === "POST" &&
+    url.pathname === "/api/auth/signup"
+) {
+
+    try {
+
+        const body =
+            await request.json();
+
+        const username =
+            typeof body.username === "string"
+                ? body.username.trim()
+                : "";
+
+        const password =
+            typeof body.password === "string"
+                ? body.password
+                : "";
 
 
         /*
-         * ========================================================
-         * REGISTER
-         * ========================================================
+         * Basic validation.
          */
 
         if (
-            request.method === "POST" &&
-            url.pathname === "/api/auth/register"
+            !username ||
+            !password
         ) {
 
-            try {
-
-                const body =
-                    await request.json();
-
-                const username =
-                    typeof body.username === "string"
-                        ? body.username.trim()
-                        : "";
-
-                const password =
-                    typeof body.password === "string"
-                        ? body.password
-                        : "";
-
-
-                /*
-                 * Basic validation.
-                 */
-
-                if (
-                    !username ||
-                    !password
-                ) {
-
-                    return Response.json(
-                        {
-                            success: false,
-                            error:
-                                "Username and password are required."
-                        },
-                        {
-                            status: 400
-                        }
-                    );
-
+            return Response.json(
+                {
+                    success: false,
+                    error:
+                        "Username and password are required."
+                },
+                {
+                    status: 400
                 }
+            );
+
+        }
 
 
-                /*
-                 * Username length.
-                 */
+        /*
+         * Username validation.
+         */
 
-                if (
-                    username.length < 3 ||
-                    username.length > 30
-                ) {
+        if (
+            username.length < 3 ||
+            username.length > 20
+        ) {
 
-                    return Response.json(
-                        {
-                            success: false,
-                            error:
-                                "Username must be between 3 and 30 characters."
-                        },
-                        {
-                            status: 400
-                        }
-                    );
-
+            return Response.json(
+                {
+                    success: false,
+                    error:
+                        "Username must be between 3 and 20 characters."
+                },
+                {
+                    status: 400
                 }
+            );
+
+        }
 
 
-                /*
-                 * Username characters.
-                 */
+        if (
+            !/^[a-zA-Z0-9_-]+$/.test(username)
+        ) {
 
-                if (
-                    !/^[a-zA-Z0-9_-]+$/.test(
-                        username
-                    )
-                ) {
-
-                    return Response.json(
-                        {
-                            success: false,
-                            error:
-                                "Username can only contain letters, numbers, underscores, and hyphens."
-                        },
-                        {
-                            status: 400
-                        }
-                    );
-
+            return Response.json(
+                {
+                    success: false,
+                    error:
+                        "Username can only contain letters, numbers, underscores, and hyphens."
+                },
+                {
+                    status: 400
                 }
+            );
+
+        }
 
 
-                /*
-                 * Password length.
-                 */
+        /*
+         * Password validation.
+         */
 
-                if (password.length < 8) {
+        if (password.length < 8) {
 
-                    return Response.json(
-                        {
-                            success: false,
-                            error:
-                                "Password must be at least 8 characters."
-                        },
-                        {
-                            status: 400
-                        }
-                    );
-
+            return Response.json(
+                {
+                    success: false,
+                    error:
+                        "Password must be at least 8 characters."
+                },
+                {
+                    status: 400
                 }
+            );
+
+        }
 
 
-                /*
-                 * Check whether username
-                 * already exists.
-                 */
+        /*
+         * Check whether username already exists.
+         */
 
-                const existing =
-                    await env.USERS
-                        .prepare(`
-                            SELECT id
-                            FROM users
-                            WHERE username = ?
-                            LIMIT 1
-                        `)
-                        .bind(username)
-                        .first();
+        const existing =
+            await env.USERS
+                .prepare(`
+                    SELECT id
+                    FROM users
+                    WHERE username = ?
+                    LIMIT 1
+                `)
+                .bind(username)
+                .first();
 
 
-                if (existing) {
+        if (existing) {
 
-                    return Response.json(
-                        {
-                            success: false,
-                            error:
-                                "That username is already taken."
-                        },
-                        {
-                            status: 409
-                        }
-                    );
-
+            return Response.json(
+                {
+                    success: false,
+                    error:
+                        "That username is already taken."
+                },
+                {
+                    status: 409
                 }
+            );
+
+        }
 
 
-                /*
-                 * Hash password.
-                 */
+        /*
+         * Hash password.
+         */
 
-                const passwordHash =
-                    await hashPassword(
-                        password
-                    );
+        const passwordHash =
+            await hashPassword(
+                password
+            );
 
 
-                /*
-                 * Create account.
-                 */
+        /*
+         * Create account.
+         */
 
-                const result =
-                    await env.USERS
-                        .prepare(`
-                            INSERT INTO users
-                                (
-                                    username,
-                                    password_hash
-                                )
-                            VALUES
-                                (?, ?)
-                        `)
-                        .bind(
+        const result =
+            await env.USERS
+                .prepare(`
+                    INSERT INTO users
+                        (
                             username,
-                            passwordHash
+                            password_hash
                         )
-                        .run();
+                    VALUES
+                        (?, ?)
+                `)
+                .bind(
+                    username,
+                    passwordHash
+                )
+                .run();
 
 
-                if (!result.success) {
+        if (!result.success) {
 
-                    return Response.json(
-                        {
-                            success: false,
-                            error:
-                                "Could not create account."
-                        },
-                        {
-                            status: 500
-                        }
-                    );
-
+            return Response.json(
+                {
+                    success: false,
+                    error:
+                        "Could not create account."
+                },
+                {
+                    status: 500
                 }
-
-
-                return Response.json(
-                    {
-                        success: true,
-                        message:
-                            "Account created successfully.",
-                        username:
-                            username
-                    }
-                );
-
-            }
-            catch (error) {
-
-                console.error(
-                    "Registration error:",
-                    error
-                );
-
-                return Response.json(
-                    {
-                        success: false,
-                        error:
-                            "Something went wrong while creating the account."
-                    },
-                    {
-                        status: 500
-                    }
-                );
-
-            }
+            );
 
         }
 
 
         /*
-         * ========================================================
-         * LOGIN
-         * ========================================================
+         * Get the newly created user's ID.
          */
 
-        if (
-            request.method === "POST" &&
-            url.pathname === "/api/auth/login"
-        ) {
-
-            try {
-
-                const body =
-                    await request.json();
-
-                const username =
-                    typeof body.username === "string"
-                        ? body.username.trim()
-                        : "";
-
-                const password =
-                    typeof body.password === "string"
-                        ? body.password
-                        : "";
+        const newUser =
+            await env.USERS
+                .prepare(`
+                    SELECT
+                        id,
+                        username
+                    FROM users
+                    WHERE username = ?
+                    LIMIT 1
+                `)
+                .bind(username)
+                .first();
 
 
-                if (
-                    !username ||
-                    !password
-                ) {
+        if (!newUser) {
 
-                    return Response.json(
-                        {
-                            success: false,
-                            error:
-                                "Username and password are required."
-                        },
-                        {
-                            status: 400
-                        }
-                    );
-
+            return Response.json(
+                {
+                    success: false,
+                    error:
+                        "Account was created, but could not be loaded."
+                },
+                {
+                    status: 500
                 }
+            );
+
+        }
 
 
-                /*
-                 * Find account.
-                 */
+        /*
+         * Automatically sign the user in.
+         */
 
-                const user =
-                    await env.USERS
-                        .prepare(`
-                            SELECT
-                                id,
-                                username,
-                                password_hash
-                            FROM users
-                            WHERE username = ?
-                            LIMIT 1
-                        `)
-                        .bind(username)
-                        .first();
+        const token =
+            createSessionToken();
+
+        const expiresAt =
+            Math.floor(
+                Date.now() / 1000
+            ) +
+            (
+                60 * 60 * 24 * 30
+            );
 
 
-                /*
-                 * Don't reveal whether
-                 * the username exists.
-                 */
-
-                if (!user) {
-
-                    return Response.json(
-                        {
-                            success: false,
-                            error:
-                                "Invalid username or password."
-                        },
-                        {
-                            status: 401
-                        }
-                    );
-
-                }
-
-
-                /*
-                 * Verify password.
-                 */
-
-                const valid =
-                    await verifyPassword(
-                        password,
-                        user.password_hash
-                    );
-
-
-                if (!valid) {
-
-                    return Response.json(
-                        {
-                            success: false,
-                            error:
-                                "Invalid username or password."
-                        },
-                        {
-                            status: 401
-                        }
-                    );
-
-                }
-
-
-                /*
-                 * Create session.
-                 *
-                 * 30 days from now.
-                 */
-
-                const token =
-                    createSessionToken();
-
-                const expiresAt =
-                    Math.floor(
-                        Date.now() / 1000
-                    ) +
-                    (
-                        60 * 60 * 24 * 30
-                    );
-
-
-                /*
-                 * Store session in D1.
-                 */
-
-                const sessionResult =
-                    await env.USERS
-                        .prepare(`
-                            INSERT INTO sessions
-                                (
-                                    token,
-                                    user_id,
-                                    expires_at
-                                )
-                            VALUES
-                                (?, ?, ?)
-                        `)
-                        .bind(
+        const sessionResult =
+            await env.USERS
+                .prepare(`
+                    INSERT INTO sessions
+                        (
                             token,
-                            user.id,
-                            expiresAt
+                            user_id,
+                            expires_at
                         )
-                        .run();
+                    VALUES
+                        (?, ?, ?)
+                `)
+                .bind(
+                    token,
+                    newUser.id,
+                    expiresAt
+                )
+                .run();
 
 
-                if (
-                    !sessionResult.success
-                ) {
+        if (!sessionResult.success) {
 
-                    return Response.json(
-                        {
-                            success: false,
-                            error:
-                                "Could not create login session."
-                        },
-                        {
-                            status: 500
-                        }
-                    );
-
+            return Response.json(
+                {
+                    success: false,
+                    error:
+                        "Account was created, but the login session could not be created."
+                },
+                {
+                    status: 500
                 }
-
-
-                /*
-                 * Set secure session cookie.
-                 */
-
-                return new Response(
-                    JSON.stringify(
-                        {
-                            success: true,
-                            message:
-                                "Signed in successfully.",
-                            username:
-                                user.username
-                        }
-                    ),
-                    {
-                        status: 200,
-                        headers: {
-                            "Content-Type":
-                                "application/json; charset=UTF-8",
-
-                            "Set-Cookie":
-                                createSessionCookie(
-                                    token
-                                )
-                        }
-                    }
-                );
-
-            }
-            catch (error) {
-
-                console.error(
-                    "Login error:",
-                    error
-                );
-
-                return Response.json(
-                    {
-                        success: false,
-                        error:
-                            "Something went wrong while signing in."
-                    },
-                    {
-                        status: 500
-                    }
-                );
-
-            }
+            );
 
         }
 
 
         /*
-         * ========================================================
-         * CURRENT USER
-         * ========================================================
-         *
-         * GET:
-         * /api/auth/me
-         *
-         * Used by the website to determine whether
-         * the visitor currently has a valid session.
-         * ========================================================
+         * Return the user in exactly the format
+         * expected by the website.
          */
 
+        return new Response(
+            JSON.stringify(
+                {
+                    success: true,
+
+                    user: {
+                        id: Number(newUser.id),
+                        username: newUser.username
+                    }
+                }
+            ),
+            {
+                status: 200,
+
+                headers: {
+                    "Content-Type":
+                        "application/json; charset=UTF-8",
+
+                    "Set-Cookie":
+                        createSessionCookie(
+                            token
+                        )
+                }
+            }
+        );
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Signup error:",
+            error
+        );
+
+        return Response.json(
+            {
+                success: false,
+                error:
+                    "Something went wrong while creating the account."
+            },
+            {
+                status: 500
+            }
+        );
+
+    }
+
+}
+
+
+/*
+ * ========================================================
+ * SIGN IN
+ * ========================================================
+ */
+
+if (
+    request.method === "POST" &&
+    url.pathname === "/api/auth/signin"
+) {
+
+    try {
+
+        const body =
+            await request.json();
+
+        const username =
+            typeof body.username === "string"
+                ? body.username.trim()
+                : "";
+
+        const password =
+            typeof body.password === "string"
+                ? body.password
+                : "";
+
+
         if (
-            request.method === "GET" &&
-            url.pathname === "/api/auth/me"
+            !username ||
+            !password
         ) {
 
-            try {
-
-                const user =
-                    await getCurrentUser(
-                        request,
-                        env
-                    );
-
-
-                if (!user) {
-
-                    return Response.json(
-                        {
-                            user: null
-                        },
-                        {
-                            status: 401
-                        }
-                    );
-
+            return Response.json(
+                {
+                    success: false,
+                    error:
+                        "Username and password are required."
+                },
+                {
+                    status: 400
                 }
-
-
-                return Response.json(
-                    {
-                        user: {
-                            id: user.id,
-                            username:
-                                user.username
-                        }
-                    }
-                );
-
-            }
-            catch (error) {
-
-                console.error(
-                    "Current user error:",
-                    error
-                );
-
-                return Response.json(
-                    {
-                        user: null
-                    },
-                    {
-                        status: 500
-                    }
-                );
-
-            }
+            );
 
         }
 
 
         /*
-         * ========================================================
-         * LOGOUT
-         * ========================================================
+         * Find account.
          */
 
-        if (
-            request.method === "POST" &&
-            url.pathname === "/api/auth/logout"
-        ) {
+        const user =
+            await env.USERS
+                .prepare(`
+                    SELECT
+                        id,
+                        username,
+                        password_hash
+                    FROM users
+                    WHERE username = ?
+                    LIMIT 1
+                `)
+                .bind(username)
+                .first();
 
-            try {
 
-                const token =
-                    getCookie(
-                        request,
-                        "session"
-                    );
+        if (!user) {
 
-
-                if (token) {
-
-                    await env.USERS
-                        .prepare(`
-                            DELETE FROM sessions
-                            WHERE token = ?
-                        `)
-                        .bind(token)
-                        .run();
-
+            return Response.json(
+                {
+                    success: false,
+                    error:
+                        "Invalid username or password."
+                },
+                {
+                    status: 401
                 }
-
-
-                return new Response(
-                    JSON.stringify(
-                        {
-                            success: true,
-                            message:
-                                "Signed out successfully."
-                        }
-                    ),
-                    {
-                        status: 200,
-                        headers: {
-                            "Content-Type":
-                                "application/json; charset=UTF-8",
-
-                            "Set-Cookie":
-                                clearSessionCookie()
-                        }
-                    }
-                );
-
-            }
-            catch (error) {
-
-                console.error(
-                    "Logout error:",
-                    error
-                );
-
-                return new Response(
-                    JSON.stringify(
-                        {
-                            success: false,
-                            error:
-                                "Could not sign out."
-                        }
-                    ),
-                    {
-                        status: 500,
-                        headers: {
-                            "Content-Type":
-                                "application/json; charset=UTF-8",
-
-                            "Set-Cookie":
-                                clearSessionCookie()
-                        }
-                    }
-                );
-
-            }
+            );
 
         }
 
 
+        /*
+         * Verify password.
+         */
+
+        const valid =
+            await verifyPassword(
+                password,
+                user.password_hash
+            );
+
+
+        if (!valid) {
+
+            return Response.json(
+                {
+                    success: false,
+                    error:
+                        "Invalid username or password."
+                },
+                {
+                    status: 401
+                }
+            );
+
+        }
+
+
+        /*
+         * Create 30-day session.
+         */
+
+        const token =
+            createSessionToken();
+
+        const expiresAt =
+            Math.floor(
+                Date.now() / 1000
+            ) +
+            (
+                60 * 60 * 24 * 30
+            );
+
+
+        /*
+         * Store session in D1.
+         */
+
+        const sessionResult =
+            await env.USERS
+                .prepare(`
+                    INSERT INTO sessions
+                        (
+                            token,
+                            user_id,
+                            expires_at
+                        )
+                    VALUES
+                        (?, ?, ?)
+                `)
+                .bind(
+                    token,
+                    user.id,
+                    expiresAt
+                )
+                .run();
+
+
+        if (!sessionResult.success) {
+
+            return Response.json(
+                {
+                    success: false,
+                    error:
+                        "Could not create login session."
+                },
+                {
+                    status: 500
+                }
+            );
+
+        }
+
+
+        /*
+         * Return the user AND set the cookie.
+         */
+
+        return new Response(
+            JSON.stringify(
+                {
+                    success: true,
+
+                    user: {
+                        id: Number(user.id),
+                        username: user.username
+                    }
+                }
+            ),
+            {
+                status: 200,
+
+                headers: {
+                    "Content-Type":
+                        "application/json; charset=UTF-8",
+
+                    "Set-Cookie":
+                        createSessionCookie(
+                            token
+                        )
+                }
+            }
+        );
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Signin error:",
+            error
+        );
+
+        return Response.json(
+            {
+                success: false,
+                error:
+                    "Something went wrong while signing in."
+            },
+            {
+                status: 500
+            }
+        );
+
+    }
+
+}
+
+
+/*
+ * ========================================================
+ * CURRENT USER
+ * ========================================================
+ */
+
+if (
+    request.method === "GET" &&
+    url.pathname === "/api/auth/me"
+) {
+
+    try {
+
+        const user =
+            await getCurrentUser(
+                request,
+                env
+            );
+
+
+        if (!user) {
+
+            return Response.json(
+                {
+                    user: null
+                },
+                {
+                    status: 401
+                }
+            );
+
+        }
+
+
+        return Response.json(
+            {
+                user: {
+                    id: Number(user.id),
+                    username: user.username
+                }
+            }
+        );
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Current user error:",
+            error
+        );
+
+        return Response.json(
+            {
+                user: null
+            },
+            {
+                status: 500
+            }
+        );
+
+    }
+
+}
+
+
+/*
+ * ========================================================
+ * SIGN OUT
+ * ========================================================
+ */
+
+if (
+    request.method === "POST" &&
+    url.pathname === "/api/auth/signout"
+) {
+
+    try {
+
+        const token =
+            getCookie(
+                request,
+                "session"
+            );
+
+
+        if (token) {
+
+            await env.USERS
+                .prepare(`
+                    DELETE FROM sessions
+                    WHERE token = ?
+                `)
+                .bind(token)
+                .run();
+
+        }
+
+
+        return new Response(
+            JSON.stringify(
+                {
+                    success: true,
+                    message:
+                        "Signed out successfully."
+                }
+            ),
+            {
+                status: 200,
+
+                headers: {
+                    "Content-Type":
+                        "application/json; charset=UTF-8",
+
+                    "Set-Cookie":
+                        clearSessionCookie()
+                }
+            }
+        );
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Signout error:",
+            error
+        );
+
+        return new Response(
+            JSON.stringify(
+                {
+                    success: false,
+                    error:
+                        "Could not sign out."
+                }
+            ),
+            {
+                status: 500,
+
+                headers: {
+                    "Content-Type":
+                        "application/json; charset=UTF-8",
+
+                    "Set-Cookie":
+                        clearSessionCookie()
+                }
+            }
+        );
+
+    }
+
+}
         /*
          * ========================================================
          * ONLINE GAME STATISTICS
