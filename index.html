@@ -2523,202 +2523,6 @@ function openSignIn() {
 }
 
 
-async function createAccount(event) {
-
-    event.preventDefault();
-
-    const username =
-        document.getElementById("create-username").value.trim();
-
-    const password =
-        document.getElementById("create-password").value;
-
-    const confirmPassword =
-        document.getElementById("create-password-confirm").value;
-
-    const error =
-        document.getElementById("create-account-error");
-
-    error.textContent = "";
-
-    if (username.length < 3) {
-        error.textContent =
-            "Username must be at least 3 characters.";
-        return;
-    }
-
-    if (password.length < 8) {
-        error.textContent =
-            "Password must be at least 8 characters.";
-        return;
-    }
-
-    if (password !== confirmPassword) {
-        error.textContent =
-            "Passwords do not match.";
-        return;
-    }
-
-    error.textContent = "Creating account...";
-
-    try {
-
-        const response = await fetch(
-            "/api/auth/signup",
-            {
-                method: "POST",
-
-                headers: {
-                    "Content-Type": "application/json"
-                },
-
-                credentials: "include",
-
-                body: JSON.stringify({
-                    username: username,
-                    password: password
-                })
-            }
-        );
-
-        /*
-         * Read the response as text FIRST.
-         *
-         * This prevents response.json() from crashing
-         * when the server sends an empty or non-JSON response.
-         */
-
-        const responseText =
-            await response.text();
-
-        let data = {};
-
-        if (responseText.trim() !== "") {
-
-            try {
-
-                data = JSON.parse(responseText);
-
-            } catch (jsonError) {
-
-                console.error(
-                    "Server returned invalid JSON:",
-                    responseText
-                );
-
-                throw new Error(
-                    "The server returned an invalid response."
-                );
-
-            }
-
-        }
-
-        if (!response.ok) {
-
-            throw new Error(
-                data.error ||
-                data.message ||
-                "Could not create account."
-            );
-
-        }
-
-        if (!data.user) {
-
-            throw new Error(
-                "Account may have been created, but the server did not return user information."
-            );
-
-        }
-
-        currentUser = data.user;
-
-        updateAccountButton();
-
-        updateProfilePage();
-
-        document
-            .getElementById("create-account-form")
-            .reset();
-
-        showPage("profile-page");
-
-    }
-
-    catch (err) {
-
-        console.error(
-            "Create account error:",
-            err
-        );
-
-        error.textContent =
-            err.message ||
-            "Could not create account.";
-
-    }
-
-}
-
-function updateAccountButton() {
-
-    const icon = get("account-icon");
-    const text = get("account-text");
-
-    if (!icon || !text) {
-        return;
-    }
-
-    if (currentUser) {
-
-        icon.textContent =
-            currentUser.username
-                .charAt(0)
-                .toUpperCase();
-
-        text.textContent =
-            currentUser.username;
-
-    } else {
-
-        icon.textContent = "👤";
-        text.textContent = "Sign In";
-
-    }
-
-}
-
-
-function updateProfilePage() {
-
-    if (!currentUser) {
-        return;
-    }
-
-    const name =
-        document.querySelector(
-            ".profile-page-name"
-        );
-
-    const username =
-        document.querySelector(
-            ".profile-username"
-        );
-
-    if (name) {
-        name.textContent =
-            currentUser.username;
-    }
-
-    if (username) {
-        username.textContent =
-            "@" + currentUser.username;
-    }
-
-}
-
-
 /* ============================================================
    SIGN IN
    ============================================================ */
@@ -2876,14 +2680,95 @@ async function createAccount(event) {
                 }
             );
 
-        const data =
-            await response.json();
+        const responseText =
+            await response.text();
+
+        let data = {};
+
+        if (responseText.trim() !== "") {
+
+            try {
+
+                data =
+                    JSON.parse(responseText);
+
+            }
+
+            catch (jsonError) {
+
+                console.error(
+                    "Invalid server response:",
+                    responseText
+                );
+
+                throw new Error(
+                    "The server returned an invalid response."
+                );
+
+            }
+
+        }
 
         if (!response.ok) {
 
             throw new Error(
                 data.error ||
+                data.message ||
                 "Could not create account."
+            );
+
+        }
+
+        /*
+         * If the signup endpoint doesn't return
+         * the user, try /api/auth/me instead.
+         */
+
+        if (!data.user) {
+
+            const meResponse =
+                await fetch(
+                    "/api/auth/me",
+                    {
+                        credentials: "include"
+                    }
+                );
+
+            if (meResponse.ok) {
+
+                const meText =
+                    await meResponse.text();
+
+                if (meText.trim() !== "") {
+
+                    try {
+
+                        const meData =
+                            JSON.parse(meText);
+
+                        data.user =
+                            meData.user || null;
+
+                    }
+
+                    catch (error) {
+
+                        console.warn(
+                            "Could not parse /api/auth/me response."
+                        );
+
+                    }
+
+                }
+
+            }
+
+        }
+
+        if (!data.user) {
+
+            throw new Error(
+                "Account was created, but the server did not return your account information."
             );
 
         }
@@ -2892,9 +2777,11 @@ async function createAccount(event) {
             data.user;
 
         updateAccountButton();
+
         updateProfilePage();
 
-        get("create-account-form").reset();
+        get("create-account-form")
+            .reset();
 
         showPage("profile-page");
 
@@ -2902,14 +2789,19 @@ async function createAccount(event) {
 
     catch (err) {
 
+        console.error(
+            "Create account error:",
+            err
+        );
+
         error.textContent =
-            err.message;
+            err.message ||
+            "Could not create account.";
 
     }
 
 }
-
-
+    
 /* ============================================================
    SIGN OUT
    ============================================================ */
