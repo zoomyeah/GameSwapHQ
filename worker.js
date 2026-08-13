@@ -16,12 +16,6 @@ export class GameStats extends DurableObject {
         this.sql =
             ctx.storage.sql;
 
-        /*
-         * Create the statistics table
-         * the first time this Durable Object
-         * is used.
-         */
-
         this.sql.exec(`
             CREATE TABLE IF NOT EXISTS stats (
                 id INTEGER PRIMARY KEY CHECK (id = 1),
@@ -29,11 +23,6 @@ export class GameStats extends DurableObject {
                 likes INTEGER NOT NULL DEFAULT 0
             )
         `);
-
-        /*
-         * Make sure the single statistics
-         * row exists.
-         */
 
         this.sql.exec(`
             INSERT OR IGNORE INTO stats
@@ -208,6 +197,210 @@ export class GameStats extends DurableObject {
 
 /*
  * ============================================================
+ * PASSWORD HASHING
+ * ============================================================
+ *
+ * Passwords are NEVER stored directly.
+ *
+ * PBKDF2 is used to derive a secure password hash.
+ * ============================================================
+ */
+
+async function hashPassword(password) {
+
+    const encoder =
+        new TextEncoder();
+
+    const salt =
+        crypto.getRandomValues(
+            new Uint8Array(16)
+        );
+
+    const key =
+        await crypto.subtle.importKey(
+            "raw",
+            encoder.encode(password),
+            {
+                name: "PBKDF2"
+            },
+            false,
+            [
+                "deriveBits"
+            ]
+        );
+
+    const hash =
+        await crypto.subtle.deriveBits(
+            {
+                name: "PBKDF2",
+                salt: salt,
+                iterations: 100000,
+                hash: "SHA-256"
+            },
+            key,
+            256
+        );
+
+    return (
+        "pbkdf2$100000$" +
+        bytesToHex(salt) +
+        "$" +
+        bytesToHex(
+            new Uint8Array(hash)
+        )
+    );
+
+}
+
+
+/*
+ * ============================================================
+ * PASSWORD VERIFICATION
+ * ============================================================
+ */
+
+async function verifyPassword(
+    password,
+    storedHash
+) {
+
+    const parts =
+        storedHash.split("$");
+
+    if (
+        parts.length !== 4 ||
+        parts[0] !== "pbkdf2"
+    ) {
+
+        return false;
+
+    }
+
+    const iterations =
+        Number(parts[1]);
+
+    const salt =
+        hexToBytes(parts[2]);
+
+    const expectedHash =
+        hexToBytes(parts[3]);
+
+    const encoder =
+        new TextEncoder();
+
+    const key =
+        await crypto.subtle.importKey(
+            "raw",
+            encoder.encode(password),
+            {
+                name: "PBKDF2"
+            },
+            false,
+            [
+                "deriveBits"
+            ]
+        );
+
+    const hash =
+        await crypto.subtle.deriveBits(
+            {
+                name: "PBKDF2",
+                salt: salt,
+                iterations: iterations,
+                hash: "SHA-256"
+            },
+            key,
+            256
+        );
+
+    return constantTimeEqual(
+        new Uint8Array(hash),
+        expectedHash
+    );
+
+}
+
+
+/*
+ * ============================================================
+ * HEX HELPERS
+ * ============================================================
+ */
+
+function bytesToHex(bytes) {
+
+    return Array.from(bytes)
+        .map(
+            byte =>
+                byte
+                    .toString(16)
+                    .padStart(2, "0")
+        )
+        .join("");
+
+}
+
+
+function hexToBytes(hex) {
+
+    const bytes =
+        new Uint8Array(
+            hex.length / 2
+        );
+
+    for (
+        let i = 0;
+        i < hex.length;
+        i += 2
+    ) {
+
+        bytes[i / 2] =
+            parseInt(
+                hex.substring(i, i + 2),
+                16
+            );
+
+    }
+
+    return bytes;
+
+}
+
+
+/*
+ * ============================================================
+ * CONSTANT-TIME COMPARISON
+ * ============================================================
+ */
+
+function constantTimeEqual(a, b) {
+
+    if (a.length !== b.length) {
+
+        return false;
+
+    }
+
+    let result = 0;
+
+    for (
+        let i = 0;
+        i < a.length;
+        i++
+    ) {
+
+        result |=
+            a[i] ^ b[i];
+
+    }
+
+    return result === 0;
+
+}
+
+
+/*
+ * ============================================================
  * MAIN WORKER
  * ============================================================
  */
@@ -222,16 +415,385 @@ export default {
 
         /*
          * ========================================================
-         * ONLINE GAME STATISTICS
+         * ACCOUNT API
          * ========================================================
          *
-         * GET:
-         * /api/stats/Gravi-Plat
-         *
          * POST:
-         * /api/stats/Gravi-Plat/view
-         * /api/stats/Gravi-Plat/like
-         * /api/stats/Gravi-Plat/unlike
+         * /api/auth/register
+         * /api/auth/login
+         */
+
+
+        /*
+         * ========================================================
+         * REGISTER
+         * ========================================================
+         */
+
+        if (
+            request.method === "POST" &&
+            url.pathname === "/api/auth/register"
+        ) {
+
+            try {
+
+                const body =
+                    await request.json();
+
+                const username =
+                    typeof body.username === "string"
+                        ? body.username.trim()
+                        : "";
+
+                const password =
+                    typeof body.password === "string"
+                        ? body.password
+                        : "";
+
+
+                /*
+                 * Basic validation
+                 */
+
+                if (
+                    !username ||
+                    !password
+                ) {
+
+                    return Response.json(
+                        {
+                            success: false,
+                            error:
+                                "Username and password are required."
+                        },
+                        {
+                            status: 400
+                        }
+                    );
+
+                }
+
+
+                if (
+                    username.length < 3 ||
+                    username.length > 30
+                ) {
+
+                    return Response.json(
+                        {
+                            success: false,
+                            error:
+                                "Username must be between 3 and 30 characters."
+                        },
+                        {
+                            status: 400
+                        }
+                    );
+
+                }
+
+
+                if (
+                    !/^[a-zA-Z0-9_-]+$/.test(
+                        username
+                    )
+                ) {
+
+                    return Response.json(
+                        {
+                            success: false,
+                            error:
+                                "Username can only contain letters, numbers, underscores, and hyphens."
+                        },
+                        {
+                            status: 400
+                        }
+                    );
+
+                }
+
+
+                if (password.length < 8) {
+
+                    return Response.json(
+                        {
+                            success: false,
+                            error:
+                                "Password must be at least 8 characters."
+                        },
+                        {
+                            status: 400
+                        }
+                    );
+
+                }
+
+
+                /*
+                 * Check whether username
+                 * already exists.
+                 */
+
+                const existing =
+                    await env.USERS
+                        .prepare(`
+                            SELECT id
+                            FROM users
+                            WHERE username = ?
+                            LIMIT 1
+                        `)
+                        .bind(username)
+                        .first();
+
+
+                if (existing) {
+
+                    return Response.json(
+                        {
+                            success: false,
+                            error:
+                                "That username is already taken."
+                        },
+                        {
+                            status: 409
+                        }
+                    );
+
+                }
+
+
+                /*
+                 * Hash password
+                 */
+
+                const passwordHash =
+                    await hashPassword(
+                        password
+                    );
+
+
+                /*
+                 * Create account
+                 */
+
+                const result =
+                    await env.USERS
+                        .prepare(`
+                            INSERT INTO users
+                                (
+                                    username,
+                                    password_hash
+                                )
+                            VALUES
+                                (?, ?)
+                        `)
+                        .bind(
+                            username,
+                            passwordHash
+                        )
+                        .run();
+
+
+                if (!result.success) {
+
+                    return Response.json(
+                        {
+                            success: false,
+                            error:
+                                "Could not create account."
+                        },
+                        {
+                            status: 500
+                        }
+                    );
+
+                }
+
+
+                return Response.json(
+                    {
+                        success: true,
+                        message:
+                            "Account created successfully.",
+                        username: username
+                    }
+                );
+
+            }
+            catch (error) {
+
+                console.error(
+                    "Registration error:",
+                    error
+                );
+
+                return Response.json(
+                    {
+                        success: false,
+                        error:
+                            "Something went wrong while creating the account."
+                    },
+                    {
+                        status: 500
+                    }
+                );
+
+            }
+
+        }
+
+
+        /*
+         * ========================================================
+         * LOGIN
+         * ========================================================
+         */
+
+        if (
+            request.method === "POST" &&
+            url.pathname === "/api/auth/login"
+        ) {
+
+            try {
+
+                const body =
+                    await request.json();
+
+                const username =
+                    typeof body.username === "string"
+                        ? body.username.trim()
+                        : "";
+
+                const password =
+                    typeof body.password === "string"
+                        ? body.password
+                        : "";
+
+
+                if (
+                    !username ||
+                    !password
+                ) {
+
+                    return Response.json(
+                        {
+                            success: false,
+                            error:
+                                "Username and password are required."
+                        },
+                        {
+                            status: 400
+                        }
+                    );
+
+                }
+
+
+                /*
+                 * Find account
+                 */
+
+                const user =
+                    await env.USERS
+                        .prepare(`
+                            SELECT
+                                id,
+                                username,
+                                password_hash
+                            FROM users
+                            WHERE username = ?
+                            LIMIT 1
+                        `)
+                        .bind(username)
+                        .first();
+
+
+                /*
+                 * Don't reveal whether
+                 * the username exists.
+                 */
+
+                if (!user) {
+
+                    return Response.json(
+                        {
+                            success: false,
+                            error:
+                                "Invalid username or password."
+                        },
+                        {
+                            status: 401
+                        }
+                    );
+
+                }
+
+
+                /*
+                 * Verify password
+                 */
+
+                const valid =
+                    await verifyPassword(
+                        password,
+                        user.password_hash
+                    );
+
+
+                if (!valid) {
+
+                    return Response.json(
+                        {
+                            success: false,
+                            error:
+                                "Invalid username or password."
+                        },
+                        {
+                            status: 401
+                        }
+                    );
+
+                }
+
+
+                return Response.json(
+                    {
+                        success: true,
+                        message:
+                            "Signed in successfully.",
+                        username:
+                            user.username
+                    }
+                );
+
+            }
+            catch (error) {
+
+                console.error(
+                    "Login error:",
+                    error
+                );
+
+                return Response.json(
+                    {
+                        success: false,
+                        error:
+                            "Something went wrong while signing in."
+                    },
+                    {
+                        status: 500
+                    }
+                );
+
+            }
+
+        }
+
+
+        /*
+         * ========================================================
+         * ONLINE GAME STATISTICS
+         * ========================================================
          */
 
         if (
@@ -270,21 +832,6 @@ export default {
             }
 
 
-            /*
-             * Get one Durable Object
-             * specifically for this game.
-             *
-             * Therefore:
-             *
-             * Gravi-Plat
-             *      ↓
-             * one GameStats object
-             *
-             * Painterz
-             *      ↓
-             * another GameStats object
-             */
-
             const id =
                 env.GAME_STATS.idFromName(
                     gameID
@@ -294,10 +841,6 @@ export default {
             const stats =
                 env.GAME_STATS.get(id);
 
-
-            /*
-             * GET STATISTICS
-             */
 
             if (
                 request.method === "GET" &&
@@ -313,11 +856,6 @@ export default {
             }
 
 
-            /*
-             * Only POST requests can
-             * change statistics.
-             */
-
             if (request.method !== "POST") {
 
                 return new Response(
@@ -329,10 +867,6 @@ export default {
 
             }
 
-
-            /*
-             * Check for a valid action.
-             */
 
             if (
                 action !== "view" &&
@@ -349,11 +883,6 @@ export default {
 
             }
 
-
-            /*
-             * Send the action to the
-             * game's Durable Object.
-             */
 
             return stats.fetch(
                 new Request(
@@ -372,9 +901,6 @@ export default {
          * ============================================================
          * GAME
          * ============================================================
-         *
-         * /game/Gravi-Plat
-         * /game/Cool-Game
          */
 
         if (
@@ -441,8 +967,6 @@ export default {
          * ============================================================
          * THUMBNAIL
          * ============================================================
-         *
-         * /game-thumbnail/Gravi-Plat
          */
 
         if (
@@ -509,8 +1033,6 @@ export default {
          * ============================================================
          * EVERYTHING ELSE
          * ============================================================
-         *
-         * → GameSwapHQ website
          */
 
         return env.ASSETS.fetch(request);
