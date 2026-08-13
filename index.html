@@ -2523,12 +2523,143 @@ function openSignIn() {
 }
 
 
-function openCreateAccount() {
+async function createAccount(event) {
 
-    showPage("create-account-page");
+    event.preventDefault();
+
+    const username =
+        document.getElementById("create-username").value.trim();
+
+    const password =
+        document.getElementById("create-password").value;
+
+    const confirmPassword =
+        document.getElementById("create-password-confirm").value;
+
+    const error =
+        document.getElementById("create-account-error");
+
+    error.textContent = "";
+
+    if (username.length < 3) {
+        error.textContent =
+            "Username must be at least 3 characters.";
+        return;
+    }
+
+    if (password.length < 8) {
+        error.textContent =
+            "Password must be at least 8 characters.";
+        return;
+    }
+
+    if (password !== confirmPassword) {
+        error.textContent =
+            "Passwords do not match.";
+        return;
+    }
+
+    error.textContent = "Creating account...";
+
+    try {
+
+        const response = await fetch(
+            "/api/auth/signup",
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                credentials: "include",
+
+                body: JSON.stringify({
+                    username: username,
+                    password: password
+                })
+            }
+        );
+
+        /*
+         * Read the response as text FIRST.
+         *
+         * This prevents response.json() from crashing
+         * when the server sends an empty or non-JSON response.
+         */
+
+        const responseText =
+            await response.text();
+
+        let data = {};
+
+        if (responseText.trim() !== "") {
+
+            try {
+
+                data = JSON.parse(responseText);
+
+            } catch (jsonError) {
+
+                console.error(
+                    "Server returned invalid JSON:",
+                    responseText
+                );
+
+                throw new Error(
+                    "The server returned an invalid response."
+                );
+
+            }
+
+        }
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.error ||
+                data.message ||
+                "Could not create account."
+            );
+
+        }
+
+        if (!data.user) {
+
+            throw new Error(
+                "Account may have been created, but the server did not return user information."
+            );
+
+        }
+
+        currentUser = data.user;
+
+        updateAccountButton();
+
+        updateProfilePage();
+
+        document
+            .getElementById("create-account-form")
+            .reset();
+
+        showPage("profile-page");
+
+    }
+
+    catch (err) {
+
+        console.error(
+            "Create account error:",
+            err
+        );
+
+        error.textContent =
+            err.message ||
+            "Could not create account.";
+
+    }
 
 }
-
 
 function updateAccountButton() {
 
