@@ -1,7 +1,10 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
+
   "name": "gameswaphq",
+
   "main": "worker.js",
+
   "compatibility_date": "2026-08-10",
 
   "observability": {
@@ -20,19 +23,6 @@
     }
   ],
 
-  "kv_namespaces": [
-    {
-      "binding": "GAME_STATS",
-      "id": "16d3faccc62248439e23d71ec84e4487"
-    }
-  ],
-
-  "compatibility_flags": [
-    "nodejs_compat"
-  ]
-}
-
-{
   "durable_objects": {
     "bindings": [
       {
@@ -49,5 +39,9 @@
         "GameStats"
       ]
     }
+  ],
+
+  "compatibility_flags": [
+    "nodejs_compat"
   ]
 }
