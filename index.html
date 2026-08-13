@@ -30,6 +30,175 @@ body {
 }
 
 /* ============================================================
+   AUTHENTICATION
+   ============================================================ */
+
+.auth-container {
+    display: flex;
+
+    justify-content: center;
+
+    align-items: flex-start;
+
+    padding-top: 40px;
+}
+
+
+.auth-box {
+    width: 100%;
+
+    max-width: 430px;
+
+    background: #1e1e1e;
+
+    border: 1px solid #2c2c2c;
+
+    border-radius: 14px;
+
+    padding: 35px;
+
+    box-shadow:
+        0 4px 18px rgba(0,0,0,0.45);
+}
+
+
+.auth-box h1 {
+    font-family: "Nunito", sans-serif;
+
+    font-size: 2.3rem;
+
+    font-weight: 900;
+
+    text-align: center;
+
+    margin: 0 0 8px;
+}
+
+
+.auth-subtitle {
+    color: #aaa;
+
+    text-align: center;
+
+    margin: 0 0 30px;
+}
+
+
+.auth-box label {
+    display: block;
+
+    margin: 18px 0 7px;
+
+    font-weight: bold;
+
+    color: #ddd;
+}
+
+
+.auth-box input {
+    width: 100%;
+
+    padding: 13px 14px;
+
+    border-radius: 8px;
+
+    border: 1px solid #333;
+
+    background: #121212;
+
+    color: white;
+
+    font-size: 1rem;
+
+    outline: none;
+}
+
+
+.auth-box input:focus {
+    border-color: #6fcf68;
+
+    box-shadow:
+        0 0 8px rgba(111,207,104,0.2);
+}
+
+
+.auth-button {
+    width: 100%;
+
+    margin-top: 25px;
+
+    padding: 13px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background: #276221;
+
+    color: white;
+
+    font-size: 1.05rem;
+
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+
+.auth-button:hover {
+    background: #347c2e;
+}
+
+
+.auth-error {
+    color: #ff7777;
+
+    text-align: center;
+
+    min-height: 20px;
+
+    margin: 15px 0 0;
+}
+
+
+.auth-switch {
+    text-align: center;
+
+    color: #aaa;
+
+    margin-top: 25px;
+}
+
+
+.auth-switch button {
+    background: none;
+
+    border: none;
+
+    color: #6fcf68;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    font-size: inherit;
+}
+
+
+.auth-switch button:hover {
+    text-decoration: underline;
+}
+
+
+@media (max-width: 600px) {
+
+    .auth-box {
+        padding: 25px 20px;
+    }
+
+}
+    
+/* ============================================================
    PROFILE PAGE
    ============================================================ */
 
@@ -2409,19 +2578,541 @@ const featuredGames = [
 
 ];
 
-    /* ============================================================
+/* ============================================================
+   ACCOUNT / AUTHENTICATION
+   ============================================================ */
+
+let currentUser = null;
+
+
+/* ============================================================
+   OPEN ACCOUNT
+   ============================================================ */
+
+function openAccount() {
+
+    if (currentUser) {
+
+        openProfile();
+
+    }
+
+    else {
+
+        openSignIn();
+
+    }
+
+}
+
+
+/* ============================================================
    OPEN PROFILE
    ============================================================ */
 
 function openProfile() {
 
+    if (!currentUser) {
+
+        openSignIn();
+
+        return;
+
+    }
+
     showPage("profile-page");
 
-    history.pushState(
-        null,
-        "",
-        "#profile"
+}
+
+
+/* ============================================================
+   OPEN SIGN IN
+   ============================================================ */
+
+function openSignIn() {
+
+    showPage("signin-page");
+
+}
+
+
+/* ============================================================
+   OPEN CREATE ACCOUNT
+   ============================================================ */
+
+function openCreateAccount() {
+
+    showPage("create-account-page");
+
+}
+
+
+/* ============================================================
+   UPDATE ACCOUNT BUTTON
+   ============================================================ */
+
+function updateAccountButton() {
+
+    const button =
+        document.getElementById(
+            "account-button"
+        );
+
+    const icon =
+        document.getElementById(
+            "account-icon"
+        );
+
+    const text =
+        document.getElementById(
+            "account-text"
+        );
+
+
+    if (!button || !icon || !text) {
+
+        return;
+
+    }
+
+
+    if (currentUser) {
+
+        icon.textContent =
+            currentUser.username
+                .charAt(0)
+                .toUpperCase();
+
+        text.textContent =
+            currentUser.username;
+
+    }
+
+    else {
+
+        icon.textContent =
+            "👤";
+
+        text.textContent =
+            "Sign In";
+
+    }
+
+}
+
+
+/* ============================================================
+   UPDATE PROFILE PAGE
+   ============================================================ */
+
+function updateProfilePage() {
+
+    if (!currentUser) {
+
+        return;
+
+    }
+
+
+    const name =
+        document.querySelector(
+            ".profile-page-name"
+        );
+
+    const username =
+        document.querySelector(
+            ".profile-username"
+        );
+
+
+    if (name) {
+
+        name.textContent =
+            currentUser.username;
+
+    }
+
+
+    if (username) {
+
+        username.textContent =
+            "@" +
+            currentUser.username;
+
+    }
+
+}
+
+
+/* ============================================================
+   SIGN IN
+   ============================================================ */
+
+async function signIn(event) {
+
+    event.preventDefault();
+
+
+    const username =
+        document
+            .getElementById("signin-username")
+            .value
+            .trim();
+
+
+    const password =
+        document
+            .getElementById("signin-password")
+            .value;
+
+
+    const error =
+        document.getElementById(
+            "signin-error"
+        );
+
+
+    error.textContent =
+        "Signing in...";
+
+
+    try {
+
+        /*
+           This will connect to the
+           GameSwapHQ Cloudflare Worker.
+        */
+
+        const response =
+            await fetch(
+                "/api/auth/signin",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    credentials: "include",
+
+                    body: JSON.stringify({
+
+                        username:
+                            username,
+
+                        password:
+                            password
+
+                    })
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.error ||
+                "Sign in failed."
+            );
+
+        }
+
+
+        currentUser =
+            data.user;
+
+
+        updateAccountButton();
+
+        updateProfilePage();
+
+
+        document
+            .getElementById(
+                "signin-form"
+            )
+            .reset();
+
+
+        showPage(
+            "profile-page"
+        );
+
+
+    }
+
+    catch (err) {
+
+        error.textContent =
+            err.message;
+
+    }
+
+}
+
+
+/* ============================================================
+   CREATE ACCOUNT
+   ============================================================ */
+
+async function createAccount(event) {
+
+    event.preventDefault();
+
+
+    const username =
+        document
+            .getElementById(
+                "create-username"
+            )
+            .value
+            .trim();
+
+
+    const password =
+        document
+            .getElementById(
+                "create-password"
+            )
+            .value;
+
+
+    const confirmPassword =
+        document
+            .getElementById(
+                "create-password-confirm"
+            )
+            .value;
+
+
+    const error =
+        document.getElementById(
+            "create-account-error"
+        );
+
+
+    error.textContent = "";
+
+
+    if (password !== confirmPassword) {
+
+        error.textContent =
+            "Passwords do not match.";
+
+        return;
+
+    }
+
+
+    if (username.length < 3) {
+
+        error.textContent =
+            "Username must be at least 3 characters.";
+
+        return;
+
+    }
+
+
+    if (password.length < 8) {
+
+        error.textContent =
+            "Password must be at least 8 characters.";
+
+        return;
+
+    }
+
+
+    error.textContent =
+        "Creating account...";
+
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/auth/signup",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    credentials: "include",
+
+                    body: JSON.stringify({
+
+                        username:
+                            username,
+
+                        password:
+                            password
+
+                    })
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.error ||
+                "Could not create account."
+            );
+
+        }
+
+
+        currentUser =
+            data.user;
+
+
+        updateAccountButton();
+
+        updateProfilePage();
+
+
+        document
+            .getElementById(
+                "create-account-form"
+            )
+            .reset();
+
+
+        showPage(
+            "profile-page"
+        );
+
+
+    }
+
+    catch (err) {
+
+        error.textContent =
+            err.message;
+
+    }
+
+}
+
+
+/* ============================================================
+   SIGN OUT
+   ============================================================ */
+
+async function signOut() {
+
+    try {
+
+        await fetch(
+            "/api/auth/signout",
+            {
+                method: "POST",
+
+                credentials: "include"
+            }
+        );
+
+    }
+
+    catch (error) {
+
+        console.warn(
+            "Sign out request failed:",
+            error
+        );
+
+    }
+
+
+    currentUser =
+        null;
+
+
+    updateAccountButton();
+
+
+    showPage(
+        "home-page"
     );
+
+}
+
+
+/* ============================================================
+   CHECK CURRENT SESSION
+   ============================================================ */
+
+async function checkCurrentUser() {
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/auth/me",
+                {
+                    credentials: "include"
+                }
+            );
+
+
+        if (!response.ok) {
+
+            currentUser =
+                null;
+
+            updateAccountButton();
+
+            return;
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        if (data.user) {
+
+            currentUser =
+                data.user;
+
+        }
+
+        else {
+
+            currentUser =
+                null;
+
+        }
+
+
+        updateAccountButton();
+
+        updateProfilePage();
+
+    }
+
+    catch (error) {
+
+        console.warn(
+            "Could not check login session:",
+            error
+        );
+
+    }
 
 }
 
@@ -2721,16 +3412,6 @@ if (pageID !== "game-page") {
     );
 
 }
-
-}
-
- /* ============================================================
-   PROFILE PAGE
-   ============================================================ */
-    
-function openProfile() {
-
-    showPage("profile-page");
 
 }
 
