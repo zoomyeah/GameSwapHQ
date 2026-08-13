@@ -2574,14 +2574,100 @@ async function signIn(event) {
                 }
             );
 
-        const data =
-            await response.json();
+        /*
+         * Read as text first so an empty response
+         * does NOT cause response.json() to crash.
+         */
+
+        const responseText =
+            await response.text();
+
+        let data = {};
+
+        if (responseText.trim() !== "") {
+
+            try {
+
+                data =
+                    JSON.parse(responseText);
+
+            }
+
+            catch (jsonError) {
+
+                console.error(
+                    "Invalid server response:",
+                    responseText
+                );
+
+                throw new Error(
+                    "The server returned an invalid response."
+                );
+
+            }
+
+        }
 
         if (!response.ok) {
 
             throw new Error(
                 data.error ||
+                data.message ||
                 "Sign in failed."
+            );
+
+        }
+
+        /*
+         * If signin succeeds but the response doesn't
+         * contain the user, ask /api/auth/me for it.
+         */
+
+        if (!data.user) {
+
+            const meResponse =
+                await fetch(
+                    "/api/auth/me",
+                    {
+                        credentials: "include"
+                    }
+                );
+
+            if (meResponse.ok) {
+
+                const meText =
+                    await meResponse.text();
+
+                if (meText.trim() !== "") {
+
+                    try {
+
+                        const meData =
+                            JSON.parse(meText);
+
+                        data.user =
+                            meData.user || null;
+
+                    }
+
+                    catch (error) {
+
+                        console.warn(
+                            "Could not parse /api/auth/me response."
+                        );
+
+                    }
+
+                }
+
+            }
+
+        }
+
+        if (!data.user) {
+
+            throw new Error(
+                "Signed in, but the server did not return your account information."
             );
 
         }
@@ -2590,9 +2676,11 @@ async function signIn(event) {
             data.user;
 
         updateAccountButton();
+
         updateProfilePage();
 
-        get("signin-form").reset();
+        get("signin-form")
+            .reset();
 
         showPage("profile-page");
 
@@ -2600,13 +2688,18 @@ async function signIn(event) {
 
     catch (err) {
 
+        console.error(
+            "Sign in error:",
+            err
+        );
+
         error.textContent =
-            err.message;
+            err.message ||
+            "Sign in failed.";
 
     }
 
 }
-
 
 /* ============================================================
    CREATE ACCOUNT
