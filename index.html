@@ -1503,16 +1503,23 @@ footer p {
 
 <header>
 
-    <button class="profile-button" onclick="openProfile()">
+    <button
+        class="profile-button"
+        id="account-button"
+        onclick="openAccount()"
+    >
 
-        <span class="profile-icon">
+        <span class="profile-icon" id="account-icon">
             👤
         </span>
 
-        <span class="profile-text">
-            Profile
+        <span
+            class="profile-text"
+            id="account-text"
+        >
+            Sign In
         </span>
-
+    
     </button>
 
     <h1>GameSwapHQ</h1>
