@@ -2,7 +2,6 @@
 <html lang="en">
 
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -10,7 +9,6 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
 <link
     href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&display=swap"
     rel="stylesheet"
@@ -18,8 +16,16 @@
 
 <style>
 
+/* ============================================================
+   GLOBAL
+   ============================================================ */
+
 * {
     box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
 }
 
 body {
@@ -29,449 +35,17 @@ body {
     color: #f1f1f1;
 }
 
-/* ============================================================
-   AUTHENTICATION
-   ============================================================ */
+button,
+input {
+    font-family: inherit;
+}
 
-.auth-container {
-    display: flex;
-
-    justify-content: center;
-
-    align-items: flex-start;
-
-    padding-top: 40px;
+button,
+a {
+    -webkit-tap-highlight-color: transparent;
 }
 
 
-.auth-box {
-    width: 100%;
-
-    max-width: 430px;
-
-    background: #1e1e1e;
-
-    border: 1px solid #2c2c2c;
-
-    border-radius: 14px;
-
-    padding: 35px;
-
-    box-shadow:
-        0 4px 18px rgba(0,0,0,0.45);
-}
-
-
-.auth-box h1 {
-    font-family: "Nunito", sans-serif;
-
-    font-size: 2.3rem;
-
-    font-weight: 900;
-
-    text-align: center;
-
-    margin: 0 0 8px;
-}
-
-
-.auth-subtitle {
-    color: #aaa;
-
-    text-align: center;
-
-    margin: 0 0 30px;
-}
-
-
-.auth-box label {
-    display: block;
-
-    margin: 18px 0 7px;
-
-    font-weight: bold;
-
-    color: #ddd;
-}
-
-
-.auth-box input {
-    width: 100%;
-
-    padding: 13px 14px;
-
-    border-radius: 8px;
-
-    border: 1px solid #333;
-
-    background: #121212;
-
-    color: white;
-
-    font-size: 1rem;
-
-    outline: none;
-}
-
-
-.auth-box input:focus {
-    border-color: #6fcf68;
-
-    box-shadow:
-        0 0 8px rgba(111,207,104,0.2);
-}
-
-
-.auth-button {
-    width: 100%;
-
-    margin-top: 25px;
-
-    padding: 13px;
-
-    border: none;
-
-    border-radius: 8px;
-
-    background: #276221;
-
-    color: white;
-
-    font-size: 1.05rem;
-
-    font-weight: bold;
-
-    cursor: pointer;
-}
-
-
-.auth-button:hover {
-    background: #347c2e;
-}
-
-
-.auth-error {
-    color: #ff7777;
-
-    text-align: center;
-
-    min-height: 20px;
-
-    margin: 15px 0 0;
-}
-
-
-.auth-switch {
-    text-align: center;
-
-    color: #aaa;
-
-    margin-top: 25px;
-}
-
-
-.auth-switch button {
-    background: none;
-
-    border: none;
-
-    color: #6fcf68;
-
-    font-weight: bold;
-
-    cursor: pointer;
-
-    font-size: inherit;
-}
-
-
-.auth-switch button:hover {
-    text-decoration: underline;
-}
-
-
-@media (max-width: 600px) {
-
-    .auth-box {
-        padding: 25px 20px;
-    }
-
-}
-    
-/* ============================================================
-   PROFILE PAGE
-   ============================================================ */
-
-.profile-layout {
-    display: grid;
-
-    grid-template-columns: 260px 1fr;
-
-    gap: 40px;
-
-    max-width: 1100px;
-
-    margin: 0 auto;
-}
-
-
-/* ============================================================
-   PROFILE SIDEBAR
-   ============================================================ */
-
-.profile-sidebar {
-    text-align: center;
-
-    background: #1e1e1e;
-
-    border: 1px solid #2c2c2c;
-
-    border-radius: 14px;
-
-    padding: 30px 20px;
-
-    height: fit-content;
-
-    box-shadow:
-        0 3px 12px rgba(0,0,0,0.4);
-}
-
-
-.profile-avatar {
-    width: 120px;
-    height: 120px;
-
-    margin: 0 auto 18px;
-
-    border-radius: 50%;
-
-    background: #6fcf68;
-
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    font-size: 52px;
-
-    box-shadow:
-        0 0 20px rgba(111,207,104,0.25);
-}
-
-
-.profile-page-name {
-    font-family: "Nunito", sans-serif;
-
-    font-size: 2rem;
-
-    font-weight: 900;
-
-    margin: 0;
-}
-
-
-.profile-username {
-    color: #aaa;
-
-    margin: 5px 0 25px;
-
-    font-size: 1rem;
-}
-
-
-/* ============================================================
-   PROFILE STATS
-   ============================================================ */
-
-.profile-stats {
-    display: flex;
-
-    justify-content: center;
-
-    gap: 10px;
-}
-
-
-.profile-stat {
-    flex: 1;
-
-    background: #121212;
-
-    border: 1px solid #2c2c2c;
-
-    border-radius: 10px;
-
-    padding: 12px 6px;
-}
-
-
-.profile-stat strong {
-    display: block;
-
-    font-family: "Nunito", sans-serif;
-
-    font-size: 1.4rem;
-
-    font-weight: 900;
-}
-
-
-.profile-stat span {
-    display: block;
-
-    color: #aaa;
-
-    font-size: 0.8rem;
-}
-
-
-/* ============================================================
-   PROFILE CONTENT
-   ============================================================ */
-
-.profile-content {
-    min-width: 0;
-}
-
-
-.profile-section {
-    background: #1e1e1e;
-
-    border: 1px solid #2c2c2c;
-
-    border-radius: 14px;
-
-    padding: 25px;
-
-    margin-bottom: 25px;
-
-    box-shadow:
-        0 3px 12px rgba(0,0,0,0.35);
-}
-
-
-.profile-section h2 {
-    font-family: "Nunito", sans-serif;
-
-    font-size: 1.6rem;
-
-    font-weight: 900;
-
-    margin: 0 0 20px;
-}
-
-
-.profile-empty {
-    color: #888;
-
-    padding: 20px 0;
-
-    text-align: center;
-}
-
-
-/* ============================================================
-   ACHIEVEMENTS
-   ============================================================ */
-
-.achievements-grid {
-    display: grid;
-
-    grid-template-columns:
-        repeat(2, 1fr);
-
-    gap: 12px;
-}
-
-
-.achievement {
-    display: flex;
-
-    align-items: center;
-
-    gap: 14px;
-
-    background: #121212;
-
-    border: 1px solid #2c2c2c;
-
-    border-radius: 10px;
-
-    padding: 14px;
-}
-
-
-.achievement-icon {
-    width: 45px;
-    height: 45px;
-
-    flex-shrink: 0;
-
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    background: #276221;
-
-    border-radius: 10px;
-
-    font-size: 22px;
-}
-
-
-.achievement strong {
-    display: block;
-
-    font-family: "Nunito", sans-serif;
-
-    font-weight: 900;
-}
-
-
-.achievement p {
-    margin: 3px 0 0;
-
-    color: #999;
-
-    font-size: 0.85rem;
-}
-
-
-.achievement.locked {
-    opacity: 0.5;
-}
-
-
-.achievement.locked .achievement-icon {
-    background: #252525;
-}
-
-
-/* ============================================================
-   PROFILE MOBILE
-   ============================================================ */
-
-@media (max-width: 750px) {
-
-    .profile-layout {
-        grid-template-columns: 1fr;
-
-        gap: 25px;
-    }
-
-
-    .profile-sidebar {
-        width: 100%;
-    }
-
-
-    .achievements-grid {
-        grid-template-columns: 1fr;
-    }
-
-}
-    
 /* ============================================================
    HEADER
    ============================================================ */
@@ -484,14 +58,25 @@ header {
     position: relative;
 }
 
+header h1 {
+    font-family: "Nunito", sans-serif;
+    font-weight: 900;
+    margin: 0;
+    font-size: 3.5rem;
+}
+
+header p {
+    margin: 8px 0 0;
+    font-size: 1.05rem;
+}
+
 
 /* ============================================================
-   PROFILE BUTTON
+   ACCOUNT BUTTON
    ============================================================ */
 
 .profile-button {
     position: absolute;
-
     top: 18px;
     right: 25px;
 
@@ -521,7 +106,6 @@ header {
 
 .profile-button:hover {
     background: #347c2e;
-
     transform: translateY(-2px);
 
     box-shadow:
@@ -550,33 +134,6 @@ header {
     white-space: nowrap;
 }
 
-@media (max-width: 600px) {
-
-    .profile-button {
-        right: 12px;
-        top: 12px;
-
-        padding: 7px;
-    }
-
-    .profile-text {
-        display: none;
-    }
-
-}
-
-header h1 {
-    font-family: "Nunito", sans-serif;
-    font-weight: 900;
-    margin: 0;
-    font-size: 3.5rem;
-}
-
-header p {
-    margin: 8px 0 0;
-    font-size: 1.05rem;
-}
-
 
 /* ============================================================
    NAVIGATION
@@ -585,14 +142,19 @@ header p {
 nav {
     background: #1b1b1b;
     padding: 12px;
+
     text-align: center;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+
+    box-shadow:
+        0 2px 8px rgba(0,0,0,0.4);
 }
 
 nav a {
     color: #6fcf68;
     text-decoration: none;
+
     margin: 0 15px;
+
     font-weight: bold;
     cursor: pointer;
 }
@@ -602,14 +164,13 @@ nav a:hover {
 }
 
 
-/* Hide navigation on Developers page */
+/* ============================================================
+   PAGE MODES
+   ============================================================ */
 
 body.developers-mode nav {
     display: none;
 }
-
-
-/* Hide header and navigation on individual game pages */
 
 body.game-mode header,
 body.game-mode nav {
@@ -618,19 +179,14 @@ body.game-mode nav {
 
 
 /* ============================================================
-   MAIN
+   MAIN / PAGES
    ============================================================ */
 
 main {
     max-width: 1100px;
-    margin: auto;
+    margin: 0 auto;
     padding: 40px 20px;
 }
-
-
-/* ============================================================
-   PAGES
-   ============================================================ */
 
 .page {
     display: none;
@@ -651,15 +207,19 @@ main {
 }
 
 .hero h2 {
+    font-family: "Nunito", sans-serif;
     font-size: 2.2rem;
-    margin-bottom: 15px;
+    font-weight: 900;
+    margin: 0 0 15px;
 }
 
 .hero p {
     max-width: 650px;
     margin: auto;
+
     font-size: 1.1rem;
     line-height: 1.6;
+
     color: #cfcfcf;
 }
 
@@ -675,6 +235,9 @@ main {
 .section h2 {
     text-align: center;
     margin-bottom: 25px;
+
+    font-family: "Nunito", sans-serif;
+    font-weight: 900;
 }
 
 
@@ -687,44 +250,21 @@ main {
 }
 
 .featured-section h2 {
-    text-align: center;
-
-    font-family: "Nunito", sans-serif;
-
     font-size: 2.3rem;
-    font-weight: 900;
-
     margin-bottom: 30px;
 }
 
 .featured-grid {
     display: grid;
-
     grid-template-columns: repeat(2, 1fr);
-
     gap: 30px;
 }
 
-@media (max-width: 800px) {
-
-    .featured-grid {
-        grid-template-columns: 1fr;
-    }
-
-}
-
-
-/* ============================================================
-   FEATURED CARD
-   ============================================================ */
-
 .featured-card {
     position: relative;
-
     overflow: hidden;
 
     border-radius: 18px;
-
     border: 1px solid #333;
 
     background: #1e1e1e;
@@ -749,13 +289,11 @@ main {
 
 .featured-thumbnail-container {
     width: 100%;
-
     aspect-ratio: 16 / 9;
 
     background: #080808;
 
     position: relative;
-
     overflow: hidden;
 }
 
@@ -764,13 +302,11 @@ main {
     height: 100%;
 
     object-fit: contain;
-
     display: block;
 }
 
 .featured-thumbnail-overlay {
     position: absolute;
-
     inset: 0;
 
     background: linear-gradient(
@@ -799,9 +335,7 @@ main {
     margin: 0 0 5px;
 
     font-family: "Nunito", sans-serif;
-
     font-size: 2.2rem;
-
     font-weight: 900;
 
     text-shadow:
@@ -815,7 +349,6 @@ main {
     margin: 0;
 
     color: white;
-
     font-size: 1rem;
 
     text-shadow:
@@ -832,39 +365,17 @@ main {
 .games-grid {
     display: grid;
 
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns:
+        repeat(3, 1fr);
 
     gap: 25px;
 }
 
-@media (max-width: 800px) {
-
-    .games-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-}
-
-@media (max-width: 550px) {
-
-    .games-grid {
-        grid-template-columns: 1fr;
-    }
-
-}
-
-
-/* ============================================================
-   GAME CARD
-   ============================================================ */
-
 .game-card {
     position: relative;
-
     overflow: hidden;
 
     border-radius: 14px;
-
     border: 1px solid #2c2c2c;
 
     background: #1e1e1e;
@@ -887,20 +398,13 @@ main {
         0 0 15px rgba(111,207,104,0.15);
 }
 
-
-/* ============================================================
-   THUMBNAILS
-   ============================================================ */
-
 .game-thumbnail-container {
     width: 100%;
-
     aspect-ratio: 16 / 9;
 
     background: #080808;
 
     position: relative;
-
     overflow: hidden;
 }
 
@@ -909,13 +413,11 @@ main {
     height: 100%;
 
     object-fit: contain;
-
     display: block;
 }
 
 .game-thumbnail-overlay {
     position: absolute;
-
     inset: 0;
 
     background: linear-gradient(
@@ -925,11 +427,6 @@ main {
         rgba(0,0,0,0.9) 100%
     );
 }
-
-
-/* ============================================================
-   CARD TEXT
-   ============================================================ */
 
 .game-card-content {
     position: absolute;
@@ -949,9 +446,7 @@ main {
     margin: 0 0 3px;
 
     font-family: "Nunito", sans-serif;
-
     font-size: 1.6rem;
-
     font-weight: 900;
 
     text-shadow:
@@ -965,7 +460,6 @@ main {
     margin: 0;
 
     color: white;
-
     font-size: 0.9rem;
 
     text-shadow:
@@ -981,7 +475,6 @@ main {
 
 .game-search {
     width: 100%;
-
     max-width: 600px;
 
     display: block;
@@ -991,11 +484,9 @@ main {
     padding: 14px 18px;
 
     border-radius: 10px;
-
     border: 1px solid #333;
 
     background: #1e1e1e;
-
     color: white;
 
     font-size: 1.05rem;
@@ -1015,12 +506,361 @@ main {
 
 .no-games {
     text-align: center;
-
     color: #aaa;
 
     padding: 30px;
 
     display: none;
+}
+
+
+/* ============================================================
+   AUTHENTICATION
+   ============================================================ */
+
+.auth-container {
+    display: flex;
+
+    justify-content: center;
+    align-items: flex-start;
+
+    padding-top: 40px;
+}
+
+.auth-box {
+    width: 100%;
+    max-width: 430px;
+
+    background: #1e1e1e;
+
+    border: 1px solid #2c2c2c;
+    border-radius: 14px;
+
+    padding: 35px;
+
+    box-shadow:
+        0 4px 18px rgba(0,0,0,0.45);
+}
+
+.auth-box h1 {
+    font-family: "Nunito", sans-serif;
+
+    font-size: 2.3rem;
+    font-weight: 900;
+
+    text-align: center;
+
+    margin: 0 0 8px;
+}
+
+.auth-subtitle {
+    color: #aaa;
+
+    text-align: center;
+
+    margin: 0 0 30px;
+}
+
+.auth-box label {
+    display: block;
+
+    margin: 18px 0 7px;
+
+    font-weight: bold;
+    color: #ddd;
+}
+
+.auth-box input {
+    width: 100%;
+
+    padding: 13px 14px;
+
+    border-radius: 8px;
+    border: 1px solid #333;
+
+    background: #121212;
+    color: white;
+
+    font-size: 1rem;
+
+    outline: none;
+}
+
+.auth-box input:focus {
+    border-color: #6fcf68;
+
+    box-shadow:
+        0 0 8px rgba(111,207,104,0.2);
+}
+
+.auth-button {
+    width: 100%;
+
+    margin-top: 25px;
+
+    padding: 13px;
+
+    border: none;
+    border-radius: 8px;
+
+    background: #276221;
+    color: white;
+
+    font-size: 1.05rem;
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+.auth-button:hover {
+    background: #347c2e;
+}
+
+.auth-error {
+    color: #ff7777;
+
+    text-align: center;
+
+    min-height: 20px;
+
+    margin: 15px 0 0;
+}
+
+.auth-switch {
+    text-align: center;
+
+    color: #aaa;
+
+    margin-top: 25px;
+}
+
+.auth-switch button {
+    background: none;
+    border: none;
+
+    color: #6fcf68;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    font-size: inherit;
+}
+
+.auth-switch button:hover {
+    text-decoration: underline;
+}
+
+
+/* ============================================================
+   PROFILE
+   ============================================================ */
+
+.profile-layout {
+    display: grid;
+
+    grid-template-columns: 260px 1fr;
+
+    gap: 40px;
+
+    max-width: 1100px;
+
+    margin: 0 auto;
+}
+
+.profile-sidebar {
+    text-align: center;
+
+    background: #1e1e1e;
+
+    border: 1px solid #2c2c2c;
+    border-radius: 14px;
+
+    padding: 30px 20px;
+
+    height: fit-content;
+
+    box-shadow:
+        0 3px 12px rgba(0,0,0,0.4);
+}
+
+.profile-avatar {
+    width: 120px;
+    height: 120px;
+
+    margin: 0 auto 18px;
+
+    border-radius: 50%;
+
+    background: #6fcf68;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    font-size: 52px;
+
+    box-shadow:
+        0 0 20px rgba(111,207,104,0.25);
+}
+
+.profile-page-name {
+    font-family: "Nunito", sans-serif;
+
+    font-size: 2rem;
+    font-weight: 900;
+
+    margin: 0;
+}
+
+.profile-username {
+    color: #aaa;
+
+    margin: 5px 0 25px;
+
+    font-size: 1rem;
+}
+
+.profile-stats {
+    display: flex;
+
+    justify-content: center;
+
+    gap: 10px;
+}
+
+.profile-stat {
+    flex: 1;
+
+    background: #121212;
+
+    border: 1px solid #2c2c2c;
+    border-radius: 10px;
+
+    padding: 12px 6px;
+}
+
+.profile-stat strong {
+    display: block;
+
+    font-family: "Nunito", sans-serif;
+
+    font-size: 1.4rem;
+    font-weight: 900;
+}
+
+.profile-stat span {
+    display: block;
+
+    color: #aaa;
+
+    font-size: 0.8rem;
+}
+
+.profile-content {
+    min-width: 0;
+}
+
+.profile-section {
+    background: #1e1e1e;
+
+    border: 1px solid #2c2c2c;
+    border-radius: 14px;
+
+    padding: 25px;
+
+    margin-bottom: 25px;
+
+    box-shadow:
+        0 3px 12px rgba(0,0,0,0.35);
+}
+
+.profile-section h2 {
+    font-family: "Nunito", sans-serif;
+
+    font-size: 1.6rem;
+    font-weight: 900;
+
+    margin: 0 0 20px;
+}
+
+.profile-empty {
+    color: #888;
+
+    padding: 20px 0;
+
+    text-align: center;
+}
+
+
+/* ============================================================
+   ACHIEVEMENTS
+   ============================================================ */
+
+.achievements-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 12px;
+}
+
+.achievement {
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+
+    background: #121212;
+
+    border: 1px solid #2c2c2c;
+    border-radius: 10px;
+
+    padding: 14px;
+}
+
+.achievement-icon {
+    width: 45px;
+    height: 45px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    background: #276221;
+
+    border-radius: 10px;
+
+    font-size: 22px;
+}
+
+.achievement strong {
+    display: block;
+
+    font-family: "Nunito", sans-serif;
+    font-weight: 900;
+}
+
+.achievement p {
+    margin: 3px 0 0;
+
+    color: #999;
+
+    font-size: 0.85rem;
+}
+
+.achievement.locked {
+    opacity: 0.5;
+}
+
+.achievement.locked .achievement-icon {
+    background: #252525;
 }
 
 
@@ -1066,7 +906,6 @@ main {
     color: white;
 
     border: 1px solid #333;
-
     border-radius: 8px;
 
     padding: 10px 16px;
@@ -1088,7 +927,6 @@ main {
     font-family: "Nunito", sans-serif;
 
     font-size: 3rem;
-
     font-weight: 900;
 
     margin: 10px 0;
@@ -1104,12 +942,11 @@ main {
 
 
 /* ============================================================
-   GAME PAGE THUMBNAIL
+   GAME THUMBNAIL
    ============================================================ */
 
 .game-page-thumbnail {
     width: 100%;
-
     max-width: 900px;
 
     margin: 25px auto 30px;
@@ -1129,19 +966,20 @@ main {
 
 .game-page-thumbnail img {
     width: 100%;
-
     height: auto;
 
     display: block;
 }
 
+.thumbnail-play-button {
+    position: absolute;
 
-/* ============================================================
-   PLAY AREA
-   ============================================================ */
+    left: 50%;
+    top: 50%;
 
-.play-area {
-    text-align: center;
+    transform: translate(-50%, -50%);
+
+    z-index: 5;
 }
 
 
@@ -1155,7 +993,6 @@ main {
     color: white;
 
     border: none;
-
     border-radius: 8px;
 
     padding: 13px 28px;
@@ -1163,8 +1000,14 @@ main {
     cursor: pointer;
 
     font-size: 1.15rem;
-
     font-weight: bold;
+
+    box-shadow:
+        0 4px 15px rgba(0,0,0,0.5);
+
+    transition:
+        background 0.2s,
+        transform 0.2s;
 }
 
 .play-button:hover {
@@ -1176,11 +1019,14 @@ main {
    GAME FRAME
    ============================================================ */
 
+.play-area {
+    text-align: center;
+}
+
 .game-frame-container {
     display: none;
 
     width: 100%;
-
     max-width: 1000px;
 
     margin: 0 auto;
@@ -1222,11 +1068,9 @@ main {
     display: block;
 
     width: 100%;
-
     height: 650px;
 
     border: none;
-
     border-radius: 10px;
 
     background: #000;
@@ -1292,11 +1136,6 @@ main {
     gap: 7px;
 }
 
-
-/* ============================================================
-   ONLINE STATS
-   ============================================================ */
-
 .game-stat {
     color: #aaa;
 
@@ -1313,36 +1152,20 @@ main {
     margin-right: 1px;
 }
 
-.view-count {
-    color: #aaa;
-}
-
-.like-count {
-    color: #aaa;
-}
-
 .like-button.liked {
     color: #ff4d6d;
 }
 
-
-/* ============================================================
-   GAMEPLAY BUTTONS
-   ============================================================ */
-
 .gameplay-button {
     width: 30px;
-
     height: 30px;
 
     display: flex;
 
     align-items: center;
-
     justify-content: center;
 
     border: none;
-
     border-radius: 6px;
 
     background: transparent;
@@ -1362,7 +1185,6 @@ main {
 
 .gameplay-button:hover {
     background: #292929;
-
     color: white;
 }
 
@@ -1376,14 +1198,13 @@ main {
 
 
 /* ============================================================
-   HIDE / SHOW BAR BUTTON
+   GAME BAR HIDE BUTTON
    ============================================================ */
 
 .hide-bar-button {
     position: absolute;
 
     left: 50%;
-
     bottom: 7px;
 
     transform: translateX(-50%);
@@ -1409,39 +1230,23 @@ main {
     text-decoration: underline;
 }
 
-
-/* ============================================================
-   HIDDEN GAMEPLAY BAR
-   ============================================================ */
-
 .gameplay-bar.hidden {
     opacity: 0;
-
     transform: translateY(10px);
+
+    pointer-events: none;
 }
-
-
-/* Keep Show bar visible when bar is hidden */
 
 .game-frame-container:fullscreen
 .gameplay-bar.hidden
-.hide-bar-button {
-
++ .hide-bar-button {
     opacity: 1;
-
     pointer-events: auto;
 }
 
-
-/* ============================================================
-   FULLSCREEN GAMEPLAY BAR
-   ============================================================ */
-
 .game-frame-container:fullscreen .gameplay-bar {
     left: 0;
-
     right: 0;
-
     bottom: 0;
 
     border-radius: 0;
@@ -1463,10 +1268,9 @@ main {
 
     margin: 40px auto 0;
 
-    background: #000000;
+    background: #000;
 
     border: 1px solid #2c2c2c;
-
     border-radius: 12px;
 
     padding: 25px 30px;
@@ -1485,7 +1289,6 @@ main {
     font-family: "Nunito", sans-serif;
 
     font-size: 1.5rem;
-
     font-weight: 900;
 
     color: #d8f3dc;
@@ -1497,7 +1300,6 @@ main {
     color: #d8f3dc;
 
     font-size: 1rem;
-
     line-height: 1.5;
 }
 
@@ -1522,17 +1324,15 @@ main {
     font-family: "Nunito", sans-serif;
 
     font-size: 2.6rem;
-
     font-weight: 900;
 
     margin: 0 0 35px;
 }
 
 .developers-box {
-    background: #000000;
+    background: #000;
 
     border: 1px solid #2c2c2c;
-
     border-radius: 12px;
 
     padding: 30px;
@@ -1541,26 +1341,23 @@ main {
         0 3px 12px rgba(0,0,0,0.45);
 }
 
-.developers-box h2 {
+.developers-box h2,
+.developers-box h3 {
     font-family: "Nunito", sans-serif;
 
-    font-size: 1.5rem;
-
     font-weight: 900;
-
-    margin: 0 0 15px;
 
     color: #d8f3dc;
 }
 
+.developers-box h2 {
+    font-size: 1.5rem;
+    margin: 0 0 15px;
+}
+
 .developers-box h3 {
-    font-family: "Nunito", sans-serif;
-
     font-size: 1.15rem;
-
     margin: 28px 0 10px;
-
-    color: #d8f3dc;
 }
 
 .developers-box p {
@@ -1638,7 +1435,6 @@ footer p {
     display: flex;
 
     justify-content: space-between;
-
     align-items: center;
 
     max-width: 1100px;
@@ -1658,8 +1454,92 @@ footer p {
     text-decoration: underline;
 }
 
-</style>
 
+/* ============================================================
+   MOBILE
+   ============================================================ */
+
+@media (max-width: 800px) {
+
+    .featured-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .games-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .profile-layout {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+
+}
+
+@media (max-width: 750px) {
+
+    .achievements-grid {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+@media (max-width: 600px) {
+
+    header {
+        padding: 20px 15px;
+    }
+
+    header h1 {
+        font-size: 2.7rem;
+    }
+
+    header p {
+        font-size: 0.95rem;
+    }
+
+    .profile-button {
+        right: 12px;
+        top: 12px;
+        padding: 7px;
+    }
+
+    .profile-text {
+        display: none;
+    }
+
+    .auth-box {
+        padding: 25px 20px;
+    }
+
+    .game-title {
+        font-size: 2.3rem;
+    }
+
+    .games-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .game-frame {
+        height: 500px;
+    }
+
+    .gameplay-name {
+        display: none;
+    }
+
+    .game-instructions {
+        padding: 20px;
+    }
+
+    .footer-links {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+}
+
+</style>
 </head>
 
 
@@ -1675,10 +1555,14 @@ footer p {
     <button
         class="profile-button"
         id="account-button"
+        type="button"
         onclick="openAccount()"
     >
 
-        <span class="profile-icon" id="account-icon">
+        <span
+            class="profile-icon"
+            id="account-icon"
+        >
             👤
         </span>
 
@@ -1688,8 +1572,9 @@ footer p {
         >
             Sign In
         </span>
-    
+
     </button>
+
 
     <h1>GameSwapHQ</h1>
 
@@ -1721,7 +1606,10 @@ footer p {
      HOME PAGE
      ============================================================ -->
 
-<div id="home-page" class="page active">
+<div
+    id="home-page"
+    class="page active"
+>
 
     <main>
 
@@ -1740,22 +1628,16 @@ footer p {
         </section>
 
 
-        <!-- ====================================================
-             FEATURED GAMES
-             ==================================================== -->
-
         <section class="section featured-section">
 
             <h2>
-                ✨ Featured Games ✨
+                Featured Games
             </h2>
-
 
             <div
                 id="featured-list"
                 class="featured-grid"
-            >
-            </div>
+            ></div>
 
         </section>
 
@@ -1768,7 +1650,10 @@ footer p {
      GAMES PAGE
      ============================================================ -->
 
-<div id="games-page" class="page">
+<div
+    id="games-page"
+    class="page"
+>
 
     <main>
 
@@ -1778,28 +1663,25 @@ footer p {
                 Games
             </h2>
 
-
             <input
                 type="text"
                 id="game-search"
                 class="game-search"
                 placeholder="Search games..."
+                autocomplete="off"
                 oninput="searchGames()"
             >
 
-
             <div
                 id="games-list"
-                class="games-grid">
-            </div>
-
+                class="games-grid"
+            ></div>
 
             <div
                 id="no-games"
-                class="no-games">
-
+                class="no-games"
+            >
                 No games found.
-
             </div>
 
         </section>
@@ -1808,17 +1690,19 @@ footer p {
 
 </div>
 
+
 <!-- ============================================================
      PROFILE PAGE
      ============================================================ -->
 
-<div id="profile-page" class="page">
+<div
+    id="profile-page"
+    class="page"
+>
 
     <main>
 
         <section class="profile-layout">
-
-            <!-- PROFILE SIDEBAR -->
 
             <aside class="profile-sidebar">
 
@@ -1826,27 +1710,38 @@ footer p {
                     👤
                 </div>
 
-                <h1 class="profile-page-name">
+                <h1
+                    class="profile-page-name"
+                >
                     Profile
                 </h1>
 
-                <p class="profile-username">
+                <p
+                    class="profile-username"
+                >
                     @username
                 </p>
-
-
-                <!-- PROFILE STATS -->
 
                 <div class="profile-stats">
 
                     <div class="profile-stat">
+
                         <strong>0</strong>
-                        <span>Followers</span>
+
+                        <span>
+                            Followers
+                        </span>
+
                     </div>
 
                     <div class="profile-stat">
+
                         <strong>0</strong>
-                        <span>Following</span>
+
+                        <span>
+                            Following
+                        </span>
+
                     </div>
 
                 </div>
@@ -1854,12 +1749,7 @@ footer p {
             </aside>
 
 
-            <!-- PROFILE CONTENT -->
-
             <section class="profile-content">
-
-
-                <!-- RECENTLY PLAYED -->
 
                 <div class="profile-section">
 
@@ -1874,8 +1764,6 @@ footer p {
                 </div>
 
 
-                <!-- MOST PLAYED -->
-
                 <div class="profile-section">
 
                     <h2>
@@ -1888,8 +1776,6 @@ footer p {
 
                 </div>
 
-
-                <!-- GAMES -->
 
                 <div class="profile-section">
 
@@ -1904,8 +1790,6 @@ footer p {
                 </div>
 
 
-                <!-- ACHIEVEMENTS -->
-
                 <div class="profile-section">
 
                     <h2>
@@ -1915,38 +1799,65 @@ footer p {
                     <div class="achievements-grid">
 
                         <div class="achievement">
+
                             <div class="achievement-icon">
                                 🎮
                             </div>
 
                             <div>
-                                <strong>Noob Gamer</strong>
-                                <p>Play 1 game</p>
+
+                                <strong>
+                                    Noob Gamer
+                                </strong>
+
+                                <p>
+                                    Play 1 game
+                                </p>
+
                             </div>
+
                         </div>
 
 
                         <div class="achievement locked">
+
                             <div class="achievement-icon">
                                 🔒
                             </div>
 
                             <div>
-                                <strong>Sharer</strong>
-                                <p>Share 1 game</p>
+
+                                <strong>
+                                    Sharer
+                                </strong>
+
+                                <p>
+                                    Share 1 game
+                                </p>
+
                             </div>
+
                         </div>
 
 
                         <div class="achievement locked">
+
                             <div class="achievement-icon">
                                 🔒
                             </div>
 
                             <div>
-                                <strong>Spreader</strong>
-                                <p>Share 10 games</p>
+
+                                <strong>
+                                    Spreader
+                                </strong>
+
+                                <p>
+                                    Share 10 games
+                                </p>
+
                             </div>
+
                         </div>
 
                     </div>
@@ -1961,11 +1872,15 @@ footer p {
 
 </div>
 
+
 <!-- ============================================================
      SIGN IN PAGE
      ============================================================ -->
 
-<div id="signin-page" class="page">
+<div
+    id="signin-page"
+    class="page"
+>
 
     <main>
 
@@ -1981,7 +1896,6 @@ footer p {
                     Sign in to your GameSwapHQ account.
                 </p>
 
-
                 <form
                     id="signin-form"
                     onsubmit="signIn(event)"
@@ -1995,10 +1909,9 @@ footer p {
                         type="text"
                         id="signin-username"
                         autocomplete="username"
-                        required
                         maxlength="20"
+                        required
                     >
-
 
                     <label for="signin-password">
                         Password
@@ -2011,7 +1924,6 @@ footer p {
                         required
                     >
 
-
                     <button
                         type="submit"
                         class="auth-button"
@@ -2021,20 +1933,18 @@ footer p {
 
                 </form>
 
-
                 <p
                     class="auth-error"
                     id="signin-error"
                 ></p>
-
 
                 <p class="auth-switch">
 
                     Don't have an account?
 
                     <button
-                        onclick="openCreateAccount()"
                         type="button"
+                        onclick="openCreateAccount()"
                     >
                         Create one
                     </button>
@@ -2054,7 +1964,10 @@ footer p {
      CREATE ACCOUNT PAGE
      ============================================================ -->
 
-<div id="create-account-page" class="page">
+<div
+    id="create-account-page"
+    class="page"
+>
 
     <main>
 
@@ -2070,7 +1983,6 @@ footer p {
                     Create your GameSwapHQ account.
                 </p>
 
-
                 <form
                     id="create-account-form"
                     onsubmit="createAccount(event)"
@@ -2084,10 +1996,9 @@ footer p {
                         type="text"
                         id="create-username"
                         autocomplete="username"
-                        required
                         maxlength="20"
+                        required
                     >
-
 
                     <label for="create-password">
                         Password
@@ -2100,7 +2011,6 @@ footer p {
                         required
                     >
 
-
                     <label for="create-password-confirm">
                         Confirm Password
                     </label>
@@ -2112,7 +2022,6 @@ footer p {
                         required
                     >
 
-
                     <button
                         type="submit"
                         class="auth-button"
@@ -2122,20 +2031,18 @@ footer p {
 
                 </form>
 
-
                 <p
                     class="auth-error"
                     id="create-account-error"
                 ></p>
-
 
                 <p class="auth-switch">
 
                     Already have an account?
 
                     <button
-                        onclick="openSignIn()"
                         type="button"
+                        onclick="openSignIn()"
                     >
                         Sign In
                     </button>
@@ -2149,17 +2056,22 @@ footer p {
     </main>
 
 </div>
-    
+
+
 <!-- ============================================================
      GAME PAGE
      ============================================================ -->
 
-<div id="game-page" class="page">
+<div
+    id="game-page"
+    class="page"
+>
 
     <main>
 
         <button
             class="back-button"
+            type="button"
             onclick="showPage('games-page')"
         >
             ← Back to Games
@@ -2168,14 +2080,14 @@ footer p {
 
         <h1
             class="game-title"
-            id="game-title">
-        </h1>
+            id="game-title"
+        ></h1>
 
 
         <div
             class="game-info"
-            id="game-info">
-        </div>
+            id="game-info"
+        ></div>
 
 
         <!-- GAME THUMBNAIL -->
@@ -2191,18 +2103,11 @@ footer p {
                 alt="Game thumbnail"
             >
 
-
             <button
-                class="play-button"
+                class="play-button thumbnail-play-button"
                 id="thumbnail-play-button"
+                type="button"
                 onclick="playGame()"
-                style="
-                    position:absolute;
-                    left:50%;
-                    top:50%;
-                    transform:translate(-50%,-50%);
-                    z-index:5;
-                "
             >
                 Play Now
             </button>
@@ -2210,7 +2115,7 @@ footer p {
         </div>
 
 
-        <!-- GAME AREA -->
+        <!-- GAME FRAME -->
 
         <div class="play-area">
 
@@ -2225,8 +2130,8 @@ footer p {
                     title="Game"
                     sandbox="allow-scripts allow-same-origin allow-popups"
                     allowfullscreen
-                    loading="lazy">
-                </iframe>
+                    loading="lazy"
+                ></iframe>
 
 
                 <!-- GAMEPLAY BAR -->
@@ -2238,14 +2143,11 @@ footer p {
 
                     <div
                         class="gameplay-name"
-                        id="gameplay-name">
-                    </div>
+                        id="gameplay-name"
+                    ></div>
 
 
                     <div class="gameplay-controls">
-
-
-                        <!-- VIEW COUNT -->
 
                         <div
                             class="game-stat view-count"
@@ -2256,8 +2158,6 @@ footer p {
                         </div>
 
 
-                        <!-- LIKE COUNT -->
-
                         <div
                             class="game-stat like-count"
                             id="like-count"
@@ -2267,11 +2167,10 @@ footer p {
                         </div>
 
 
-                        <!-- LIKE -->
-
                         <button
                             class="gameplay-button like-button"
                             id="like-button"
+                            type="button"
                             onclick="likeGame()"
                             title="Like"
                         >
@@ -2279,10 +2178,9 @@ footer p {
                         </button>
 
 
-                        <!-- FULLSCREEN -->
-
                         <button
                             class="gameplay-button fullscreen-button"
+                            type="button"
                             onclick="toggleFullscreen()"
                             title="Fullscreen"
                         >
@@ -2294,11 +2192,10 @@ footer p {
                 </div>
 
 
-                <!-- HIDE / SHOW BAR -->
-
                 <button
                     class="hide-bar-button"
                     id="hide-bar-button"
+                    type="button"
                     onclick="toggleGameBar()"
                 >
                     Hide bar
@@ -2309,7 +2206,7 @@ footer p {
         </div>
 
 
-        <!-- GAME INSTRUCTIONS -->
+        <!-- INSTRUCTIONS -->
 
         <div
             class="game-instructions"
@@ -2317,13 +2214,12 @@ footer p {
         >
 
             <h2>
-                ➜I Controls/Instructions:
+                ➜ Controls/Instructions:
             </h2>
 
-
             <div
-                id="game-instructions-list">
-            </div>
+                id="game-instructions-list"
+            ></div>
 
         </div>
 
@@ -2336,7 +2232,10 @@ footer p {
      DEVELOPERS PAGE
      ============================================================ -->
 
-<div id="developers-page" class="page">
+<div
+    id="developers-page"
+    class="page"
+>
 
     <main>
 
@@ -2346,13 +2245,11 @@ footer p {
                 For Developers
             </h1>
 
-
             <div class="developers-box">
 
                 <h2>
                     Want your game on GameSwapHQ?
                 </h2>
-
 
                 <p>
                     GameSwapHQ is a curated gaming portal.
@@ -2360,11 +2257,9 @@ footer p {
                     to the site.
                 </p>
 
-
                 <h3>
                     Game requirements
                 </h3>
-
 
                 <ul>
 
@@ -2409,11 +2304,9 @@ footer p {
 
                 </ul>
 
-
                 <h3>
                     What happens after you submit?
                 </h3>
-
 
                 <p>
                     Submit your game using the form below.
@@ -2422,17 +2315,14 @@ footer p {
                     added to the site.
                 </p>
 
-
                 <h3>
                     Ready to submit?
                 </h3>
-
 
                 <p>
                     Use the submission form below to send us
                     your game.
                 </p>
-
 
                 <a
                     class="developer-submit"
@@ -2462,7 +2352,6 @@ footer p {
         © 2026 GameSwapHQ
     </p>
 
-
     <div class="footer-links">
 
         <a
@@ -2471,7 +2360,6 @@ footer p {
         >
             Home
         </a>
-
 
         <a
             href="#developers"
@@ -2487,21 +2375,25 @@ footer p {
 
 <script>
 
-
 /* ============================================================
-   GAME LIST
+   GAME DATA
    ============================================================ */
 
 const games = [
 
     {
         id: "Gravi-Plat",
+
         name: "Gravi-Plat",
+
         creator: "zoomyeah",
+
         date: "August 10, 2026",
+
         gameFile: "Gravi-Plat",
 
         views: 0,
+
         likes: 0,
 
         instructions: [
@@ -2519,12 +2411,17 @@ const games = [
 
     {
         id: "WallRider TN",
+
         name: "• WallRider •",
+
         creator: "zoomyeah",
+
         date: "August 11, 2026",
+
         gameFile: "• WallRider •",
 
         views: 0,
+
         likes: 0,
 
         instructions: [
@@ -2540,20 +2437,25 @@ const games = [
 
     {
         id: "Painterz",
+
         name: "Painterz",
+
         creator: "zoomyeah",
+
         date: "August 12, 2026",
+
         gameFile: "Painterz",
 
         views: 0,
+
         likes: 0,
 
         instructions: [
-            "⠀• ⠀Player1 (Blue) === 'Q' to move.",
-            "⠀• ⠀Player2 (Red) === Up-Arrow to move",
-            "⠀• ⠀Player3 (Green) === Space-Bar to move.",
-            "⠀• ⠀Player4 (Yellow) === Click/Mouse to move.",
-            "⠀• ⠀Get the most tiles to win!"
+            "• Player1 (Blue) === 'Q' to move.",
+            "• Player2 (Red) === Up-Arrow to move",
+            "• Player3 (Green) === Space-Bar to move.",
+            "• Player4 (Yellow) === Click/Mouse to move.",
+            "• Get the most tiles to win!"
         ]
     }
 
@@ -2564,70 +2466,55 @@ const games = [
    FEATURED GAMES
    ============================================================ */
 
-/*
-   For now, YOU choose the featured games.
-
-   Later we can automatically select these based
-   on views + likes from the online statistics.
-*/
-
 const featuredGames = [
-
     "Gravi-Plat",
     "Painterz"
-
 ];
 
+
 /* ============================================================
-   ACCOUNT / AUTHENTICATION
+   STATE
    ============================================================ */
 
 let currentUser = null;
+let currentGame = null;
 
 
 /* ============================================================
-   OPEN ACCOUNT
+   DOM HELPERS
+   ============================================================ */
+
+function get(id) {
+    return document.getElementById(id);
+}
+
+
+/* ============================================================
+   ACCOUNT
    ============================================================ */
 
 function openAccount() {
 
     if (currentUser) {
-
         openProfile();
-
-    }
-
-    else {
-
+    } else {
         openSignIn();
-
     }
 
 }
 
 
-/* ============================================================
-   OPEN PROFILE
-   ============================================================ */
-
 function openProfile() {
 
     if (!currentUser) {
-
         openSignIn();
-
         return;
-
     }
 
     showPage("profile-page");
 
 }
 
-
-/* ============================================================
-   OPEN SIGN IN
-   ============================================================ */
 
 function openSignIn() {
 
@@ -2636,10 +2523,6 @@ function openSignIn() {
 }
 
 
-/* ============================================================
-   OPEN CREATE ACCOUNT
-   ============================================================ */
-
 function openCreateAccount() {
 
     showPage("create-account-page");
@@ -2647,34 +2530,14 @@ function openCreateAccount() {
 }
 
 
-/* ============================================================
-   UPDATE ACCOUNT BUTTON
-   ============================================================ */
-
 function updateAccountButton() {
 
-    const button =
-        document.getElementById(
-            "account-button"
-        );
+    const icon = get("account-icon");
+    const text = get("account-text");
 
-    const icon =
-        document.getElementById(
-            "account-icon"
-        );
-
-    const text =
-        document.getElementById(
-            "account-text"
-        );
-
-
-    if (!button || !icon || !text) {
-
+    if (!icon || !text) {
         return;
-
     }
-
 
     if (currentUser) {
 
@@ -2686,33 +2549,21 @@ function updateAccountButton() {
         text.textContent =
             currentUser.username;
 
-    }
+    } else {
 
-    else {
-
-        icon.textContent =
-            "👤";
-
-        text.textContent =
-            "Sign In";
+        icon.textContent = "👤";
+        text.textContent = "Sign In";
 
     }
 
 }
 
 
-/* ============================================================
-   UPDATE PROFILE PAGE
-   ============================================================ */
-
 function updateProfilePage() {
 
     if (!currentUser) {
-
         return;
-
     }
-
 
     const name =
         document.querySelector(
@@ -2724,21 +2575,14 @@ function updateProfilePage() {
             ".profile-username"
         );
 
-
     if (name) {
-
         name.textContent =
             currentUser.username;
-
     }
 
-
     if (username) {
-
         username.textContent =
-            "@" +
-            currentUser.username;
-
+            "@" + currentUser.username;
     }
 
 }
@@ -2752,36 +2596,22 @@ async function signIn(event) {
 
     event.preventDefault();
 
-
     const username =
-        document
-            .getElementById("signin-username")
+        get("signin-username")
             .value
             .trim();
 
-
     const password =
-        document
-            .getElementById("signin-password")
+        get("signin-password")
             .value;
 
-
     const error =
-        document.getElementById(
-            "signin-error"
-        );
-
+        get("signin-error");
 
     error.textContent =
         "Signing in...";
 
-
     try {
-
-        /*
-           This will connect to the
-           GameSwapHQ Cloudflare Worker.
-        */
 
         const response =
             await fetch(
@@ -2797,21 +2627,14 @@ async function signIn(event) {
                     credentials: "include",
 
                     body: JSON.stringify({
-
-                        username:
-                            username,
-
-                        password:
-                            password
-
+                        username,
+                        password
                     })
                 }
             );
 
-
         const data =
             await response.json();
-
 
         if (!response.ok) {
 
@@ -2822,27 +2645,15 @@ async function signIn(event) {
 
         }
 
-
         currentUser =
             data.user;
 
-
         updateAccountButton();
-
         updateProfilePage();
 
+        get("signin-form").reset();
 
-        document
-            .getElementById(
-                "signin-form"
-            )
-            .reset();
-
-
-        showPage(
-            "profile-page"
-        );
-
+        showPage("profile-page");
 
     }
 
@@ -2864,50 +2675,23 @@ async function createAccount(event) {
 
     event.preventDefault();
 
-
     const username =
-        document
-            .getElementById(
-                "create-username"
-            )
+        get("create-username")
             .value
             .trim();
 
-
     const password =
-        document
-            .getElementById(
-                "create-password"
-            )
+        get("create-password")
             .value;
-
 
     const confirmPassword =
-        document
-            .getElementById(
-                "create-password-confirm"
-            )
+        get("create-password-confirm")
             .value;
 
-
     const error =
-        document.getElementById(
-            "create-account-error"
-        );
-
+        get("create-account-error");
 
     error.textContent = "";
-
-
-    if (password !== confirmPassword) {
-
-        error.textContent =
-            "Passwords do not match.";
-
-        return;
-
-    }
-
 
     if (username.length < 3) {
 
@@ -2918,7 +2702,6 @@ async function createAccount(event) {
 
     }
 
-
     if (password.length < 8) {
 
         error.textContent =
@@ -2928,10 +2711,17 @@ async function createAccount(event) {
 
     }
 
+    if (password !== confirmPassword) {
+
+        error.textContent =
+            "Passwords do not match.";
+
+        return;
+
+    }
 
     error.textContent =
         "Creating account...";
-
 
     try {
 
@@ -2949,21 +2739,14 @@ async function createAccount(event) {
                     credentials: "include",
 
                     body: JSON.stringify({
-
-                        username:
-                            username,
-
-                        password:
-                            password
-
+                        username,
+                        password
                     })
                 }
             );
 
-
         const data =
             await response.json();
-
 
         if (!response.ok) {
 
@@ -2974,27 +2757,15 @@ async function createAccount(event) {
 
         }
 
-
         currentUser =
             data.user;
 
-
         updateAccountButton();
-
         updateProfilePage();
 
+        get("create-account-form").reset();
 
-        document
-            .getElementById(
-                "create-account-form"
-            )
-            .reset();
-
-
-        showPage(
-            "profile-page"
-        );
-
+        showPage("profile-page");
 
     }
 
@@ -3020,7 +2791,6 @@ async function signOut() {
             "/api/auth/signout",
             {
                 method: "POST",
-
                 credentials: "include"
             }
         );
@@ -3036,23 +2806,17 @@ async function signOut() {
 
     }
 
-
-    currentUser =
-        null;
-
+    currentUser = null;
 
     updateAccountButton();
 
-
-    showPage(
-        "home-page"
-    );
+    showPage("home-page");
 
 }
 
 
 /* ============================================================
-   CHECK CURRENT SESSION
+   CURRENT SESSION
    ============================================================ */
 
 async function checkCurrentUser() {
@@ -3067,11 +2831,9 @@ async function checkCurrentUser() {
                 }
             );
 
-
         if (!response.ok) {
 
-            currentUser =
-                null;
+            currentUser = null;
 
             updateAccountButton();
 
@@ -3079,28 +2841,13 @@ async function checkCurrentUser() {
 
         }
 
-
         const data =
             await response.json();
 
-
-        if (data.user) {
-
-            currentUser =
-                data.user;
-
-        }
-
-        else {
-
-            currentUser =
-                null;
-
-        }
-
+        currentUser =
+            data.user || null;
 
         updateAccountButton();
-
         updateProfilePage();
 
     }
@@ -3118,278 +2865,48 @@ async function checkCurrentUser() {
 
 
 /* ============================================================
-   ONLINE STATISTICS
-   ============================================================ */
-
-/*
-   These endpoints will be handled by the GameSwapHQ
-   Cloudflare Worker.
-
-   GET:
-       /api/stats/GAME_ID
-
-   POST:
-       /api/stats/GAME_ID/view
-
-   POST:
-       /api/stats/GAME_ID/like
-
-   POST:
-       /api/stats/GAME_ID/unlike
-*/
-
-async function loadOnlineStats(game) {
-
-    try {
-
-        const response =
-            await fetch(
-                "/api/stats/" +
-                encodeURIComponent(game.id)
-            );
-
-
-        if (!response.ok) {
-
-            throw new Error(
-                "Stats request failed"
-            );
-
-        }
-
-
-        const data =
-            await response.json();
-
-
-        game.views =
-            Number(data.views || 0);
-
-
-        game.likes =
-            Number(data.likes || 0);
-
-
-        loadViewCount(game);
-
-        loadLikeCount(game);
-
-
-    }
-
-    catch (error) {
-
-        console.warn(
-            "Could not load online statistics:",
-            error
-        );
-
-
-        /*
-           Keep the locally known values if the
-           statistics server is temporarily unavailable.
-        */
-
-        loadViewCount(game);
-
-        loadLikeCount(game);
-
-    }
-
-}
-
-
-/* ============================================================
-   LOAD ALL ONLINE STATISTICS
-   ============================================================ */
-
-async function loadAllOnlineStats() {
-
-    await Promise.all(
-
-        games.map(
-            game =>
-                loadOnlineStats(game)
-        )
-
-    );
-
-}
-
-
-/* ============================================================
-   LOAD VIEW COUNT
-   ============================================================ */
-
-function loadViewCount(game) {
-
-    const viewCount =
-        document.getElementById(
-            "view-count"
-        );
-
-
-    if (!viewCount) {
-
-        return;
-
-    }
-
-
-    viewCount.textContent =
-        "👁 " +
-        Number(game.views || 0);
-
-}
-
-
-/* ============================================================
-   LOAD LIKE COUNT
-   ============================================================ */
-
-function loadLikeCount(game) {
-
-    const likeCount =
-        document.getElementById(
-            "like-count"
-        );
-
-
-    if (!likeCount) {
-
-        return;
-
-    }
-
-
-    likeCount.textContent =
-        Number(game.likes || 0);
-
-}
-
-
-/* ============================================================
-   CHECK WHETHER USER HAS LIKED GAME
-   ============================================================ */
-
-function hasLikedGame(game) {
-
-    return localStorage.getItem(
-        "gameswaphq-liked-" +
-        game.id
-    ) === "true";
-
-}
-
-
-/* ============================================================
-   UPDATE LIKE BUTTON
-   ============================================================ */
-
-function updateLikeButton(game) {
-
-    const button =
-        document.getElementById(
-            "like-button"
-        );
-
-
-    if (!button) {
-
-        return;
-
-    }
-
-
-    if (hasLikedGame(game)) {
-
-        button.textContent =
-            "❤︎";
-
-        button.classList.add(
-            "liked"
-        );
-
-    }
-
-    else {
-
-        button.textContent =
-            "♡";
-
-        button.classList.remove(
-            "liked"
-        );
-
-    }
-
-}
-
-
-/* ============================================================
    PAGE NAVIGATION
    ============================================================ */
 
-function showPage(pageID) {
+function setActivePage(pageID) {
 
     document
         .querySelectorAll(".page")
         .forEach(page => {
-
             page.classList.remove("active");
-
         });
 
-
     const page =
-        document.getElementById(pageID);
+        get(pageID);
 
-
-    if (page) {
-
-        page.classList.add("active");
-
+    if (!page) {
+        return;
     }
 
+    page.classList.add("active");
 
-    if (pageID === "developers-page") {
+    document.body.classList.toggle(
+        "developers-mode",
+        pageID === "developers-page"
+    );
 
-        document.body.classList.add(
-            "developers-mode"
-        );
-
-    }
-
-    else {
-
-        document.body.classList.remove(
-            "developers-mode"
-        );
-
-    }
-
-
-    if (pageID === "game-page") {
-
-        document.body.classList.add(
-            "game-mode"
-        );
-
-    }
-
-    else {
-
-        document.body.classList.remove(
-            "game-mode"
-        );
-
-    }
-
+    document.body.classList.toggle(
+        "game-mode",
+        pageID === "game-page"
+    );
 
     window.scrollTo(0, 0);
 
+}
 
-if (pageID !== "game-page") {
+
+function showPage(pageID) {
+
+    setActivePage(pageID);
+
+    if (pageID === "game-page") {
+        return;
+    }
 
     let hash = "#home";
 
@@ -3405,116 +2922,119 @@ if (pageID !== "game-page") {
         hash = "#profile";
     }
 
-    history.pushState(
-        null,
-        "",
-        hash
-    );
+    else if (pageID === "signin-page") {
+        hash = "#signin";
+    }
+
+    else if (pageID === "create-account-page") {
+        hash = "#create-account";
+    }
+
+    if (window.location.hash !== hash) {
+
+        history.pushState(
+            null,
+            "",
+            hash
+        );
+
+    }
 
 }
+
+
+function showPageWithoutHistory(pageID) {
+
+    setActivePage(pageID);
 
 }
 
 
 /* ============================================================
-   CREATE FEATURED CARDS
+   THUMBNAIL URL
+   ============================================================ */
+
+function getThumbnailURL(game) {
+
+    return (
+        "/game-thumbnail/" +
+        encodeURIComponent(game.id)
+    );
+
+}
+
+
+/* ============================================================
+   GAME CARDS
    ============================================================ */
 
 function createFeaturedCards() {
 
-    const featuredList =
-        document.getElementById(
-            "featured-list"
-        );
+    const list =
+        get("featured-list");
 
-
-    featuredList.innerHTML = "";
-
+    list.innerHTML = "";
 
     featuredGames.forEach(gameID => {
 
         const game =
             games.find(
-                game => game.id === gameID
+                item => item.id === gameID
             );
 
-
         if (!game) {
-
             return;
-
         }
-
 
         const card =
             document.createElement("div");
 
-
         card.className =
             "featured-card";
 
-
-        card.onclick =
-            function() {
-
-                openGame(game.id);
-
-            };
-
+        card.addEventListener(
+            "click",
+            () => openGame(game.id)
+        );
 
         const thumbnailContainer =
             document.createElement("div");
 
-
         thumbnailContainer.className =
             "featured-thumbnail-container";
-
 
         const thumbnail =
             document.createElement("img");
 
-
         thumbnail.className =
             "featured-thumbnail";
 
-
         thumbnail.src =
-            "/game-thumbnail/" +
-            game.id;
-
+            getThumbnailURL(game);
 
         thumbnail.alt =
-            game.name +
-            " thumbnail";
-
+            game.name + " thumbnail";
 
         const overlay =
             document.createElement("div");
 
-
         overlay.className =
             "featured-thumbnail-overlay";
-
 
         const content =
             document.createElement("div");
 
-
         content.className =
             "featured-card-content";
-
 
         const title =
             document.createElement("h3");
 
-
         title.textContent =
             game.name;
 
-
         const creator =
             document.createElement("p");
-
 
         creator.textContent =
             "by " +
@@ -3522,59 +3042,37 @@ function createFeaturedCards() {
             " · " +
             game.date;
 
-
-        content.appendChild(title);
-
-        content.appendChild(creator);
-
-
-        thumbnailContainer.appendChild(
-            thumbnail
+        content.append(
+            title,
+            creator
         );
 
-
-        thumbnailContainer.appendChild(
-            overlay
-        );
-
-
-        thumbnailContainer.appendChild(
+        thumbnailContainer.append(
+            thumbnail,
+            overlay,
             content
         );
-
 
         card.appendChild(
             thumbnailContainer
         );
 
-
-        featuredList.appendChild(card);
+        list.appendChild(card);
 
     });
 
 }
 
 
-/* ============================================================
-   CREATE GAME CARDS
-   ============================================================ */
-
 function createGameCards(gameList = games) {
 
-    const gamesList =
-        document.getElementById(
-            "games-list"
-        );
-
-
-    gamesList.innerHTML = "";
-
+    const list =
+        get("games-list");
 
     const noGames =
-        document.getElementById(
-            "no-games"
-        );
+        get("no-games");
 
+    list.innerHTML = "";
 
     if (gameList.length === 0) {
 
@@ -3585,82 +3083,60 @@ function createGameCards(gameList = games) {
 
     }
 
-
     noGames.style.display =
         "none";
-
 
     gameList.forEach(game => {
 
         const card =
             document.createElement("div");
 
-
         card.className =
             "game-card";
 
-
-        card.onclick =
-            function() {
-
-                openGame(game.id);
-
-            };
-
+        card.addEventListener(
+            "click",
+            () => openGame(game.id)
+        );
 
         const thumbnailContainer =
             document.createElement("div");
 
-
         thumbnailContainer.className =
             "game-thumbnail-container";
-
 
         const thumbnail =
             document.createElement("img");
 
-
         thumbnail.className =
             "game-thumbnail";
 
-
         thumbnail.src =
-            "/game-thumbnail/" +
-            game.id;
-
+            getThumbnailURL(game);
 
         thumbnail.alt =
-            game.name +
-            " thumbnail";
-
+            game.name + " thumbnail";
 
         const overlay =
             document.createElement("div");
 
-
         overlay.className =
             "game-thumbnail-overlay";
-
 
         const content =
             document.createElement("div");
 
-
         content.className =
             "game-card-content";
-
 
         const title =
             document.createElement("h3");
 
-
         title.textContent =
             game.name;
 
-
         const creator =
             document.createElement("p");
-
 
         creator.textContent =
             "by " +
@@ -3668,33 +3144,22 @@ function createGameCards(gameList = games) {
             " · " +
             game.date;
 
-
-        content.appendChild(title);
-
-        content.appendChild(creator);
-
-
-        thumbnailContainer.appendChild(
-            thumbnail
+        content.append(
+            title,
+            creator
         );
 
-
-        thumbnailContainer.appendChild(
-            overlay
-        );
-
-
-        thumbnailContainer.appendChild(
+        thumbnailContainer.append(
+            thumbnail,
+            overlay,
             content
         );
-
 
         card.appendChild(
             thumbnailContainer
         );
 
-
-        gamesList.appendChild(card);
+        list.appendChild(card);
 
     });
 
@@ -3708,28 +3173,27 @@ function createGameCards(gameList = games) {
 function searchGames() {
 
     const search =
-        document
-            .getElementById("game-search")
+        get("game-search")
             .value
             .toLowerCase()
             .trim();
 
-
     const filtered =
-        games.filter(game =>
+        games.filter(game => {
 
-            game.name
-                .toLowerCase()
-                .includes(search)
+            return (
+                game.name
+                    .toLowerCase()
+                    .includes(search)
 
-            ||
+                ||
 
-            game.creator
-                .toLowerCase()
-                .includes(search)
+                game.creator
+                    .toLowerCase()
+                    .includes(search)
+            );
 
-        );
-
+        });
 
     createGameCards(filtered);
 
@@ -3737,47 +3201,189 @@ function searchGames() {
 
 
 /* ============================================================
-   CURRENT GAME
+   ONLINE STATISTICS
    ============================================================ */
 
-let currentGame = null;
+async function loadOnlineStats(game) {
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/stats/" +
+                encodeURIComponent(game.id)
+            );
+
+        if (!response.ok) {
+            throw new Error(
+                "Stats request failed"
+            );
+        }
+
+        const data =
+            await response.json();
+
+        game.views =
+            Number(data.views || 0);
+
+        game.likes =
+            Number(data.likes || 0);
+
+        loadViewCount(game);
+        loadLikeCount(game);
+
+    }
+
+    catch (error) {
+
+        console.warn(
+            "Could not load online statistics:",
+            error
+        );
+
+        loadViewCount(game);
+        loadLikeCount(game);
+
+    }
+
+}
+
+
+async function loadAllOnlineStats() {
+
+    await Promise.all(
+        games.map(game =>
+            loadOnlineStats(game)
+        )
+    );
+
+}
+
+
+function loadViewCount(game) {
+
+    if (!currentGame ||
+        currentGame.id !== game.id) {
+        return;
+    }
+
+    const element =
+        get("view-count");
+
+    if (!element) {
+        return;
+    }
+
+    element.textContent =
+        "👁 " +
+        Number(game.views || 0);
+
+}
+
+
+function loadLikeCount(game) {
+
+    if (!currentGame ||
+        currentGame.id !== game.id) {
+        return;
+    }
+
+    const element =
+        get("like-count");
+
+    if (!element) {
+        return;
+    }
+
+    element.textContent =
+        Number(game.likes || 0);
+
+}
 
 
 /* ============================================================
-   LOAD INSTRUCTIONS
+   LIKES
+   ============================================================ */
+
+function getLikeStorageKey(game) {
+
+    return (
+        "gameswaphq-liked-" +
+        game.id
+    );
+
+}
+
+
+function hasLikedGame(game) {
+
+    return (
+        localStorage.getItem(
+            getLikeStorageKey(game)
+        ) === "true"
+    );
+
+}
+
+
+function updateLikeButton(game) {
+
+    const button =
+        get("like-button");
+
+    if (!button) {
+        return;
+    }
+
+    if (hasLikedGame(game)) {
+
+        button.textContent = "❤︎";
+
+        button.classList.add(
+            "liked"
+        );
+
+    }
+
+    else {
+
+        button.textContent = "♡";
+
+        button.classList.remove(
+            "liked"
+        );
+
+    }
+
+}
+
+
+/* ============================================================
+   GAME INSTRUCTIONS
    ============================================================ */
 
 function loadInstructions(game) {
 
-    const instructionsList =
-        document.getElementById(
-            "game-instructions-list"
-        );
+    const list =
+        get("game-instructions-list");
 
-
-    instructionsList.innerHTML = "";
-
+    list.innerHTML = "";
 
     if (!game.instructions) {
-
         return;
-
     }
-
 
     game.instructions.forEach(
         instruction => {
 
-            const instructionText =
+            const paragraph =
                 document.createElement("p");
 
-
-            instructionText.textContent =
+            paragraph.textContent =
                 instruction;
 
-
-            instructionsList.appendChild(
-                instructionText
+            list.appendChild(
+                paragraph
             );
 
         }
@@ -3794,106 +3400,75 @@ function openGame(gameID) {
 
     const game =
         games.find(
-            game => game.id === gameID
+            item => item.id === gameID
         );
-
 
     if (!game) {
-
         return;
-
     }
 
+    currentGame = game;
 
-    currentGame =
-        game;
+    setActivePage("game-page");
 
-
-    document
-        .querySelectorAll(".page")
-        .forEach(page => {
-
-            page.classList.remove("active");
-
-        });
-
-
-    document
-        .getElementById("game-page")
-        .classList.add("active");
-
-
-    document.body.classList.remove(
-        "developers-mode"
-    );
-
-
-    document.body.classList.add(
-        "game-mode"
-    );
-
-
-    document
-        .getElementById("game-title")
-        .textContent =
-            game.name;
-
-
-    document
-        .getElementById("game-info")
-        .textContent =
-            "Created by " +
-            game.creator +
-            " · Released " +
-            game.date;
-
-
-    loadInstructions(game);
-
-    loadViewCount(game);
-
-    loadLikeCount(game);
-
-    updateLikeButton(game);
-
-
-    loadOnlineStats(game);
-
-
-    const thumbnail =
-        document.getElementById(
-            "game-thumbnail"
-        );
-
-
-    thumbnail.src =
-        "/game-thumbnail/" +
-        game.id;
-
-
-    thumbnail.alt =
-        game.name +
-        " thumbnail";
-
-
-    document
-        .getElementById("gameplay-name")
-        .textContent =
-            game.name;
-
+    populateGamePage(game);
 
     resetGame();
-
 
     history.pushState(
         null,
         "",
         "#game-" +
-        game.id
+        encodeURIComponent(game.id)
     );
 
+}
 
-    window.scrollTo(0, 0);
+
+function openGameWithoutHistory(game) {
+
+    currentGame = game;
+
+    setActivePage("game-page");
+
+    populateGamePage(game);
+
+    resetGame();
+
+}
+
+
+function populateGamePage(game) {
+
+    get("game-title").textContent =
+        game.name;
+
+    get("game-info").textContent =
+        "Created by " +
+        game.creator +
+        " · Released " +
+        game.date;
+
+    get("gameplay-name").textContent =
+        game.name;
+
+    const thumbnail =
+        get("game-thumbnail");
+
+    thumbnail.src =
+        getThumbnailURL(game);
+
+    thumbnail.alt =
+        game.name +
+        " thumbnail";
+
+    loadInstructions(game);
+
+    loadViewCount(game);
+    loadLikeCount(game);
+    updateLikeButton(game);
+
+    loadOnlineStats(game);
 
 }
 
@@ -3905,71 +3480,47 @@ function openGame(gameID) {
 function resetGame() {
 
     const frame =
-        document.getElementById(
-            "game-frame"
-        );
-
+        get("game-frame");
 
     const container =
-        document.getElementById(
-            "game-frame-container"
-        );
-
+        get("game-frame-container");
 
     const thumbnail =
-        document.getElementById(
-            "game-page-thumbnail"
-        );
+        get("game-page-thumbnail");
 
-
-    const thumbnailPlay =
-        document.getElementById(
-            "thumbnail-play-button"
-        );
-
+    const playButton =
+        get("thumbnail-play-button");
 
     const bar =
-        document.getElementById(
-            "gameplay-bar"
-        );
+        get("gameplay-bar");
 
-
-    const hideBarButton =
-        document.getElementById(
-            "hide-bar-button"
-        );
-
+    const hideButton =
+        get("hide-bar-button");
 
     frame.src = "";
-
 
     container.style.display =
         "none";
 
-
     thumbnail.style.display =
         "block";
 
-
-    thumbnailPlay.style.display =
+    playButton.style.display =
         "block";
-
 
     bar.classList.remove(
         "hidden"
     );
 
-
-    hideBarButton.textContent =
+    hideButton.textContent =
         "Hide bar";
-
 
     if (document.fullscreenElement) {
 
-        document.exitFullscreen();
+        document.exitFullscreen()
+            .catch(() => {});
 
     }
-
 
     if (currentGame) {
 
@@ -3991,7 +3542,7 @@ function resetGame() {
 
 
 /* ============================================================
-   RECORD ONLINE VIEW
+   RECORD VIEW
    ============================================================ */
 
 async function recordView(game) {
@@ -4008,19 +3559,14 @@ async function recordView(game) {
                 }
             );
 
-
         if (!response.ok) {
-
             throw new Error(
                 "View request failed"
             );
-
         }
-
 
         const data =
             await response.json();
-
 
         if (
             typeof data.views ===
@@ -4035,10 +3581,9 @@ async function recordView(game) {
         else {
 
             game.views =
-                (game.views || 0) + 1;
+                Number(game.views || 0) + 1;
 
         }
-
 
         loadViewCount(game);
 
@@ -4063,91 +3608,55 @@ async function recordView(game) {
 function playGame() {
 
     if (!currentGame) {
-
         return;
-
     }
 
-
     const frame =
-        document.getElementById(
-            "game-frame"
-        );
-
+        get("game-frame");
 
     const container =
-        document.getElementById(
-            "game-frame-container"
-        );
-
+        get("game-frame-container");
 
     const thumbnail =
-        document.getElementById(
-            "game-page-thumbnail"
-        );
+        get("game-page-thumbnail");
 
-
-    const thumbnailPlay =
-        document.getElementById(
-            "thumbnail-play-button"
-        );
-
+    const playButton =
+        get("thumbnail-play-button");
 
     const bar =
-        document.getElementById(
-            "gameplay-bar"
-        );
+        get("gameplay-bar");
 
+    const hideButton =
+        get("hide-bar-button");
 
-    const hideBarButton =
-        document.getElementById(
-            "hide-bar-button"
-        );
-
+    const gamePath =
+        currentGame.gameFile ||
+        currentGame.id;
 
     frame.src =
         "/game/" +
-        (
-            currentGame.gameFile ||
-            currentGame.id
-        );
-
+        encodeURIComponent(gamePath);
 
     frame.title =
         currentGame.name;
 
-
     container.style.display =
         "block";
-
 
     thumbnail.style.display =
         "none";
 
-
-    thumbnailPlay.style.display =
+    playButton.style.display =
         "none";
-
 
     bar.classList.remove(
         "hidden"
     );
 
-
-    hideBarButton.textContent =
+    hideButton.textContent =
         "Hide bar";
 
-
-    /*
-       Record the view ONLINE.
-
-       The Cloudflare Worker is responsible
-       for storing the shared count.
-    */
-
-    recordView(
-        currentGame
-    );
+    recordView(currentGame);
 
 }
 
@@ -4156,23 +3665,33 @@ function playGame() {
    FULLSCREEN
    ============================================================ */
 
-function toggleFullscreen() {
+async function toggleFullscreen() {
 
     const container =
-        document.getElementById(
-            "game-frame-container"
-        );
+        get("game-frame-container");
 
+    try {
 
-    if (!document.fullscreenElement) {
+        if (!document.fullscreenElement) {
 
-        container.requestFullscreen();
+            await container.requestFullscreen();
+
+        }
+
+        else {
+
+            await document.exitFullscreen();
+
+        }
 
     }
 
-    else {
+    catch (error) {
 
-        document.exitFullscreen();
+        console.warn(
+            "Fullscreen failed:",
+            error
+        );
 
     }
 
@@ -4180,46 +3699,34 @@ function toggleFullscreen() {
 
 
 /* ============================================================
-   LIKE GAME ONLINE
+   LIKE GAME
    ============================================================ */
 
 async function likeGame() {
 
     if (!currentGame) {
-
         return;
-
     }
 
-
-    const button =
-        document.getElementById(
-            "like-button"
-        );
-
-
     const alreadyLiked =
-        hasLikedGame(
-            currentGame
-        );
+        hasLikedGame(currentGame);
 
+    const endpoint =
+        alreadyLiked
+
+            ? "/api/stats/" +
+              encodeURIComponent(
+                  currentGame.id
+              ) +
+              "/unlike"
+
+            : "/api/stats/" +
+              encodeURIComponent(
+                  currentGame.id
+              ) +
+              "/like";
 
     try {
-
-        const endpoint =
-            alreadyLiked
-                ? "/api/stats/" +
-                  encodeURIComponent(
-                      currentGame.id
-                  ) +
-                  "/unlike"
-
-                : "/api/stats/" +
-                  encodeURIComponent(
-                      currentGame.id
-                  ) +
-                  "/like";
-
 
         const response =
             await fetch(
@@ -4229,7 +3736,6 @@ async function likeGame() {
                 }
             );
 
-
         if (!response.ok) {
 
             throw new Error(
@@ -4238,10 +3744,8 @@ async function likeGame() {
 
         }
 
-
         const data =
             await response.json();
-
 
         if (
             typeof data.likes ===
@@ -4253,12 +3757,12 @@ async function likeGame() {
 
         }
 
-
         if (alreadyLiked) {
 
             localStorage.removeItem(
-                "gameswaphq-liked-" +
-                currentGame.id
+                getLikeStorageKey(
+                    currentGame
+                )
             );
 
         }
@@ -4266,18 +3770,17 @@ async function likeGame() {
         else {
 
             localStorage.setItem(
-                "gameswaphq-liked-" +
-                currentGame.id,
+                getLikeStorageKey(
+                    currentGame
+                ),
                 "true"
             );
 
         }
 
-
         loadLikeCount(
             currentGame
         );
-
 
         updateLikeButton(
             currentGame
@@ -4298,45 +3801,26 @@ async function likeGame() {
 
 
 /* ============================================================
-   HIDE / SHOW GAMEPLAY BAR
+   GAMEPLAY BAR
    ============================================================ */
 
 function toggleGameBar() {
 
     const bar =
-        document.getElementById(
-            "gameplay-bar"
-        );
-
+        get("gameplay-bar");
 
     const button =
-        document.getElementById(
-            "hide-bar-button"
+        get("hide-bar-button");
+
+    const hidden =
+        bar.classList.toggle(
+            "hidden"
         );
 
-
-    bar.classList.toggle(
-        "hidden"
-    );
-
-
-    if (
-        bar.classList.contains(
-            "hidden"
-        )
-    ) {
-
-        button.textContent =
-            "Show bar";
-
-    }
-
-    else {
-
-        button.textContent =
-            "Hide bar";
-
-    }
+    button.textContent =
+        hidden
+            ? "Show bar"
+            : "Hide bar";
 
 }
 
@@ -4350,18 +3834,17 @@ function checkHash() {
     const hash =
         window.location.hash;
 
-
     if (hash.startsWith("#game-")) {
 
         const gameID =
-            hash.substring(6);
-
+            decodeURIComponent(
+                hash.substring(6)
+            );
 
         const game =
             games.find(
-                game => game.id === gameID
+                item => item.id === gameID
             );
-
 
         if (game) {
 
@@ -4375,37 +3858,37 @@ function checkHash() {
 
     }
 
-    if (hash === "#profile") {
+
+    const pages = {
+        "#profile": "profile-page",
+        "#games": "games-page",
+        "#developers": "developers-page",
+        "#signin": "signin-page",
+        "#create-account": "create-account-page"
+    };
+
+    if (pages[hash]) {
+
+        if (
+            pages[hash] === "profile-page" &&
+            !currentUser
+        ) {
+
+            showPageWithoutHistory(
+                "signin-page"
+            );
+
+            return;
+
+        }
 
         showPageWithoutHistory(
-            "profile-page"
-        );
-
-    return;
-    
-    }
-
-    if (hash === "#games") {
-
-        showPageWithoutHistory(
-            "games-page"
+            pages[hash]
         );
 
         return;
 
     }
-
-
-    if (hash === "#developers") {
-
-        showPageWithoutHistory(
-            "developers-page"
-        );
-
-        return;
-
-    }
-
 
     showPageWithoutHistory(
         "home-page"
@@ -4415,158 +3898,13 @@ function checkHash() {
 
 
 /* ============================================================
-   SHOW PAGE WITHOUT HISTORY
+   BROWSER NAVIGATION
    ============================================================ */
-
-function showPageWithoutHistory(pageID) {
-
-    document
-        .querySelectorAll(".page")
-        .forEach(page => {
-
-            page.classList.remove("active");
-
-        });
-
-
-    document
-        .getElementById(pageID)
-        .classList.add("active");
-
-
-    if (pageID === "developers-page") {
-
-        document.body.classList.add(
-            "developers-mode"
-        );
-
-    }
-
-    else {
-
-        document.body.classList.remove(
-            "developers-mode"
-        );
-
-    }
-
-
-    if (pageID === "game-page") {
-
-        document.body.classList.add(
-            "game-mode"
-        );
-
-    }
-
-    else {
-
-        document.body.classList.remove(
-            "game-mode"
-        );
-
-    }
-
-
-    window.scrollTo(0, 0);
-
-}
-
-
-/* ============================================================
-   OPEN GAME WITHOUT HISTORY
-   ============================================================ */
-
-function openGameWithoutHistory(game) {
-
-    currentGame =
-        game;
-
-
-    showPageWithoutHistory(
-        "game-page"
-    );
-
-
-    document
-        .getElementById("game-title")
-        .textContent =
-            game.name;
-
-
-    document
-        .getElementById("game-info")
-        .textContent =
-            "Created by " +
-            game.creator +
-            " · Released " +
-            game.date;
-
-
-    loadInstructions(game);
-
-    loadViewCount(game);
-
-    loadLikeCount(game);
-
-    updateLikeButton(game);
-
-
-    loadOnlineStats(game);
-
-
-    const thumbnail =
-        document.getElementById(
-            "game-thumbnail"
-        );
-
-
-    thumbnail.src =
-        "/game-thumbnail/" +
-        game.id;
-
-
-    thumbnail.alt =
-        game.name +
-        " thumbnail";
-
-
-    document
-        .getElementById("gameplay-name")
-        .textContent =
-            game.name;
-
-
-    resetGame();
-
-}
-
-
-/* ============================================================
-   START
-   ============================================================ */
-
-createGameCards();
-
-createFeaturedCards();
-
-
-/*
-   Load the shared statistics from Cloudflare.
-
-   This happens after the page is created so
-   the site still works if the statistics
-   service is temporarily unavailable.
-*/
-
-loadAllOnlineStats();
-
 
 window.addEventListener(
     "popstate",
     checkHash
 );
-
 
 window.addEventListener(
     "hashchange",
@@ -4574,10 +3912,30 @@ window.addEventListener(
 );
 
 
-checkHash();
+/* ============================================================
+   STARTUP
+   ============================================================ */
+
+function initialize() {
+
+    createGameCards();
+
+    createFeaturedCards();
+
+    updateAccountButton();
+
+    checkCurrentUser();
+
+    loadAllOnlineStats();
+
+    checkHash();
+
+}
+
+
+initialize();
 
 </script>
 
 </body>
-
 </html>
