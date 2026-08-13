@@ -1,3 +1,11 @@
+"d1_databases": [
+  {
+    "binding": "USERS",
+    "database_name": "gameswaphq-users",
+    "database_id": "YOUR_DATABASE_ID"
+  }
+]
+
 {
   "$schema": "node_modules/wrangler/config-schema.json",
 
