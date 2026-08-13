@@ -2963,8 +2963,42 @@ async function checkCurrentUser() {
 
         }
 
-        const data =
-            await response.json();
+        const responseText =
+            await response.text();
+
+        if (responseText.trim() === "") {
+
+            currentUser = null;
+
+            updateAccountButton();
+
+            return;
+
+        }
+
+        let data = {};
+
+        try {
+
+            data =
+                JSON.parse(responseText);
+
+        }
+
+        catch (error) {
+
+            console.warn(
+                "Invalid /api/auth/me response:",
+                responseText
+            );
+
+            currentUser = null;
+
+            updateAccountButton();
+
+            return;
+
+        }
 
         currentUser =
             data.user || null;
@@ -2980,6 +3014,10 @@ async function checkCurrentUser() {
             "Could not check login session:",
             error
         );
+
+        currentUser = null;
+
+        updateAccountButton();
 
     }
 
