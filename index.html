@@ -2528,6 +2528,80 @@ function openCreateAccount() {
 
 }
 
+/* ============================================================
+   ACCOUNT UI
+   ============================================================ */
+
+function updateAccountButton() {
+
+    const icon =
+        get("account-icon");
+
+    const text =
+        get("account-text");
+
+    if (!icon || !text) {
+        return;
+    }
+
+    if (currentUser) {
+
+        icon.textContent = "👤";
+
+        text.textContent =
+            currentUser.username ||
+            "Account";
+
+    }
+
+    else {
+
+        icon.textContent = "👤";
+
+        text.textContent =
+            "Sign In";
+
+    }
+
+}
+
+
+function updateProfilePage() {
+
+    if (!currentUser) {
+        return;
+    }
+
+    const username =
+        currentUser.username ||
+        "username";
+
+    const profileName =
+        document.querySelector(
+            ".profile-page-name"
+        );
+
+    const profileUsername =
+        document.querySelector(
+            ".profile-username"
+        );
+
+    if (profileName) {
+
+        profileName.textContent =
+            username;
+
+    }
+
+    if (profileUsername) {
+
+        profileUsername.textContent =
+            "@" + username;
+
+    }
+
+}
+
 
 /* ============================================================
    SIGN IN
