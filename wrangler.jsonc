@@ -12,7 +12,7 @@
   },
 
   "assets": {
-    "directory": ".",
+    "directory": "./public",
     "binding": "ASSETS"
   },
 
