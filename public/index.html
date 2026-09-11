@@ -16,6 +16,24 @@
 
 <style>
 
+.signout-button {
+    width: 100%;
+    margin-top: 20px;
+    padding: 11px;
+    border: 1px solid #444;
+    border-radius: 8px;
+    background: #2a1414;
+    color: #ff8080;
+    font-weight: bold;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.signout-button:hover {
+    background: #3a1a1a;
+}
+
 /* ============================================================
    GLOBAL
    ============================================================ */
@@ -1745,6 +1763,14 @@ footer p {
                     </div>
 
                 </div>
+
+            <button
+                class="signout-button"
+                type="button"
+                onclick="signOut()"
+            >
+                Sign Out
+            </button>
 
             </aside>
 
