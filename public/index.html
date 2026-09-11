@@ -723,6 +723,40 @@ main {
         0 0 20px rgba(111,207,104,0.25);
 }
 
+.profile-avatar {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.profile-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    display: block;
+}
+
+.profile-avatar-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 0.8rem;
+    font-weight: bold;
+    opacity: 0;
+    transition: opacity 0.2s;
+    padding: 8px;
+}
+
+.profile-avatar:hover .profile-avatar-overlay {
+    opacity: 1;
+}
+    
 .profile-page-name {
     font-family: "Nunito", sans-serif;
 
@@ -1724,9 +1758,31 @@ footer p {
 
             <aside class="profile-sidebar">
 
-                <div class="profile-avatar">
-                    👤
-                </div>
+                <div
+    class="profile-avatar"
+    id="profile-avatar"
+    onclick="triggerAvatarUpload()"
+>
+    <span id="profile-avatar-emoji">👤</span>
+
+    <img
+        id="profile-avatar-img"
+        style="display:none;"
+        alt="Profile picture"
+    >
+
+    <div class="profile-avatar-overlay">
+        Change Photo
+    </div>
+</div>
+
+<input
+    type="file"
+    id="avatar-file-input"
+    accept="image/png, image/jpeg, image/webp, image/gif"
+    style="display:none;"
+    onchange="uploadAvatar(event)"
+>
 
                 <h1
                     class="profile-page-name"
@@ -2628,6 +2684,131 @@ function updateProfilePage() {
 
 }
 
+    function triggerAvatarUpload() {
+
+    if (!currentUser) {
+        openSignIn();
+        return;
+    }
+
+    get("avatar-file-input").click();
+
+}
+
+
+async function uploadAvatar(event) {
+
+    const file = event.target.files[0];
+
+    if (!file) {
+        return;
+    }
+
+    const maxSize = 5 * 1024 * 1024; // 5MB
+
+    const allowedTypes = [
+        "image/png",
+        "image/jpeg",
+        "image/webp",
+        "image/gif"
+    ];
+
+    if (!allowedTypes.includes(file.type)) {
+        alert("Please choose a PNG, JPEG, WEBP, or GIF image.");
+        event.target.value = "";
+        return;
+    }
+
+    if (file.size > maxSize) {
+        alert("Image must be smaller than 5MB.");
+        event.target.value = "";
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append("avatar", file);
+
+    try {
+
+        const response = await fetch(
+            "/api/profile/avatar",
+            {
+                method: "POST",
+                credentials: "include",
+                body: formData
+            }
+        );
+
+        const responseText = await response.text();
+
+        let data = {};
+
+        if (responseText.trim() !== "") {
+            try {
+                data = JSON.parse(responseText);
+            } catch (e) {}
+        }
+
+        if (!response.ok) {
+            throw new Error(
+                data.error || "Could not upload profile picture."
+            );
+        }
+
+        loadProfileAvatar();
+
+    }
+
+    catch (err) {
+
+        console.error("Avatar upload error:", err);
+
+        alert(err.message || "Could not upload profile picture.");
+
+    }
+
+    finally {
+
+        event.target.value = "";
+
+    }
+
+}
+
+
+function loadProfileAvatar() {
+
+    if (!currentUser) {
+        return;
+    }
+
+    const img = get("profile-avatar-img");
+    const emoji = get("profile-avatar-emoji");
+
+    const url =
+        "/profile-picture/" +
+        encodeURIComponent(currentUser.id) +
+        "?t=" + Date.now();
+
+    const testImg = new Image();
+
+    testImg.onload = () => {
+        img.src = url;
+        img.style.display = "block";
+        emoji.style.display = "none";
+    };
+
+    testImg.onerror = () => {
+        img.style.display = "none";
+        emoji.style.display = "flex";
+    };
+
+    testImg.src = url;
+
+    loadProfileAvatar();
+    
+}
+
 
 /* ============================================================
    SIGN IN
@@ -3464,6 +3645,136 @@ function searchGames() {
    ONLINE STATISTICS
    ============================================================ */
 
+/*
+ * ========================================================
+ * UPLOAD PROFILE PICTURE
+ * ========================================================
+ */
+
+if (
+    request.method === "POST" &&
+    url.pathname === "/api/profile/avatar"
+) {
+
+    try {
+
+        const user = await getCurrentUser(request, env);
+
+        if (!user) {
+            return Response.json(
+                { success: false, error: "You must be signed in." },
+                { status: 401 }
+            );
+        }
+
+        const maxSize = 5 * 1024 * 1024; // 5MB
+
+        const contentLength = Number(
+            request.headers.get("content-length") || 0
+        );
+
+        if (contentLength && contentLength > maxSize) {
+            return Response.json(
+                { success: false, error: "Image must be smaller than 5MB." },
+                { status: 413 }
+            );
+        }
+
+        const formData = await request.formData();
+        const file = formData.get("avatar");
+
+        if (!file || typeof file === "string") {
+            return Response.json(
+                { success: false, error: "No image file was provided." },
+                { status: 400 }
+            );
+        }
+
+        const allowedTypes = [
+            "image/png",
+            "image/jpeg",
+            "image/webp",
+            "image/gif"
+        ];
+
+        if (!allowedTypes.includes(file.type)) {
+            return Response.json(
+                { success: false, error: "Only PNG, JPEG, WEBP, or GIF images are allowed." },
+                { status: 400 }
+            );
+        }
+
+        if (file.size > maxSize) {
+            return Response.json(
+                { success: false, error: "Image must be smaller than 5MB." },
+                { status: 413 }
+            );
+        }
+
+        await env.GAMES.put(
+            `Profile Pictures/${user.id}`,
+            file.stream(),
+            {
+                httpMetadata: {
+                    contentType: file.type
+                }
+            }
+        );
+
+        return Response.json({ success: true });
+
+    }
+
+    catch (error) {
+
+        console.error("Avatar upload error:", error);
+
+        return Response.json(
+            { success: false, error: "Something went wrong while uploading your profile picture." },
+            { status: 500 }
+        );
+
+    }
+
+}
+
+
+/*
+ * ========================================================
+ * GET PROFILE PICTURE
+ * ========================================================
+ */
+
+if (
+    request.method === "GET" &&
+    url.pathname.startsWith("/profile-picture/")
+) {
+
+    const userID = decodeURIComponent(
+        url.pathname.substring("/profile-picture/".length)
+    );
+
+    if (!userID) {
+        return new Response("User not specified.", { status: 400 });
+    }
+
+    const object = await env.GAMES.get(
+        `Profile Pictures/${userID}`
+    );
+
+    if (!object) {
+        return new Response("Profile picture not found.", { status: 404 });
+    }
+
+    return new Response(object.body, {
+        headers: {
+            "Content-Type": object.httpMetadata?.contentType || "image/png",
+            "Cache-Control": "public, max-age=3600"
+        }
+    });
+
+}
+    
 async function loadOnlineStats(game) {
 
     try {
