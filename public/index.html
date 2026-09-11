@@ -2682,6 +2682,8 @@ function updateProfilePage() {
 
     }
 
+    loadProfileAvatar();
+
 }
 
     function triggerAvatarUpload() {
@@ -2805,8 +2807,6 @@ function loadProfileAvatar() {
 
     testImg.src = url;
 
-    loadProfileAvatar();
-    
 }
 
 
@@ -3645,136 +3645,6 @@ function searchGames() {
    ONLINE STATISTICS
    ============================================================ */
 
-/*
- * ========================================================
- * UPLOAD PROFILE PICTURE
- * ========================================================
- */
-
-if (
-    request.method === "POST" &&
-    url.pathname === "/api/profile/avatar"
-) {
-
-    try {
-
-        const user = await getCurrentUser(request, env);
-
-        if (!user) {
-            return Response.json(
-                { success: false, error: "You must be signed in." },
-                { status: 401 }
-            );
-        }
-
-        const maxSize = 5 * 1024 * 1024; // 5MB
-
-        const contentLength = Number(
-            request.headers.get("content-length") || 0
-        );
-
-        if (contentLength && contentLength > maxSize) {
-            return Response.json(
-                { success: false, error: "Image must be smaller than 5MB." },
-                { status: 413 }
-            );
-        }
-
-        const formData = await request.formData();
-        const file = formData.get("avatar");
-
-        if (!file || typeof file === "string") {
-            return Response.json(
-                { success: false, error: "No image file was provided." },
-                { status: 400 }
-            );
-        }
-
-        const allowedTypes = [
-            "image/png",
-            "image/jpeg",
-            "image/webp",
-            "image/gif"
-        ];
-
-        if (!allowedTypes.includes(file.type)) {
-            return Response.json(
-                { success: false, error: "Only PNG, JPEG, WEBP, or GIF images are allowed." },
-                { status: 400 }
-            );
-        }
-
-        if (file.size > maxSize) {
-            return Response.json(
-                { success: false, error: "Image must be smaller than 5MB." },
-                { status: 413 }
-            );
-        }
-
-        await env.GAMES.put(
-            `Profile Pictures/${user.id}`,
-            file.stream(),
-            {
-                httpMetadata: {
-                    contentType: file.type
-                }
-            }
-        );
-
-        return Response.json({ success: true });
-
-    }
-
-    catch (error) {
-
-        console.error("Avatar upload error:", error);
-
-        return Response.json(
-            { success: false, error: "Something went wrong while uploading your profile picture." },
-            { status: 500 }
-        );
-
-    }
-
-}
-
-
-/*
- * ========================================================
- * GET PROFILE PICTURE
- * ========================================================
- */
-
-if (
-    request.method === "GET" &&
-    url.pathname.startsWith("/profile-picture/")
-) {
-
-    const userID = decodeURIComponent(
-        url.pathname.substring("/profile-picture/".length)
-    );
-
-    if (!userID) {
-        return new Response("User not specified.", { status: 400 });
-    }
-
-    const object = await env.GAMES.get(
-        `Profile Pictures/${userID}`
-    );
-
-    if (!object) {
-        return new Response("Profile picture not found.", { status: 404 });
-    }
-
-    return new Response(object.body, {
-        headers: {
-            "Content-Type": object.httpMetadata?.contentType || "image/png",
-            "Cache-Control": "public, max-age=3600"
-        }
-    });
-
-}
-    
 async function loadOnlineStats(game) {
 
     try {
