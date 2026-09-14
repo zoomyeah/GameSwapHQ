@@ -4357,7 +4357,7 @@ window.addEventListener(
    STARTUP
    ============================================================ */
 
-function initialize() {
+async function initialize() {
 
     createGameCards();
 
@@ -4365,7 +4365,7 @@ function initialize() {
 
     updateAccountButton();
 
-    checkCurrentUser();
+    await checkCurrentUser();
 
     loadAllOnlineStats();
 
