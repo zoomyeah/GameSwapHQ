@@ -666,730 +666,871 @@ export default {
             new URL(request.url);
 
 
-       /*
- * ========================================================
- * ACCOUNT API
- * ========================================================
- *
- * POST:
- * /api/auth/signup
- * /api/auth/signin
- * /api/auth/signout
- *
- * GET:
- * /api/auth/me
- * ========================================================
- */
-
-
-/*
- * ========================================================
- * SIGN UP
- * ========================================================
- */
-
-if (
-    request.method === "POST" &&
-    url.pathname === "/api/auth/signup"
-) {
-
-    try {
-
-        const body =
-            await request.json();
-
-        const username =
-            typeof body.username === "string"
-                ? body.username.trim()
-                : "";
-
-        const password =
-            typeof body.password === "string"
-                ? body.password
-                : "";
+        /*
+         * ========================================================
+         * ACCOUNT API
+         * ========================================================
+         *
+         * POST:
+         * /api/auth/signup
+         * /api/auth/signin
+         * /api/auth/signout
+         *
+         * GET:
+         * /api/auth/me
+         * ========================================================
+         */
 
 
         /*
-         * Basic validation.
+         * ========================================================
+         * SIGN UP
+         * ========================================================
          */
 
         if (
-            !username ||
-            !password
+            request.method === "POST" &&
+            url.pathname === "/api/auth/signup"
         ) {
 
-            return Response.json(
-                {
-                    success: false,
-                    error:
-                        "Username and password are required."
-                },
-                {
-                    status: 400
+            try {
+
+                const body =
+                    await request.json();
+
+                const username =
+                    typeof body.username === "string"
+                        ? body.username.trim()
+                        : "";
+
+                const password =
+                    typeof body.password === "string"
+                        ? body.password
+                        : "";
+
+
+                /*
+                 * Basic validation.
+                 */
+
+                if (
+                    !username ||
+                    !password
+                ) {
+
+                    return Response.json(
+                        {
+                            success: false,
+                            error:
+                                "Username and password are required."
+                        },
+                        {
+                            status: 400
+                        }
+                    );
+
                 }
-            );
-
-        }
 
 
-        /*
-         * Username validation.
-         */
+                /*
+                 * Username validation.
+                 */
 
-        if (
-            username.length < 3 ||
-            username.length > 20
-        ) {
+                if (
+                    username.length < 3 ||
+                    username.length > 20
+                ) {
 
-            return Response.json(
-                {
-                    success: false,
-                    error:
-                        "Username must be between 3 and 20 characters."
-                },
-                {
-                    status: 400
+                    return Response.json(
+                        {
+                            success: false,
+                            error:
+                                "Username must be between 3 and 20 characters."
+                        },
+                        {
+                            status: 400
+                        }
+                    );
+
                 }
-            );
-
-        }
 
 
-        if (
-            !/^[a-zA-Z0-9_-]+$/.test(username)
-        ) {
+                if (
+                    !/^[a-zA-Z0-9_-]+$/.test(username)
+                ) {
 
-            return Response.json(
-                {
-                    success: false,
-                    error:
-                        "Username can only contain letters, numbers, underscores, and hyphens."
-                },
-                {
-                    status: 400
+                    return Response.json(
+                        {
+                            success: false,
+                            error:
+                                "Username can only contain letters, numbers, underscores, and hyphens."
+                        },
+                        {
+                            status: 400
+                        }
+                    );
+
                 }
-            );
-
-        }
 
 
-        /*
-         * Password validation.
-         */
+                /*
+                 * Password validation.
+                 */
 
-        if (password.length < 8) {
+                if (password.length < 8) {
 
-            return Response.json(
-                {
-                    success: false,
-                    error:
-                        "Password must be at least 8 characters."
-                },
-                {
-                    status: 400
+                    return Response.json(
+                        {
+                            success: false,
+                            error:
+                                "Password must be at least 8 characters."
+                        },
+                        {
+                            status: 400
+                        }
+                    );
+
                 }
-            );
-
-        }
 
 
-        /*
-         * Check whether username already exists.
-         */
+                /*
+                 * Check whether username already exists.
+                 */
 
-        const existing =
-            await env.USERS
-                .prepare(`
-                    SELECT id
-                    FROM users
-                    WHERE username = ?
-                    LIMIT 1
-                `)
-                .bind(username)
-                .first();
+                const existing =
+                    await env.USERS
+                        .prepare(`
+                            SELECT id
+                            FROM users
+                            WHERE username = ?
+                            LIMIT 1
+                        `)
+                        .bind(username)
+                        .first();
 
 
-        if (existing) {
+                if (existing) {
 
-            return Response.json(
-                {
-                    success: false,
-                    error:
-                        "That username is already taken."
-                },
-                {
-                    status: 409
+                    return Response.json(
+                        {
+                            success: false,
+                            error:
+                                "That username is already taken."
+                        },
+                        {
+                            status: 409
+                        }
+                    );
+
                 }
-            );
-
-        }
 
 
-        /*
-         * Hash password.
-         */
+                /*
+                 * Hash password.
+                 */
 
-        const passwordHash =
-            await hashPassword(
-                password
-            );
+                const passwordHash =
+                    await hashPassword(
+                        password
+                    );
 
 
-        /*
-         * Create account.
-         */
+                /*
+                 * Create account.
+                 */
 
-        const result =
-            await env.USERS
-                .prepare(`
-                    INSERT INTO users
-                        (
+                const result =
+                    await env.USERS
+                        .prepare(`
+                            INSERT INTO users
+                                (
+                                    username,
+                                    password_hash
+                                )
+                            VALUES
+                                (?, ?)
+                        `)
+                        .bind(
                             username,
-                            password_hash
+                            passwordHash
                         )
-                    VALUES
-                        (?, ?)
-                `)
-                .bind(
-                    username,
-                    passwordHash
-                )
-                .run();
+                        .run();
 
 
-        if (!result.success) {
+                if (!result.success) {
 
-            return Response.json(
-                {
-                    success: false,
-                    error:
-                        "Could not create account."
-                },
-                {
-                    status: 500
+                    return Response.json(
+                        {
+                            success: false,
+                            error:
+                                "Could not create account."
+                        },
+                        {
+                            status: 500
+                        }
+                    );
+
                 }
-            );
-
-        }
 
 
-        /*
-         * Get the newly created user's ID.
-         */
+                /*
+                 * Get the newly created user's ID.
+                 */
 
-        const newUser =
-            await env.USERS
-                .prepare(`
-                    SELECT
-                        id,
-                        username
-                    FROM users
-                    WHERE username = ?
-                    LIMIT 1
-                `)
-                .bind(username)
-                .first();
+                const newUser =
+                    await env.USERS
+                        .prepare(`
+                            SELECT
+                                id,
+                                username
+                            FROM users
+                            WHERE username = ?
+                            LIMIT 1
+                        `)
+                        .bind(username)
+                        .first();
 
 
-        if (!newUser) {
+                if (!newUser) {
 
-            return Response.json(
-                {
-                    success: false,
-                    error:
-                        "Account was created, but could not be loaded."
-                },
-                {
-                    status: 500
+                    return Response.json(
+                        {
+                            success: false,
+                            error:
+                                "Account was created, but could not be loaded."
+                        },
+                        {
+                            status: 500
+                        }
+                    );
+
                 }
-            );
-
-        }
 
 
-        /*
-         * Automatically sign the user in.
-         */
+                /*
+                 * Automatically sign the user in.
+                 */
 
-        const token =
-            createSessionToken();
+                const token =
+                    createSessionToken();
 
-        const expiresAt =
-            Math.floor(
-                Date.now() / 1000
-            ) +
-            (
-                60 * 60 * 24 * 30
-            );
+                const expiresAt =
+                    Math.floor(
+                        Date.now() / 1000
+                    ) +
+                    (
+                        60 * 60 * 24 * 30
+                    );
 
 
-        const sessionResult =
-            await env.USERS
-                .prepare(`
-                    INSERT INTO sessions
-                        (
+                const sessionResult =
+                    await env.USERS
+                        .prepare(`
+                            INSERT INTO sessions
+                                (
+                                    token,
+                                    user_id,
+                                    expires_at
+                                )
+                            VALUES
+                                (?, ?, ?)
+                        `)
+                        .bind(
                             token,
-                            user_id,
-                            expires_at
+                            newUser.id,
+                            expiresAt
                         )
-                    VALUES
-                        (?, ?, ?)
-                `)
-                .bind(
-                    token,
-                    newUser.id,
-                    expiresAt
-                )
-                .run();
+                        .run();
 
 
-        if (!sessionResult.success) {
+                if (!sessionResult.success) {
 
-            return Response.json(
-                {
-                    success: false,
-                    error:
-                        "Account was created, but the login session could not be created."
-                },
-                {
-                    status: 500
+                    return Response.json(
+                        {
+                            success: false,
+                            error:
+                                "Account was created, but the login session could not be created."
+                        },
+                        {
+                            status: 500
+                        }
+                    );
+
                 }
-            );
+
+
+                /*
+                 * Return the user in exactly the format
+                 * expected by the website.
+                 */
+
+                return new Response(
+                    JSON.stringify(
+                        {
+                            success: true,
+
+                            user: {
+                                id: Number(newUser.id),
+                                username: newUser.username
+                            }
+                        }
+                    ),
+                    {
+                        status: 200,
+
+                        headers: {
+                            "Content-Type":
+                                "application/json; charset=UTF-8",
+
+                            "Set-Cookie":
+                                createSessionCookie(
+                                    token
+                                )
+                        }
+                    }
+                );
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "Signup error:",
+                    error
+                );
+
+                return Response.json(
+                    {
+                        success: false,
+                        error:
+                            "Something went wrong while creating the account."
+                    },
+                    {
+                        status: 500
+                    }
+                );
+
+            }
 
         }
 
 
         /*
-         * Return the user in exactly the format
-         * expected by the website.
+         * ========================================================
+         * SIGN IN
+         * ========================================================
          */
-
-        return new Response(
-            JSON.stringify(
-                {
-                    success: true,
-
-                    user: {
-                        id: Number(newUser.id),
-                        username: newUser.username
-                    }
-                }
-            ),
-            {
-                status: 200,
-
-                headers: {
-                    "Content-Type":
-                        "application/json; charset=UTF-8",
-
-                    "Set-Cookie":
-                        createSessionCookie(
-                            token
-                        )
-                }
-            }
-        );
-
-    }
-
-    catch (error) {
-
-        console.error(
-            "Signup error:",
-            error
-        );
-
-        return Response.json(
-            {
-                success: false,
-                error:
-                    "Something went wrong while creating the account."
-            },
-            {
-                status: 500
-            }
-        );
-
-    }
-
-}
-
-
-/*
- * ========================================================
- * SIGN IN
- * ========================================================
- */
-
-if (
-    request.method === "POST" &&
-    url.pathname === "/api/auth/signin"
-) {
-
-    try {
-
-        const body =
-            await request.json();
-
-        const username =
-            typeof body.username === "string"
-                ? body.username.trim()
-                : "";
-
-        const password =
-            typeof body.password === "string"
-                ? body.password
-                : "";
-
 
         if (
-            !username ||
-            !password
+            request.method === "POST" &&
+            url.pathname === "/api/auth/signin"
         ) {
 
-            return Response.json(
-                {
-                    success: false,
-                    error:
-                        "Username and password are required."
-                },
-                {
-                    status: 400
+            try {
+
+                const body =
+                    await request.json();
+
+                const username =
+                    typeof body.username === "string"
+                        ? body.username.trim()
+                        : "";
+
+                const password =
+                    typeof body.password === "string"
+                        ? body.password
+                        : "";
+
+
+                if (
+                    !username ||
+                    !password
+                ) {
+
+                    return Response.json(
+                        {
+                            success: false,
+                            error:
+                                "Username and password are required."
+                        },
+                        {
+                            status: 400
+                        }
+                    );
+
                 }
-            );
-
-        }
 
 
-        /*
-         * Find account.
-         */
+                /*
+                 * Find account.
+                 */
 
-        const user =
-            await env.USERS
-                .prepare(`
-                    SELECT
-                        id,
-                        username,
-                        password_hash
-                    FROM users
-                    WHERE username = ?
-                    LIMIT 1
-                `)
-                .bind(username)
-                .first();
+                const user =
+                    await env.USERS
+                        .prepare(`
+                            SELECT
+                                id,
+                                username,
+                                password_hash
+                            FROM users
+                            WHERE username = ?
+                            LIMIT 1
+                        `)
+                        .bind(username)
+                        .first();
 
 
-        if (!user) {
+                if (!user) {
 
-            return Response.json(
-                {
-                    success: false,
-                    error:
-                        "Invalid username or password."
-                },
-                {
-                    status: 401
+                    return Response.json(
+                        {
+                            success: false,
+                            error:
+                                "Invalid username or password."
+                        },
+                        {
+                            status: 401
+                        }
+                    );
+
                 }
-            );
-
-        }
 
 
-        /*
-         * Verify password.
-         */
+                /*
+                 * Verify password.
+                 */
 
-        const valid =
-            await verifyPassword(
-                password,
-                user.password_hash
-            );
+                const valid =
+                    await verifyPassword(
+                        password,
+                        user.password_hash
+                    );
 
 
-        if (!valid) {
+                if (!valid) {
 
-            return Response.json(
-                {
-                    success: false,
-                    error:
-                        "Invalid username or password."
-                },
-                {
-                    status: 401
+                    return Response.json(
+                        {
+                            success: false,
+                            error:
+                                "Invalid username or password."
+                        },
+                        {
+                            status: 401
+                        }
+                    );
+
                 }
-            );
-
-        }
 
 
-        /*
-         * Create 30-day session.
-         */
+                /*
+                 * Create 30-day session.
+                 */
 
-        const token =
-            createSessionToken();
+                const token =
+                    createSessionToken();
 
-        const expiresAt =
-            Math.floor(
-                Date.now() / 1000
-            ) +
-            (
-                60 * 60 * 24 * 30
-            );
+                const expiresAt =
+                    Math.floor(
+                        Date.now() / 1000
+                    ) +
+                    (
+                        60 * 60 * 24 * 30
+                    );
 
 
-        /*
-         * Store session in D1.
-         */
+                /*
+                 * Store session in D1.
+                 */
 
-        const sessionResult =
-            await env.USERS
-                .prepare(`
-                    INSERT INTO sessions
-                        (
+                const sessionResult =
+                    await env.USERS
+                        .prepare(`
+                            INSERT INTO sessions
+                                (
+                                    token,
+                                    user_id,
+                                    expires_at
+                                )
+                            VALUES
+                                (?, ?, ?)
+                        `)
+                        .bind(
                             token,
-                            user_id,
-                            expires_at
+                            user.id,
+                            expiresAt
                         )
-                    VALUES
-                        (?, ?, ?)
-                `)
-                .bind(
-                    token,
-                    user.id,
-                    expiresAt
-                )
-                .run();
+                        .run();
 
 
-        if (!sessionResult.success) {
+                if (!sessionResult.success) {
 
-            return Response.json(
-                {
-                    success: false,
-                    error:
-                        "Could not create login session."
-                },
-                {
-                    status: 500
+                    return Response.json(
+                        {
+                            success: false,
+                            error:
+                                "Could not create login session."
+                        },
+                        {
+                            status: 500
+                        }
+                    );
+
                 }
-            );
+
+
+                /*
+                 * Return the user AND set the cookie.
+                 */
+
+                return new Response(
+                    JSON.stringify(
+                        {
+                            success: true,
+
+                            user: {
+                                id: Number(user.id),
+                                username: user.username
+                            }
+                        }
+                    ),
+                    {
+                        status: 200,
+
+                        headers: {
+                            "Content-Type":
+                                "application/json; charset=UTF-8",
+
+                            "Set-Cookie":
+                                createSessionCookie(
+                                    token
+                                )
+                        }
+                    }
+                );
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "Signin error:",
+                    error
+                );
+
+                return Response.json(
+                    {
+                        success: false,
+                        error:
+                            "Something went wrong while signing in."
+                    },
+                    {
+                        status: 500
+                    }
+                );
+
+            }
 
         }
 
 
         /*
-         * Return the user AND set the cookie.
+         * ========================================================
+         * CURRENT USER
+         * ========================================================
          */
 
-        return new Response(
-            JSON.stringify(
-                {
-                    success: true,
+        if (
+            request.method === "GET" &&
+            url.pathname === "/api/auth/me"
+        ) {
 
-                    user: {
-                        id: Number(user.id),
-                        username: user.username
+            try {
+
+                const user =
+                    await getCurrentUser(
+                        request,
+                        env
+                    );
+
+
+                if (!user) {
+
+                    return Response.json(
+                        {
+                            user: null
+                        },
+                        {
+                            status: 401
+                        }
+                    );
+
+                }
+
+
+                return Response.json(
+                    {
+                        user: {
+                            id: Number(user.id),
+                            username: user.username
+                        }
                     }
-                }
-            ),
-            {
-                status: 200,
+                );
 
-                headers: {
-                    "Content-Type":
-                        "application/json; charset=UTF-8",
-
-                    "Set-Cookie":
-                        createSessionCookie(
-                            token
-                        )
-                }
             }
-        );
 
-    }
+            catch (error) {
 
-    catch (error) {
+                console.error(
+                    "Current user error:",
+                    error
+                );
 
-        console.error(
-            "Signin error:",
-            error
-        );
+                return Response.json(
+                    {
+                        user: null
+                    },
+                    {
+                        status: 500
+                    }
+                );
 
-        return Response.json(
-            {
-                success: false,
-                error:
-                    "Something went wrong while signing in."
-            },
-            {
-                status: 500
             }
-        );
-
-    }
-
-}
-
-
-/*
- * ========================================================
- * CURRENT USER
- * ========================================================
- */
-
-if (
-    request.method === "GET" &&
-    url.pathname === "/api/auth/me"
-) {
-
-    try {
-
-        const user =
-            await getCurrentUser(
-                request,
-                env
-            );
-
-
-        if (!user) {
-
-            return Response.json(
-                {
-                    user: null
-                },
-                {
-                    status: 401
-                }
-            );
 
         }
 
 
-        return Response.json(
-            {
-                user: {
-                    id: Number(user.id),
-                    username: user.username
+        /*
+         * ========================================================
+         * SIGN OUT
+         * ========================================================
+         */
+
+        if (
+            request.method === "POST" &&
+            url.pathname === "/api/auth/signout"
+        ) {
+
+            try {
+
+                const token =
+                    getCookie(
+                        request,
+                        "session"
+                    );
+
+
+                if (token) {
+
+                    await env.USERS
+                        .prepare(`
+                            DELETE FROM sessions
+                            WHERE token = ?
+                        `)
+                        .bind(token)
+                        .run();
+
                 }
+
+
+                return new Response(
+                    JSON.stringify(
+                        {
+                            success: true,
+                            message:
+                                "Signed out successfully."
+                        }
+                    ),
+                    {
+                        status: 200,
+
+                        headers: {
+                            "Content-Type":
+                                "application/json; charset=UTF-8",
+
+                            "Set-Cookie":
+                                clearSessionCookie()
+                        }
+                    }
+                );
+
             }
-        );
 
-    }
+            catch (error) {
 
-    catch (error) {
+                console.error(
+                    "Signout error:",
+                    error
+                );
 
-        console.error(
-            "Current user error:",
-            error
-        );
+                return new Response(
+                    JSON.stringify(
+                        {
+                            success: false,
+                            error:
+                                "Could not sign out."
+                        }
+                    ),
+                    {
+                        status: 500,
 
-        return Response.json(
-            {
-                user: null
-            },
-            {
-                status: 500
+                        headers: {
+                            "Content-Type":
+                                "application/json; charset=UTF-8",
+
+                            "Set-Cookie":
+                                clearSessionCookie()
+                        }
+                    }
+                );
+
             }
-        );
-
-    }
-
-}
-
-
-/*
- * ========================================================
- * SIGN OUT
- * ========================================================
- */
-
-if (
-    request.method === "POST" &&
-    url.pathname === "/api/auth/signout"
-) {
-
-    try {
-
-        const token =
-            getCookie(
-                request,
-                "session"
-            );
-
-
-        if (token) {
-
-            await env.USERS
-                .prepare(`
-                    DELETE FROM sessions
-                    WHERE token = ?
-                `)
-                .bind(token)
-                .run();
 
         }
 
 
-        return new Response(
-            JSON.stringify(
-                {
-                    success: true,
-                    message:
-                        "Signed out successfully."
-                }
-            ),
-            {
-                status: 200,
+        /*
+         * ========================================================
+         * UPLOAD PROFILE PICTURE
+         * ========================================================
+         */
 
-                headers: {
-                    "Content-Type":
-                        "application/json; charset=UTF-8",
+        if (
+            request.method === "POST" &&
+            url.pathname === "/api/profile/avatar"
+        ) {
 
-                    "Set-Cookie":
-                        clearSessionCookie()
+            try {
+
+                const user = await getCurrentUser(request, env);
+
+                if (!user) {
+                    return Response.json(
+                        { success: false, error: "You must be signed in." },
+                        { status: 401 }
+                    );
                 }
+
+                const maxSize = 5 * 1024 * 1024; // 5MB
+
+                const contentLength = Number(
+                    request.headers.get("content-length") || 0
+                );
+
+                if (contentLength && contentLength > maxSize) {
+                    return Response.json(
+                        { success: false, error: "Image must be smaller than 5MB." },
+                        { status: 413 }
+                    );
+                }
+
+                const formData = await request.formData();
+                const file = formData.get("avatar");
+
+                if (!file || typeof file === "string") {
+                    return Response.json(
+                        { success: false, error: "No image file was provided." },
+                        { status: 400 }
+                    );
+                }
+
+                const allowedTypes = [
+                    "image/png",
+                    "image/jpeg",
+                    "image/webp",
+                    "image/gif"
+                ];
+
+                if (!allowedTypes.includes(file.type)) {
+                    return Response.json(
+                        { success: false, error: "Only PNG, JPEG, WEBP, or GIF images are allowed." },
+                        { status: 400 }
+                    );
+                }
+
+                if (file.size > maxSize) {
+                    return Response.json(
+                        { success: false, error: "Image must be smaller than 5MB." },
+                        { status: 413 }
+                    );
+                }
+
+                await env.GAMES.put(
+                    `Profile Pictures/${user.id}`,
+                    file.stream(),
+                    {
+                        httpMetadata: {
+                            contentType: file.type
+                        }
+                    }
+                );
+
+                return Response.json({ success: true });
+
             }
-        );
 
-    }
+            catch (error) {
 
-    catch (error) {
+                console.error("Avatar upload error:", error);
 
-        console.error(
-            "Signout error:",
-            error
-        );
+                return Response.json(
+                    { success: false, error: "Something went wrong while uploading your profile picture." },
+                    { status: 500 }
+                );
 
-        return new Response(
-            JSON.stringify(
-                {
-                    success: false,
-                    error:
-                        "Could not sign out."
-                }
-            ),
-            {
-                status: 500,
-
-                headers: {
-                    "Content-Type":
-                        "application/json; charset=UTF-8",
-
-                    "Set-Cookie":
-                        clearSessionCookie()
-                }
             }
-        );
 
-    }
+        }
 
-}
+
+        /*
+         * ========================================================
+         * GET PROFILE PICTURE
+         * ========================================================
+         */
+
+        if (
+            request.method === "GET" &&
+            url.pathname.startsWith("/profile-picture/")
+        ) {
+
+            const userID = decodeURIComponent(
+                url.pathname.substring("/profile-picture/".length)
+            );
+
+            if (!userID) {
+                return new Response("User not specified.", { status: 400 });
+            }
+
+            const object = await env.GAMES.get(
+                `Profile Pictures/${userID}`
+            );
+
+            if (!object) {
+                return new Response("Profile picture not found.", { status: 404 });
+            }
+
+            return new Response(object.body, {
+                headers: {
+                    "Content-Type": object.httpMetadata?.contentType || "image/png",
+                    "Cache-Control": "public, max-age=3600"
+                }
+            });
+
+        }
+
+
         /*
          * ========================================================
          * ONLINE GAME STATISTICS
+         * ========================================================
+         *
+         * Guests: counted per-browser (no personal tracking here;
+         * the front-end falls back to localStorage for "liked").
+         *
+         * Signed-in users: a real per-account record is kept in
+         * D1 (game_activity table) so a view is only ever counted
+         * once per person, and likes persist to their account.
          * ========================================================
          */
 
@@ -1439,6 +1580,52 @@ if (
                 env.GAME_STATS.get(id);
 
 
+            const user =
+                await getCurrentUser(request, env);
+
+
+            /*
+             * Look up this user's personal activity
+             * row for this game, if signed in.
+             */
+
+            async function getActivity() {
+
+                if (!user) {
+                    return null;
+                }
+
+                const row =
+                    await env.USERS
+                        .prepare(`
+                            SELECT viewed, liked
+                            FROM game_activity
+                            WHERE user_id = ? AND game_id = ?
+                            LIMIT 1
+                        `)
+                        .bind(user.id, gameID)
+                        .first();
+
+                return row || { viewed: 0, liked: 0 };
+
+            }
+
+
+            async function upsertActivity(viewed, liked) {
+
+                await env.USERS
+                    .prepare(`
+                        INSERT INTO game_activity (user_id, game_id, viewed, liked)
+                        VALUES (?, ?, ?, ?)
+                        ON CONFLICT(user_id, game_id)
+                        DO UPDATE SET viewed = excluded.viewed, liked = excluded.liked
+                    `)
+                    .bind(user.id, gameID, viewed, liked)
+                    .run();
+
+            }
+
+
             /*
              * GET:
              * /api/stats/GameName
@@ -1449,11 +1636,21 @@ if (
                 !action
             ) {
 
-                return stats.fetch(
-                    new Request(
-                        "https://stats/"
-                    )
-                );
+                const statsResponse =
+                    await stats.fetch(
+                        new Request("https://stats/")
+                    );
+
+                const statsData =
+                    await statsResponse.json();
+
+                const activity =
+                    await getActivity();
+
+                return Response.json({
+                    ...statsData,
+                    liked: activity ? Boolean(activity.liked) : null
+                });
 
             }
 
@@ -1496,15 +1693,136 @@ if (
             }
 
 
-            return stats.fetch(
-                new Request(
-                    "https://stats/" +
-                    action,
-                    {
-                        method: "POST"
-                    }
-                )
-            );
+            /*
+             * VIEW
+             */
+
+            if (action === "view") {
+
+                if (!user) {
+
+                    const result =
+                        await stats.fetch(
+                            new Request("https://stats/view", { method: "POST" })
+                        );
+
+                    return result;
+
+                }
+
+                const activity = await getActivity();
+
+                if (activity.viewed) {
+
+                    const statsResponse =
+                        await stats.fetch(new Request("https://stats/"));
+
+                    const statsData = await statsResponse.json();
+
+                    return Response.json(statsData);
+
+                }
+
+                const statsResponse =
+                    await stats.fetch(
+                        new Request("https://stats/view", { method: "POST" })
+                    );
+
+                const statsData = await statsResponse.json();
+
+                await upsertActivity(1, activity.liked);
+
+                return Response.json(statsData);
+
+            }
+
+
+            /*
+             * LIKE
+             */
+
+            if (action === "like") {
+
+                if (!user) {
+
+                    const result =
+                        await stats.fetch(
+                            new Request("https://stats/like", { method: "POST" })
+                        );
+
+                    return result;
+
+                }
+
+                const activity = await getActivity();
+
+                if (activity.liked) {
+
+                    const statsResponse =
+                        await stats.fetch(new Request("https://stats/"));
+
+                    const statsData = await statsResponse.json();
+
+                    return Response.json({ ...statsData, liked: true });
+
+                }
+
+                const statsResponse =
+                    await stats.fetch(
+                        new Request("https://stats/like", { method: "POST" })
+                    );
+
+                const statsData = await statsResponse.json();
+
+                await upsertActivity(activity.viewed, 1);
+
+                return Response.json({ ...statsData, liked: true });
+
+            }
+
+
+            /*
+             * UNLIKE
+             */
+
+            if (action === "unlike") {
+
+                if (!user) {
+
+                    const result =
+                        await stats.fetch(
+                            new Request("https://stats/unlike", { method: "POST" })
+                        );
+
+                    return result;
+
+                }
+
+                const activity = await getActivity();
+
+                if (!activity.liked) {
+
+                    const statsResponse =
+                        await stats.fetch(new Request("https://stats/"));
+
+                    const statsData = await statsResponse.json();
+
+                    return Response.json({ ...statsData, liked: false });
+
+                }
+
+                const statsResponse =
+                    await stats.fetch(
+                        new Request("https://stats/unlike", { method: "POST" })
+                    );
+
+                const statsData = await statsResponse.json();
+
+                await upsertActivity(activity.viewed, 0);
+
+                return Response.json({ ...statsData, liked: false });
+
+            }
 
         }
 
