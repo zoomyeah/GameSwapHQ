@@ -1402,7 +1402,8 @@ export default {
 
             try {
 
-                const user = await getCurrentUser(request, env);
+                const user =
+                    await getCurrentUser(request, env);
 
                 if (!user) {
                     return Response.json(
@@ -1413,9 +1414,8 @@ export default {
 
                 const maxSize = 5 * 1024 * 1024; // 5MB
 
-                const contentLength = Number(
-                    request.headers.get("content-length") || 0
-                );
+                const contentLength =
+                    Number(request.headers.get("content-length") || 0);
 
                 if (contentLength && contentLength > maxSize) {
                     return Response.json(
@@ -1424,8 +1424,11 @@ export default {
                     );
                 }
 
-                const formData = await request.formData();
-                const file = formData.get("avatar");
+                const formData =
+                    await request.formData();
+
+                const file =
+                    formData.get("avatar");
 
                 if (!file || typeof file === "string") {
                     return Response.json(
@@ -1494,17 +1497,19 @@ export default {
             url.pathname.startsWith("/profile-picture/")
         ) {
 
-            const userID = decodeURIComponent(
-                url.pathname.substring("/profile-picture/".length)
-            );
+            const userID =
+                decodeURIComponent(
+                    url.pathname.substring("/profile-picture/".length)
+                );
 
             if (!userID) {
                 return new Response("User not specified.", { status: 400 });
             }
 
-            const object = await env.GAMES.get(
-                `Profile Pictures/${userID}`
-            );
+            const object =
+                await env.GAMES.get(
+                    `Profile Pictures/${userID}`
+                );
 
             if (!object) {
                 return new Response("Profile picture not found.", { status: 404 });
@@ -1525,12 +1530,20 @@ export default {
          * ONLINE GAME STATISTICS
          * ========================================================
          *
-         * Guests: counted per-browser (no personal tracking here;
-         * the front-end falls back to localStorage for "liked").
+         * Global view/like counts live in the GameStats
+         * Durable Object.
          *
-         * Signed-in users: a real per-account record is kept in
-         * D1 (game_activity table) so a view is only ever counted
-         * once per person, and likes persist to their account.
+         * For SIGNED-IN users, a row in the D1
+         * "game_activity" table tracks whether THIS user
+         * has already been counted for a view, and whether
+         * THIS user currently has the game liked - so a
+         * view is only ever recorded once per account, and
+         * a like reflects that account instead of just the
+         * browser.
+         *
+         * Signed-out visitors fall back to the old
+         * behavior: every view counts, and "liked" state
+         * is tracked client-side only (localStorage).
          * ========================================================
          */
 
@@ -1701,25 +1714,24 @@ export default {
 
                 if (!user) {
 
-                    const result =
-                        await stats.fetch(
-                            new Request("https://stats/view", { method: "POST" })
-                        );
-
-                    return result;
+                    return stats.fetch(
+                        new Request("https://stats/view", { method: "POST" })
+                    );
 
                 }
 
-                const activity = await getActivity();
+                const activity =
+                    await getActivity();
 
                 if (activity.viewed) {
 
                     const statsResponse =
                         await stats.fetch(new Request("https://stats/"));
 
-                    const statsData = await statsResponse.json();
+                    const statsData =
+                        await statsResponse.json();
 
-                    return Response.json(statsData);
+                    return Response.json({ ...statsData, liked: Boolean(activity.liked) });
 
                 }
 
@@ -1728,11 +1740,12 @@ export default {
                         new Request("https://stats/view", { method: "POST" })
                     );
 
-                const statsData = await statsResponse.json();
+                const statsData =
+                    await statsResponse.json();
 
                 await upsertActivity(1, activity.liked);
 
-                return Response.json(statsData);
+                return Response.json({ ...statsData, liked: Boolean(activity.liked) });
 
             }
 
@@ -1745,23 +1758,22 @@ export default {
 
                 if (!user) {
 
-                    const result =
-                        await stats.fetch(
-                            new Request("https://stats/like", { method: "POST" })
-                        );
-
-                    return result;
+                    return stats.fetch(
+                        new Request("https://stats/like", { method: "POST" })
+                    );
 
                 }
 
-                const activity = await getActivity();
+                const activity =
+                    await getActivity();
 
                 if (activity.liked) {
 
                     const statsResponse =
                         await stats.fetch(new Request("https://stats/"));
 
-                    const statsData = await statsResponse.json();
+                    const statsData =
+                        await statsResponse.json();
 
                     return Response.json({ ...statsData, liked: true });
 
@@ -1772,7 +1784,8 @@ export default {
                         new Request("https://stats/like", { method: "POST" })
                     );
 
-                const statsData = await statsResponse.json();
+                const statsData =
+                    await statsResponse.json();
 
                 await upsertActivity(activity.viewed, 1);
 
@@ -1789,23 +1802,22 @@ export default {
 
                 if (!user) {
 
-                    const result =
-                        await stats.fetch(
-                            new Request("https://stats/unlike", { method: "POST" })
-                        );
-
-                    return result;
+                    return stats.fetch(
+                        new Request("https://stats/unlike", { method: "POST" })
+                    );
 
                 }
 
-                const activity = await getActivity();
+                const activity =
+                    await getActivity();
 
                 if (!activity.liked) {
 
                     const statsResponse =
                         await stats.fetch(new Request("https://stats/"));
 
-                    const statsData = await statsResponse.json();
+                    const statsData =
+                        await statsResponse.json();
 
                     return Response.json({ ...statsData, liked: false });
 
@@ -1816,7 +1828,8 @@ export default {
                         new Request("https://stats/unlike", { method: "POST" })
                     );
 
-                const statsData = await statsResponse.json();
+                const statsData =
+                    await statsResponse.json();
 
                 await upsertActivity(activity.viewed, 0);
 
