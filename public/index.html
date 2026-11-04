@@ -756,7 +756,7 @@ main {
 .profile-avatar:hover .profile-avatar-overlay {
     opacity: 1;
 }
-    
+
 .profile-page-name {
     font-family: "Nunito", sans-serif;
 
@@ -3181,7 +3181,7 @@ async function createAccount(event) {
     }
 
 }
-    
+
 /* ============================================================
    SIGN OUT
    ============================================================ */
@@ -3670,8 +3670,19 @@ async function loadOnlineStats(game) {
         game.likes =
             Number(data.likes || 0);
 
+        /*
+         * When signed in, the server tells us whether
+         * THIS account has liked this game. When signed
+         * out, "liked" comes back null and we fall back
+         * to localStorage (see hasLikedGame).
+         */
+
+        game.serverLiked =
+            typeof data.liked === "boolean" ? data.liked : null;
+
         loadViewCount(game);
         loadLikeCount(game);
+        updateLikeButton(game);
 
     }
 
@@ -3757,6 +3768,20 @@ function getLikeStorageKey(game) {
 
 
 function hasLikedGame(game) {
+
+    /*
+     * Signed-in users: trust the account's own
+     * "liked" status from the server.
+     */
+
+    if (currentUser && typeof game.serverLiked === "boolean") {
+        return game.serverLiked;
+    }
+
+    /*
+     * Signed-out (guest) visitors: fall back to
+     * this browser's localStorage, as before.
+     */
 
     return (
         localStorage.getItem(
@@ -3996,7 +4021,8 @@ async function recordView(game) {
                 encodeURIComponent(game.id) +
                 "/view",
                 {
-                    method: "POST"
+                    method: "POST",
+                    credentials: "include"
                 }
             );
 
@@ -4026,7 +4052,12 @@ async function recordView(game) {
 
         }
 
+        if (typeof data.liked === "boolean") {
+            game.serverLiked = data.liked;
+        }
+
         loadViewCount(game);
+        updateLikeButton(game);
 
     }
 
@@ -4173,7 +4204,8 @@ async function likeGame() {
             await fetch(
                 endpoint,
                 {
-                    method: "POST"
+                    method: "POST",
+                    credentials: "include"
                 }
             );
 
@@ -4196,6 +4228,17 @@ async function likeGame() {
             currentGame.likes =
                 data.likes;
 
+        }
+
+        /*
+         * Keep the in-memory "liked" state in sync
+         * with what the server now says for this
+         * account, so hasLikedGame() stays accurate
+         * without a reload.
+         */
+
+        if (typeof data.liked === "boolean") {
+            currentGame.serverLiked = data.liked;
         }
 
         if (alreadyLiked) {
@@ -4364,6 +4407,12 @@ async function initialize() {
     createFeaturedCards();
 
     updateAccountButton();
+
+    /*
+     * This MUST finish before checkHash() runs, or a
+     * reload on #profile will think you're signed out
+     * and bounce you to the sign-in page.
+     */
 
     await checkCurrentUser();
 
