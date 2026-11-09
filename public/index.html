@@ -1618,6 +1618,13 @@ footer p {
             👤
         </span>
 
+        <img
+            class="profile-icon"
+            id="account-icon-img"
+            style="display:none; object-fit: cover;"
+            alt="Profile picture"
+        >
+
         <span
             class="profile-text"
             id="account-text"
@@ -1626,7 +1633,6 @@ footer p {
         </span>
 
     </button>
-
 
     <h1>GameSwapHQ</h1>
 
@@ -2619,6 +2625,9 @@ function updateAccountButton() {
     const icon =
         get("account-icon");
 
+    const iconImg =
+        get("account-icon-img");
+
     const text =
         get("account-text");
 
@@ -2628,22 +2637,58 @@ function updateAccountButton() {
 
     if (currentUser) {
 
-        icon.textContent = "👤";
-
         text.textContent =
             currentUser.username ||
             "Account";
+
+        loadHeaderAvatar();
 
     }
 
     else {
 
-        icon.textContent = "👤";
+        icon.style.display = "flex";
+        iconImg.style.display = "none";
 
         text.textContent =
             "Sign In";
 
     }
+
+}
+
+
+function loadHeaderAvatar() {
+
+    if (!currentUser) {
+        return;
+    }
+
+    const icon =
+        get("account-icon");
+
+    const iconImg =
+        get("account-icon-img");
+
+    const url =
+        "/profile-picture/" +
+        encodeURIComponent(currentUser.id) +
+        "?t=" + Date.now();
+
+    const testImg = new Image();
+
+    testImg.onload = () => {
+        iconImg.src = url;
+        iconImg.style.display = "block";
+        icon.style.display = "none";
+    };
+
+    testImg.onerror = () => {
+        iconImg.style.display = "none";
+        icon.style.display = "flex";
+    };
+
+    testImg.src = url;
 
 }
 
@@ -2683,6 +2728,7 @@ function updateProfilePage() {
     }
 
     loadProfileAvatar();
+    loadHeaderAvatar();
 
 }
 
@@ -2758,6 +2804,7 @@ async function uploadAvatar(event) {
         }
 
         loadProfileAvatar();
+        loadHeaderAvatar();
 
     }
 
